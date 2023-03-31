@@ -34,7 +34,7 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
         for (int i = 0; i < xCountTemp; i++) {
             nodeValue(i) = x_pr(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i));
         }
-        cout << "nodeValue = " << endl << nodeValue << endl;
+        //cout << "nodeValue = " << endl << nodeValue << endl;
         MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subP, subPJacobian, subQ, subQJacobian);
         for (int i = 0; i < xCountTemp; i++) {
             P(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i)) += subP(i);
@@ -52,10 +52,19 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
 void Solver::processExcitationDeivceMatrix(Circuit* MyCircuit, double t) {
 
 }
+#include <direct.h> 
+#include <filesystem> 
 
 void Solver::saveCircuitVars() {
-    std::ofstream out_circuit_vars("../CircuitVarsData/CircuitVars.txt", std::ios::app);
-    for (int i = 0; i < size; i++)
+	// 获取当前路径
+	string path = _getcwd(NULL, 0);
+	string outputPath = path + "/CircuitVarsData/CircuitVars.txt";
+	// 自动创建文件夹
+	std::filesystem::path path_txt(outputPath);
+	std::filesystem::create_directories(path_txt.parent_path());
+    std::ofstream out_circuit_vars(outputPath, std::ios::app);
+    
+	for (int i = 0; i < size; i++)
     {
         out_circuit_vars << std::setprecision(8) << x(i) << ',';
     }

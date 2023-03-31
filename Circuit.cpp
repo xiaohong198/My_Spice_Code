@@ -267,7 +267,7 @@ Circuit::Circuit() {
     //matrixDimension = nodeCount + AdditaionalxCount;
     
     /*-----测试coding功能---*/
-    cout << endl;
+    //cout << endl;
 }
 
 void Circuit::Read_Inputfile() {

@@ -101,7 +101,7 @@ double TabulatedIVCurveDevice::f(double V) {
 				return this->Coeff0[i] + this->Coeff1[i] * (V - this->VList[i]) + this->Coeff2[i] * pow(V - this->VList[i], 2) + this->Coeff3[i] * pow(V - this->VList[i], 3);
 			}
 		}
-	cout << "TabulatedIVCurveDevide goes wrong!" << endl;
+	//cout << "TabulatedIVCurveDevide goes wrong!" << endl;
 	exit(0);
 	return 1;
 	}
@@ -119,7 +119,7 @@ double TabulatedIVCurveDevice::G(double V) {
 				return this->Coeff1[i] + 2 * this->Coeff2[i] * (V - this->VList[i]) + 3 * this->Coeff3[i] * pow(V - this->VList[i], 2);
 			}
 		}
-	cout << "TabulatedIVCurveDevide goes wrong!" << endl;
+	//cout << "TabulatedIVCurveDevide goes wrong!" << endl;
 	exit(0);
 	return 1;
 	}

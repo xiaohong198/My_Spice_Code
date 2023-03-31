@@ -81,13 +81,13 @@ void Solver_TR::processJacobianAndF(Configuration* MyConfig, Circuit* MyCircuit,
     processTimeVariantDeviceMatrix(MyCircuit, x_pr);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
-    cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E_integral = " << endl << E_integral << endl;
-    cout << " P_Jacobian = " << endl << P_Jacobian << endl << " Q_Jacobian = " << Q_Jacobian << endl;
+    //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E_integral = " << endl << E_integral << endl;
+    //cout << " P_Jacobian = " << endl << P_Jacobian << endl << " Q_Jacobian = " << Q_Jacobian << endl;
     F = ((t2 - t1) / 2 * A + B) * x_pr + (t2 - t1) / 2 * P + Q - (-(t2 - t1) / 2 * A + B) * x - (-(t2 - t1) / 2 * P_last + Q_last) - E_integral;
     Jacobian = (t2 - t1) / 2 * A + B + (t2 - t1) / 2 * P_Jacobian + Q_Jacobian;
-    cout << "Jacobian = " << endl << Jacobian << endl;
-    cout << "F  = " << endl << F << endl;
-    cout << endl;
+    //cout << "Jacobian = " << endl << Jacobian << endl;
+    //cout << "F  = " << endl << F << endl;
+    //cout << endl;
 }
 
 void Solver_TR::solve(Configuration* MyConfig, Circuit* MyCircuit, BaseNewton* MyNewton) {

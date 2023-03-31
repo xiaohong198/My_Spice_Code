@@ -42,7 +42,7 @@ void Diode::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::Mat
 	subP.setZero();
 	subP(0) = f(Vd);
 	subP(1) = -f(Vd);
-	cout << "Diode subP = " << subP << endl;
+	//cout << "Diode subP = " << subP << endl;
 	subPJacobian.setZero();
 	subPJacobian(0, 0) = G(Vd);
 	subPJacobian(0, 1) = -G(Vd);

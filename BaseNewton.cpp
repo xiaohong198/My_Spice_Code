@@ -11,14 +11,14 @@ void BaseNewton::Perform_BaseNewton(Configuration* MyConfig, Circuit* MyCircuit,
 	while (Iteration_times < Max_Iteration_times) {
 		MySolver->processJacobianAndF(MyConfig, MyCircuit, x_Newton, Jacobian, F_x0, t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
-		cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
+		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
 		Iteration_times++;
 		if (Check_Convergence(MyConfig, MyCircuit, MySolver, F_x0)) {
-			cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
+			//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
 			break;
 		}
 	}
-	cout << "Iteration_times " << Iteration_times << endl;
+	//cout << "Iteration_times " << Iteration_times << endl;
 }
 
 bool BaseNewton::Check_Convergence(Configuration* MyConfig, Circuit* MyCircuit, Solver* MySolver, Eigen::VectorXd& F_x0) {

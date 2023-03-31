@@ -33,7 +33,7 @@ void Configuration::Set_Configuration() {
 		dt_method = SDC;
 		break;
 	default:
-		cout << "Error! Choose EulerBackward then!" << endl;
+		//cout << "Error! Choose EulerBackward then!" << endl;
 		break;
 	}
 }
