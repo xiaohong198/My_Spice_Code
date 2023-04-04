@@ -93,6 +93,9 @@
     <ClCompile Include="Vsource_DC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PWLVoltageSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseNewton.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vsource_DC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PWLVoltageSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

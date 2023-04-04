@@ -7,17 +7,21 @@ Simulator::Simulator() {
 	MyConfig->Set_Configuration();
 
 	if (MyConfig->Get_TimeDiscretization() == EulerBackward) {
-		MySolver = new Solver_EulerBackward(MyCircuit);
+		// 里边有个初始化，设置solver的各种参数，和x矩阵的循环
+		MySolver = new Solver_EulerBackward(MyConfig,MyCircuit);
 	}
 	else if (MyConfig->Get_TimeDiscretization() == Trapezoidal) {
-		MySolver = new Solver_TR(MyCircuit);
+		MySolver = new Solver_TR(MyConfig, MyCircuit);
 	}
 
 	MyNewton = new BaseNewton(MySolver);
 }
 
 void Simulator::Run() {
-	MySolver->solve(MyConfig, MyCircuit, MyNewton);
+	//02
+	//03-09
+	MySolver->solve(MyNewton);
+	MySolver->saveCircuitVars();
 }
 
 Simulator::~Simulator() {

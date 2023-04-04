@@ -90,7 +90,8 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\Users\10989\Desktop\spice\include\Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -108,7 +109,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\10989\Desktop\spice\include\Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -123,6 +125,7 @@
     <ClCompile Include="Jsource.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MOA.cpp" />
+    <ClCompile Include="PWLVoltageSource.cpp" />
     <ClCompile Include="Resistor.cpp" />
     <ClCompile Include="Simulator.cpp" />
     <ClCompile Include="Solver.cpp" />
@@ -150,6 +153,7 @@
     <ClInclude Include="Inductor.h" />
     <ClInclude Include="Jsource.h" />
     <ClInclude Include="MOA.h" />
+    <ClInclude Include="PWLVoltageSource.h" />
     <ClInclude Include="Resistor.h" />
     <ClInclude Include="Simulator.h" />
     <ClInclude Include="Solver.h" />
