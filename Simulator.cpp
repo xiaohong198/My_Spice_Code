@@ -29,4 +29,8 @@ Simulator::~Simulator() {
 	delete MyCircuit;
 	delete MySolver;
 	delete MyNewton;
+	MyConfig = nullptr;
+	MyCircuit = nullptr;
+	MySolver = nullptr;
+	MyNewton = nullptr;
 }

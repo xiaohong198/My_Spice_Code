@@ -37,21 +37,21 @@ Solver_TR::Solver_TR(Configuration* MyConfig, Circuit*  MyCircuit) {
     //saveCircuitVars();
 }
 Solver_TR::~Solver_TR() {
-
+	delete MyNewton_;
 }
 //07-Trapezoidal
 void Solver_TR::processExcitationDeivceMatrix(double t1,double t2) {
     for (int m = 0; m < MyCircuit_->vecExcitationDevice.size(); m++) {
-		structDeviceInfo* current_info = MyCircuit_->vecExcitationDeviceInfo[m];
-		int* index = current_info->getxIndex();
-        int xCountTemp = current_info->getXCount();
+		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);;
         Eigen::VectorXd subEIntegral = Eigen::VectorXd::Zero(xCountTemp);
         MyCircuit_->vecExcitationDevice[m]->getExcitationIntegralSubMatrix(subA, subEIntegral,t1, t2);
         for (int i = 0; i < xCountTemp; i++) {
-            E_integral(*(index + i)) += subEIntegral(i);
+            E_integral(index[i]) += subEIntegral(i);
             for (int j = 0; j < xCountTemp; j++) {
-                A(*(index + i), *(index + j)) += subA(i, j);
+                A(index[i], index[j]) += subA(i, j);
             }
         }
     }
@@ -89,13 +89,13 @@ void Solver_TR::processJacobianAndF(double t1,double t2) {
     processSetZero();//每个牛顿迭代之前先把矩阵清零
     //06-Trapezoidal
 	//循环03
-	Solver::processTimeInvariantDeviceMatrix(MyCircuit_);//TimeInvariantDevice其实只用填一次
+	Solver::processTimeInvariantDeviceMatrix();//TimeInvariantDevice其实只用填一次
     //07-Trapezoidal
 	//循环04
 	processExcitationDeivceMatrix(t1,t2);//ExcitationDeivce其实只用在每个时步填
     //08-Trapezoidal
 	//循环05
-	Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_Newton);
+	Solver::processTimeVariantDeviceMatrix(x_Newton);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E_integral = " << endl << E_integral << endl;
@@ -142,17 +142,31 @@ void Solver_TR::Perform_BaseNewton_solver(double t1, double t2)
 	double Convergence_limit = 0.0001;
 	int Iteration_times = 0;
 
-	while (Iteration_times < Max_Iteration_times) {
+
+	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
+	{
 		//05-08-EulerBackward-Trapezoidal
 		//循环-03-05
 		processJacobianAndF(t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
-		Iteration_times++;
 		//09-EulerBackward-Trapezoidal
 		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
 			//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
 			break;
 		}
 	}
+	//while (Iteration_times < Max_Iteration_times) {
+	//	//05-08-EulerBackward-Trapezoidal
+	//	//循环-03-05
+	//	processJacobianAndF(t1, t2);
+	//	x_Newton = x_Newton - Jacobian.inverse() * F_x0;
+	//	//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
+	//	Iteration_times++;
+	//	//09-EulerBackward-Trapezoidal
+	//	if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
+	//		//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
+	//		break;
+	//	}
+	//}
 }

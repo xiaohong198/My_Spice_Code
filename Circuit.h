@@ -15,6 +15,17 @@
 #include "SurgeArrester.h"
 
 using namespace std;
+
+struct DeviceInfoStr
+{
+	char deviceType;
+	int  deviceIndexPerClass;
+	int  xCount;//未知量的个数
+	vector<int> xIndex;//未知量的位置
+	int  additionalxCount;//额外变量的个数
+};
+
+
 class Device;
 class structDeviceInfo;
 class Circuit
@@ -36,9 +47,9 @@ protected:
 	vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两类中
 
 	//vector <structDeviceInfo*> vecDeviceInfo;
-	vector <structDeviceInfo*> vecTimeInvariantDeviceInfo;
-	vector <structDeviceInfo*> vecTimeVariantDeviceInfo;
-	vector <structDeviceInfo*> vecExcitationDeviceInfo;
+	vector <DeviceInfoStr> vecTimeInvariantDeviceInfo;
+	vector <DeviceInfoStr> vecTimeVariantDeviceInfo;
+	vector <DeviceInfoStr> vecExcitationDeviceInfo;
 
 public:
 	Circuit();

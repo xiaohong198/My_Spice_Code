@@ -1,7 +1,7 @@
 #include "Solver_EulerBackward.h"
 Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig,Circuit* MyCircuit) {
-	MyConfig_ = MyConfig;
-	MyCircuit_ = MyCircuit;
+	Solver::MyConfig_ = MyConfig;
+	Solver::MyCircuit_ = MyCircuit;
     Solver::size = MyCircuit_->matrixDimension;
     /*---------------------矩阵初始化---------------------*/
 	Solver::A = Eigen::MatrixXd::Zero(size, size);
@@ -20,6 +20,8 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig,Circuit* MyCi
 	Jacobian = Eigen::MatrixXd::Zero(size, size);
 	F_x0 = Eigen::VectorXd::Zero(size);
 	x_Newton = Eigen::VectorXd::Zero(size);
+	dt_ = MyConfig_->Get_dt();
+	t_end_ = MyConfig_->Get_t_end();
 
     /*--------------------------------------------------*/
     /*-----x的初值-----*/
@@ -42,16 +44,16 @@ void Solver_EulerBackward::processExcitationDeivceMatrix(double t) {
 	//auto start = std::chrono::steady_clock::now();
 	//循环-04
 	for (int m = 0; m < MyCircuit_->vecExcitationDevice.size(); m++) {
-		structDeviceInfo* current_info = MyCircuit_->vecExcitationDeviceInfo[m];
-		int* index = current_info->getxIndex();
-        int xCountTemp = current_info->getXCount();
+		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);;
         Eigen::VectorXd subE = Eigen::VectorXd::Zero(xCountTemp);
 		MyCircuit_->vecExcitationDevice[m]->getExcitationSubMatrix(subA, subE, t);
         for (int i = 0; i < xCountTemp; i++) {
-            E(*(index + i)) += subE(i);
+            E(index[i]) += subE(i);
             for (int j = 0; j < xCountTemp; j++) {
-                A(*(index + i), *(index + j)) += subA(i, j);
+                A(index[i], index[j]) += subA(i, j);
             }
         }
     }
@@ -92,13 +94,13 @@ void Solver_EulerBackward::processJacobianAndF(double t1,double t2) {
     processSetZero();//每个牛顿迭代之前先把矩阵清零
 	//06-EulerBackward
 	//循环-03
-	Solver::processTimeInvariantDeviceMatrix(MyCircuit_);//TimeInvariantDevice其实只用填一次
+	Solver::processTimeInvariantDeviceMatrix();//TimeInvariantDevice其实只用填一次
     //07-EulerBackward
 	//循环-04
 	processExcitationDeivceMatrix(t2);//ExcitationDeivce其实只用在每个时步填
     //08-EulerBackward
 	//循环-05
-	Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_Newton);
+	Solver::processTimeVariantDeviceMatrix( x_Newton);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E = " << endl << E << endl;
@@ -114,8 +116,7 @@ void Solver_EulerBackward::solve(BaseNewton* MyNewton) {
 
 	MyNewton_ = MyNewton;
 	//auto start = std::chrono::steady_clock::now();
-	dt_ = MyConfig_->Get_dt();
-	t_end_ = MyConfig_->Get_t_end();
+
 	//循环-01
     for (int i = 0; i < t_end_ / dt_; i++)
 	{
@@ -147,21 +148,35 @@ void Solver_EulerBackward::Perform_BaseNewton_solver(double t1,double t2)
 	double Convergence_limit = 0.0001;
 	int Iteration_times = 0;
 
-	while (Iteration_times < Max_Iteration_times) {
+	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
+	{
 		//05-08-EulerBackward-Trapezoidal
 		//循环-03-05
-		processJacobianAndF(t1,t2);
+		processJacobianAndF(t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
-		Iteration_times++;
 		//09-EulerBackward-Trapezoidal
 		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
 			//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
 			break;
 		}
 	}
+	//while (Iteration_times < Max_Iteration_times) {
+	//	//05-08-EulerBackward-Trapezoidal
+	//	//循环-03-05
+	//	processJacobianAndF(t1,t2);
+	//	x_Newton = x_Newton - Jacobian.inverse() * F_x0;
+	//	//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
+	//	Iteration_times++;
+	//	//09-EulerBackward-Trapezoidal
+	//	if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
+	//		//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
+	//		break;
+	//	}
+	//}
 }
 
 Solver_EulerBackward::~Solver_EulerBackward() {
-
+	delete MyNewton_;
+	MyNewton_ = nullptr;
 }

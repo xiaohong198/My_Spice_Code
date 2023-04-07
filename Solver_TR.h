@@ -26,8 +26,6 @@ public:
 public:
 	double dt_;
 	double t_end_;
-	Configuration* MyConfig_;
-	Circuit* MyCircuit_;
 	BaseNewton* MyNewton_;
 };
 

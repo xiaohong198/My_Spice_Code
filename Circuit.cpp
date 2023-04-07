@@ -3,6 +3,7 @@
 #include <fstream>
 using namespace std;
 Circuit::Circuit() {
+	//这里初始化有问题，导致内存泄漏
 //    Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
@@ -67,50 +68,50 @@ Circuit::Circuit() {
     //matrixDimension = nodeCount + AdditaionalxCount;
 
 /*-------------------------交流源+Diode+RLC测试-------------------------------*/
+	DeviceInfoStr  DeviceInfo;
+
     vecExcitationDevice.push_back(new Vsource_AC());
-    vecExcitationDeviceInfo.push_back(new structDeviceInfo());
-    vecExcitationDeviceInfo[0]->deviceType = 'V';
-    vecExcitationDeviceInfo[0]->deviceIndexPerClass = 0;
-    vecExcitationDeviceInfo[0]->xCount = 3;
-    vecExcitationDeviceInfo[0]->xIndex[0] = 1;
-    vecExcitationDeviceInfo[0]->xIndex[1] = 0;
-    vecExcitationDeviceInfo[0]->xIndex[2] = 4;
+	DeviceInfo.deviceType = 'V';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 3;
+	DeviceInfo.xIndex = { 1,0,4 };
+	vecExcitationDeviceInfo.push_back(DeviceInfo);
+
 
     vecTimeVariantDevice.push_back(new Diode());
-    vecTimeVariantDeviceInfo.push_back(new structDeviceInfo());
-    vecTimeVariantDeviceInfo[0]->deviceType = 'D';
-    vecTimeVariantDeviceInfo[0]->deviceIndexPerClass = 0;
-    vecTimeVariantDeviceInfo[0]->xCount = 2;
-    vecTimeVariantDeviceInfo[0]->xIndex[0] = 1;
-    vecTimeVariantDeviceInfo[0]->xIndex[1] = 2;
+	DeviceInfo.deviceType = 'D';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 2;
+	DeviceInfo.xIndex = { 1,2};
+	vecTimeVariantDeviceInfo.push_back(DeviceInfo);
+
 
     vecTimeInvariantDevice.push_back(new Inductor());
-    vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
-    vecTimeInvariantDeviceInfo[0]->deviceType = 'L';
-    vecTimeInvariantDeviceInfo[0]->deviceIndexPerClass = 0;
-    vecTimeInvariantDeviceInfo[0]->xCount = 3;
-    vecTimeInvariantDeviceInfo[0]->xIndex[0] = 2;
-    vecTimeInvariantDeviceInfo[0]->xIndex[1] = 3;
-    vecTimeInvariantDeviceInfo[0]->xIndex[2] = 5;
+	DeviceInfo.deviceType = 'L';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 3;
+	DeviceInfo.xIndex = { 2,3,5 };
     vecTimeInvariantDevice[0]->setConstValue(1.0e-3);
+	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+
 
     vecTimeInvariantDevice.push_back(new Capacitor());
-    vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
-    vecTimeInvariantDeviceInfo[1]->deviceType = 'C';
-    vecTimeInvariantDeviceInfo[1]->deviceIndexPerClass = 1;
-    vecTimeInvariantDeviceInfo[1]->xCount = 2;
-    vecTimeInvariantDeviceInfo[1]->xIndex[0] = 3;
-    vecTimeInvariantDeviceInfo[1]->xIndex[1] = 0;
+	DeviceInfo.deviceType = 'C';
+	DeviceInfo.deviceIndexPerClass = 1;
+	DeviceInfo.xCount = 2;
+	DeviceInfo.xIndex = { 3,0 };
     vecTimeInvariantDevice[1]->setConstValue(1.0e-4);
+	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+
 
     vecTimeInvariantDevice.push_back(new Resistor());
-    vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
-    vecTimeInvariantDeviceInfo[2]->deviceType = 'R';
-    vecTimeInvariantDeviceInfo[2]->deviceIndexPerClass = 2;
-    vecTimeInvariantDeviceInfo[2]->xCount = 2;
-    vecTimeInvariantDeviceInfo[2]->xIndex[0] = 3;
-    vecTimeInvariantDeviceInfo[2]->xIndex[1] = 0;
+	DeviceInfo.deviceType = 'R';
+	DeviceInfo.deviceIndexPerClass = 2;
+	DeviceInfo.xCount = 2;
+	DeviceInfo.xIndex = { 3,0 };
     vecTimeInvariantDevice[2]->setConstValue(10);
+	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+
 
     timeInvariantDeviceCount = vecTimeInvariantDevice.size();
     timeVariantDeviceCount = vecTimeVariantDevice.size();
@@ -291,19 +292,19 @@ void Circuit::Read_Inputfile() {
             }
         }//[j]为最后一个空格
         /*-------------------------------同时预填f,统计type-----------------------------------*/
-        vecTimeInvariantDeviceInfo[excitationDeviceCount]->deviceType = nowline[0];
+        vecTimeInvariantDeviceInfo[excitationDeviceCount].deviceType = nowline[0];
         last_sp = i;
         switch (nowline[0]) {
         case 'R':
             vecTimeInvariantDevice.push_back(new Resistor());
-            vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xCount = 2;
+            vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xCount = 2;
             for (int h = i + 2; h < j + 1; h++) {
                 int portCount = 0;
                 if (nowline[h] == ' ') {
                     sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-                    sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount];
-                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount] > nodeMax)
-                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount];
+                    sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
+                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
+                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
                     last_sp = h;
                     portCount++;
                 }
@@ -313,14 +314,14 @@ void Circuit::Read_Inputfile() {
             break;
         case 'C':
             vecTimeInvariantDevice.push_back(new Capacitor());
-            vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xCount = 2;
+            vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xCount = 2;
             for (int h = i + 2; h < j + 1; h++) {
                 int portCount = 0;
                 if (nowline[h] == ' ') {
                     sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-                    sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount];
-                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount] > nodeMax)
-                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount];
+                    sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
+                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
+                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
                     last_sp = h;
                     portCount++;
                 }
@@ -334,15 +335,15 @@ void Circuit::Read_Inputfile() {
             break;
         case 'V':
             vecExcitationDevice.push_back(new Vsource_DC());
-            vecExcitationDeviceInfo[excitationDeviceCount]->xCount = 3;
-            vecExcitationDeviceInfo[excitationDeviceCount]->additionalxCount = 1;
+            vecExcitationDeviceInfo[excitationDeviceCount].xCount = 3;
+            vecExcitationDeviceInfo[excitationDeviceCount].additionalxCount = 1;
             for (int h = i + 2; h < j + 1; h++) {
                 int portCount = 0;
                 if (nowline[h] == ' ') {
                     sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-                    sstr >> vecExcitationDeviceInfo[excitationDeviceCount]->xIndex[portCount];
-                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount] > nodeMax)
-                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount]->xIndex[portCount];
+                    sstr >> vecExcitationDeviceInfo[excitationDeviceCount].xIndex[portCount];
+                    if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
+                        nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
                     last_sp = h;
                     portCount++;
                 }
@@ -363,30 +364,30 @@ void Circuit::Read_Inputfile() {
 
     int sumAdditionalxCount = 0;
     for (int i = 0; i < timeInvariantDeviceCount; i++) {
-        if (vecTimeInvariantDeviceInfo[i]->additionalxCount) {
-            int vCount = vecTimeInvariantDeviceInfo[i]->xCount - vecTimeInvariantDeviceInfo[i]->additionalxCount;
-            for (int j = 0; j < vecTimeInvariantDeviceInfo[i]->additionalxCount; j++) {
-                vecTimeInvariantDeviceInfo[i]->xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
+        if (vecTimeInvariantDeviceInfo[i].additionalxCount) {
+            int vCount = vecTimeInvariantDeviceInfo[i].xCount - vecTimeInvariantDeviceInfo[i].additionalxCount;
+            for (int j = 0; j < vecTimeInvariantDeviceInfo[i].additionalxCount; j++) {
+                vecTimeInvariantDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
             }
-            sumAdditionalxCount += vecTimeInvariantDeviceInfo[i]->additionalxCount;
+            sumAdditionalxCount += vecTimeInvariantDeviceInfo[i].additionalxCount;
         }
     }
     for (int i = 0; i < timeVariantDeviceCount; i++) {
-        if (vecTimeVariantDeviceInfo[i]->additionalxCount) {
-            int vCount = vecTimeVariantDeviceInfo[i]->xCount - vecTimeVariantDeviceInfo[i]->additionalxCount;
-            for (int j = 0; j < vecTimeVariantDeviceInfo[i]->additionalxCount; j++) {
-                vecTimeVariantDeviceInfo[i]->xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
+        if (vecTimeVariantDeviceInfo[i].additionalxCount) {
+            int vCount = vecTimeVariantDeviceInfo[i].xCount - vecTimeVariantDeviceInfo[i].additionalxCount;
+            for (int j = 0; j < vecTimeVariantDeviceInfo[i].additionalxCount; j++) {
+                vecTimeVariantDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
             }
-            sumAdditionalxCount += vecTimeVariantDeviceInfo[i]->additionalxCount;
+            sumAdditionalxCount += vecTimeVariantDeviceInfo[i].additionalxCount;
         }
     }
     for (int i = 0; i < excitationDeviceCount; i++) {
-        if (vecExcitationDeviceInfo[i]->additionalxCount) {
-            int vCount = vecExcitationDeviceInfo[i]->xCount - vecExcitationDeviceInfo[i]->additionalxCount;
-            for (int j = 0; j < vecExcitationDeviceInfo[i]->additionalxCount; j++) {
-                vecExcitationDeviceInfo[i]->xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
+        if (vecExcitationDeviceInfo[i].additionalxCount) {
+            int vCount = vecExcitationDeviceInfo[i].xCount - vecExcitationDeviceInfo[i].additionalxCount;
+            for (int j = 0; j < vecExcitationDeviceInfo[i].additionalxCount; j++) {
+                vecExcitationDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
             }
-            sumAdditionalxCount += vecExcitationDeviceInfo[i]->additionalxCount;
+            sumAdditionalxCount += vecExcitationDeviceInfo[i].additionalxCount;
         }
     }
     nodeCount = nodeMax + 1;//认为0节点为地节点
@@ -396,11 +397,16 @@ void Circuit::Read_Inputfile() {
 Circuit::~Circuit() {
     for (int i = 0; i < timeInvariantDeviceCount; i++) {
         delete vecTimeInvariantDevice[i];
+		vecTimeInvariantDevice[i] = nullptr;
     }
     for (int i = 0; i < timeVariantDeviceCount; i++) {
         delete vecTimeVariantDevice[i];
+		vecTimeVariantDevice[i] = nullptr;
+
     }
     for (int i = 0; i < excitationDeviceCount; i++) {
         delete vecExcitationDevice[i];
+		vecExcitationDevice[i] = nullptr;
+
     }
 }

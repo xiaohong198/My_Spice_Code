@@ -9,23 +9,23 @@ Solver::Solver() {
 
 }
 //06-EulerBackward-Trapezoidal
-void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
+void Solver::processTimeInvariantDeviceMatrix() {
 
 	//auto start = std::chrono::steady_clock::now();
 
 
 	//循环-03
-    for (int m = 0; m < MyCircuit->vecTimeInvariantDevice.size(); m++) {
-		structDeviceInfo* current_info = MyCircuit->vecTimeInvariantDeviceInfo[m];
-		int * index = current_info->getxIndex();
-        int xCountTemp = current_info->getXCount();
+    for (int m = 0; m < MyCircuit_->vecTimeInvariantDevice.size(); m++) {
+		DeviceInfoStr current_info = MyCircuit_->vecTimeInvariantDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-        MyCircuit->vecTimeInvariantDevice[m]->getTimeInvariantSubMatrix(subA, subB);
+        MyCircuit_->vecTimeInvariantDevice[m]->getTimeInvariantSubMatrix(subA, subB);
         for (int i = 0; i < xCountTemp; i++) {
             for (int j = 0; j < xCountTemp; j++) {
-                int row_num = *(index + i);
-                int col_num = *(index + j);
+                int row_num = index[i];
+                int col_num = index[j];
                 A(row_num, col_num) += subA(i,j);
                 B(row_num, col_num) += subB(i,j);
             }
@@ -42,15 +42,15 @@ void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
 
 
 }
-//08-EulerBackward-Trapezoidal
-void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::VectorXd& x_pr) {
+//08-EulerBackward-Trapezoidalc
+void Solver::processTimeVariantDeviceMatrix(const Eigen::VectorXd& x_pr) {
    
 	//auto start = std::chrono::steady_clock::now();
 	//循环-05
-	for (int m = 0; m < MyCircuit->vecTimeVariantDevice.size(); m++) {
-		structDeviceInfo* current_info = MyCircuit->vecTimeVariantDeviceInfo[m];
-		int* index = current_info->getxIndex();
-        int xCountTemp = current_info->getXCount();
+	for (int m = 0; m < MyCircuit_->vecTimeVariantDevice.size(); m++) {
+		DeviceInfoStr current_info = MyCircuit_->vecTimeVariantDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
@@ -59,17 +59,19 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
         Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
         for (int i = 0; i < xCountTemp; i++) {
 
-            nodeValue(i) = x_pr(*(index + i));
+            nodeValue(i) = x_pr(index[i]);
         }
         //cout << "nodeValue = " << endl << nodeValue << endl;
-        MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subP, subPJacobian, subQ, subQJacobian);
+        MyCircuit_->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subP, subPJacobian, subQ, subQJacobian);
         for (int i = 0; i < xCountTemp; i++) {
-            P(*(index + i)) += subP(i);
-            Q(*(index + i)) += subQ(i);
+			int index_vi = index[i];
+            P(index_vi) += subP(i);
+            Q(index_vi) += subQ(i);
             for (int j = 0; j < xCountTemp; j++) {
-                A(*(index + i), *(index + j)) += subA(i, j);
-                P_Jacobian(*(index + i), *(index + j)) += subPJacobian(i, j);
-                Q_Jacobian(*(index + i), *(index + j)) += subQJacobian(i, j);
+				int index_vj = index[j];
+                A(index_vi, index_vj) += subA(i, j);
+                P_Jacobian(index_vi, index_vj) += subPJacobian(i, j);
+                Q_Jacobian(index_vi, index_vj) += subQJacobian(i, j);
             }
         }
         //cout << "A=" << endl << A << endl;
@@ -98,17 +100,17 @@ void Solver::saveCircuitVars() {
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/CircuitVars.txt";
 
-	//// 自动创建文件夹
-	//if (_access(output_dir_Path.c_str(), 0) == -1)//如果文件夹不存在
-	//{
-	//	_mkdir(output_dir_Path.c_str());				//创建目录
-	//}
-	//else
-	//{
-	//	remove(outputPath.c_str());//删除文件
-	//	//_rmdir(output_dir_Path.c_str());//删除目录
-	//	_mkdir(output_dir_Path.c_str());				//创建目录
-	//}
+	// 自动创建文件夹
+	if (_access(output_dir_Path.c_str(), 0) == -1)//如果文件夹不存在
+	{
+		_mkdir(output_dir_Path.c_str());				//创建目录
+	}
+	else
+	{
+		remove(outputPath.c_str());//删除文件
+		//_rmdir(output_dir_Path.c_str());//删除目录
+		_mkdir(output_dir_Path.c_str());				//创建目录
+	}
     std::ofstream out_circuit_vars(outputPath, std::ios::app);
     
 	//循环-06
@@ -137,4 +139,8 @@ int Solver::getSize() {
 }
 
 Solver::~Solver() {
+	delete MyCircuit_;
+	delete MyConfig_;
+	MyCircuit_ = nullptr;
+	MyConfig_ = nullptr;
 }
