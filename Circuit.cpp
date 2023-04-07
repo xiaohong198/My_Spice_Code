@@ -277,6 +277,8 @@ void Circuit::Read_Inputfile() {
     stringstream sstr;
     int last_sp;
     int nodeMax = 0;
+
+
     while (getline(fin, nowline)) {
         int i = 0;
         while (1) {

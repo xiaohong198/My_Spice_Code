@@ -9,23 +9,22 @@ private:
 	Eigen::MatrixXd Jacobian;
 	Eigen::VectorXd F_x0;
 	Eigen::VectorXd x_Newton;
+	double dt_;
+	double t_end_;
 public:
-	Solver_TR(Configuration*, Circuit*);
+	Solver_TR(Configuration*,Circuit*);
 	~Solver_TR();
 
-	void processExcitationDeivceMatrix(double t1,double t2);
+	void processExcitationDeivceMatrix(Circuit*, double, double);
 
 	void processGroundedNodeEqu();
 	void processSetZero();
 
-	void processJacobianAndF(double t1,double t2) override;
+	void processJacobianAndF(Configuration*, Circuit*, const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double, double);
 
-	void solve(BaseNewton*) override;
-	void Perform_BaseNewton_solver(double t1, double t2);
+	void solve(Configuration*, Circuit*, BaseNewton*);
 
-public:
-	double dt_;
-	double t_end_;
-	BaseNewton* MyNewton_;
+	void Perform_BaseNewton_solver(Configuration*, Circuit*, Solver*, Eigen::VectorXd& x_Newton, double t1, double t2);
+
 };
 

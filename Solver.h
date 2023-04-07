@@ -62,10 +62,6 @@ protected:
 	//Eigen::MatrixXd Jacobian;
 
 	Eigen::VectorXd x;
-public:
-	Circuit* MyCircuit_;
-	Configuration* MyConfig_;
-
 
 public:
 	vector<Eigen::VectorXd> x_result_vec_;
@@ -75,17 +71,16 @@ public:
 	Solver();
 	~Solver();
 
-
-	virtual void processTimeInvariantDeviceMatrix();
-	virtual void processTimeVariantDeviceMatrix(const Eigen::VectorXd& x_pr);
-	virtual void processExcitationDeivceMatrix(int);
+	virtual void processTimeInvariantDeviceMatrix(Circuit*);
+	virtual void processTimeVariantDeviceMatrix(Circuit*, const Eigen::VectorXd& x_pr);
+	virtual void processExcitationDeivceMatrix(Circuit*,double);
 
 	virtual void processGroundedNodeEqu() = 0;
 	virtual void processSetZero() = 0;
 
-	virtual void processJacobianAndF(double t1 ,double t2) = 0;
+	virtual void processJacobianAndF(Configuration*, Circuit*, const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double ,double) = 0;
 
-	virtual void solve(BaseNewton*) =0;
+	virtual void solve(Configuration*, Circuit*, BaseNewton*) =0;
 
 	virtual void saveCircuitVars();
 

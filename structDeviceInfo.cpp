@@ -10,7 +10,6 @@ structDeviceInfo::structDeviceInfo() {
 
 structDeviceInfo::~structDeviceInfo() {
 	//delete[] xIndex;
-	//xIndex = nullptr;
 }
 
 //int* structDeviceInfo::getxIndex() {
