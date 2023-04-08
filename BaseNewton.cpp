@@ -12,7 +12,7 @@ void BaseNewton::Perform_BaseNewton(Configuration* MyConfig, Circuit* MyCircuit,
 	{
 		//05-08-EulerBackward-Trapezoidal
 		//Ñ­»·-03-05
-		MySolver->processJacobianAndF(MyConfig, MyCircuit, x_Newton, Jacobian, F_x0, t1, t2);
+		MySolver->processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
 		//09-EulerBackward-Trapezoidal

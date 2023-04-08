@@ -74,29 +74,29 @@ void Solver::saveCircuitVars() {
 	{
 		case -1:
 			_mkdir(output_dir_Path.c_str());				//创建目录
+			break;
 		default:
 			remove(outputPath.c_str());//删除文件
 			//_rmdir(output_dir_Path.c_str());//删除目录
 			_mkdir(output_dir_Path.c_str());				//创建目录
-
 			break;
 	}
 
-	std::ofstream out_circuit_vars(outputPath, std::ios::app);
-
+	std::stringstream ss;
 	//循环-06
 	for (auto iter : x_result_vec_)
 	{
 		for (int i = 0; i < size; i++)
 		{
-			out_circuit_vars << std::setprecision(8) << iter(i) << ',';
+			ss << std::setprecision(8) << iter(i)<<',';
 		}
-		out_circuit_vars << std::endl;
+		ss << '\n';
 	}
 
-	out_circuit_vars.close();
+	ofstream OpenF3(outputPath, ios::trunc | ios::out);
+	OpenF3 << ss.str();
+	OpenF3.close();
 	x_result_vec_.clear();
-
 }
 
 int Solver::getSize() {

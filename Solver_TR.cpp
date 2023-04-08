@@ -1,6 +1,8 @@
 #include "Solver_TR.h"
 Solver_TR::Solver_TR(Configuration* MyConfig,Circuit*  MyCircuit) {
-    size = MyCircuit->matrixDimension;
+	MyConfig_ = MyConfig;
+	MyCircuit_ = MyCircuit;
+    size = MyCircuit_->matrixDimension;
     /*---------------------矩阵初始化---------------------*/
     A = Eigen::MatrixXd::Zero(size, size);
     B = Eigen::MatrixXd::Zero(size, size);
@@ -20,8 +22,8 @@ Solver_TR::Solver_TR(Configuration* MyConfig,Circuit*  MyCircuit) {
 	F_x0 = Eigen::VectorXd::Zero(size);
 	x_Newton = Eigen::VectorXd::Zero(size);
 
-	dt_ = MyConfig->Get_dt();
-	t_end_ = MyConfig->Get_t_end();
+	dt_ = MyConfig_->Get_dt();
+	t_end_ = MyConfig_->Get_t_end();
     /*--------------------------------------------------*/
     /*-----x的初值-----*/
     //x(0) = 0;
@@ -37,14 +39,14 @@ Solver_TR::~Solver_TR() {
 
 }
 
-void Solver_TR::processExcitationDeivceMatrix(Circuit* MyCircuit,double t1, double t2) {
-    for (int m = 0; m < MyCircuit->vecExcitationDevice.size(); m++) {
-		DeviceInfoStr current_info = MyCircuit->vecExcitationDeviceInfo[m];
+void Solver_TR::processExcitationDeivceMatrix(double t1, double t2) {
+    for (int m = 0; m < MyCircuit_->vecExcitationDevice.size(); m++) {
+		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);;
         Eigen::VectorXd subEIntegral = Eigen::VectorXd::Zero(xCountTemp);
-        MyCircuit->vecExcitationDevice[m]->getExcitationIntegralSubMatrix(subA, subEIntegral, t1, t2);
+		MyCircuit_->vecExcitationDevice[m]->getExcitationIntegralSubMatrix(subA, subEIntegral, t1, t2);
         for (int i = 0; i < xCountTemp; i++) {
             E_integral(index[i]) += subEIntegral(i);
             for (int j = 0; j < xCountTemp; j++) {
@@ -80,11 +82,11 @@ void Solver_TR::processSetZero() {
     Q_last.setZero();
 }
 
-void Solver_TR::processJacobianAndF(Configuration* MyConfig, Circuit* MyCircuit, const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
+void Solver_TR::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
     processSetZero();//每个牛顿迭代之前先把矩阵清零
-    processTimeInvariantDeviceMatrix(MyCircuit);//TimeInvariantDevice其实只用填一次
-    processExcitationDeivceMatrix(MyCircuit,t1,t2);//ExcitationDeivce其实只用在每个时步填
-    processTimeVariantDeviceMatrix(MyCircuit, x_pr);
+    processTimeInvariantDeviceMatrix(MyCircuit_);//TimeInvariantDevice其实只用填一次
+    processExcitationDeivceMatrix(t1,t2);//ExcitationDeivce其实只用在每个时步填
+    processTimeVariantDeviceMatrix(MyCircuit_, x_pr);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E_integral = " << endl << E_integral << endl;
@@ -96,11 +98,11 @@ void Solver_TR::processJacobianAndF(Configuration* MyConfig, Circuit* MyCircuit,
     //cout << endl;
 }
 
-void Solver_TR::solve(Configuration* MyConfig, Circuit* MyCircuit, BaseNewton* MyNewton) {
+void Solver_TR::solve() {
     Eigen::VectorXd x_Newton = x;
     for (int i = 0; i < t_end_ / dt_; i++) {
         //MyNewton->Perform_BaseNewton(MyConfig, MyCircuit, this, x_Newton, i * MyConfig->Get_dt(), (i + 1) * MyConfig->Get_dt());
-		Perform_BaseNewton_solver(MyConfig, MyCircuit, this, x_Newton, i * dt_, (i + 1) * dt_);
+		Perform_BaseNewton_solver(x_Newton, i * dt_, (i + 1) * dt_);
 		x = x_Newton;
         Q_last = Q;
         P_last = P;
@@ -110,7 +112,7 @@ void Solver_TR::solve(Configuration* MyConfig, Circuit* MyCircuit, BaseNewton* M
 
 	}
 }
-void Solver_TR::Perform_BaseNewton_solver(Configuration* MyConfig, Circuit* MyCircuit, Solver* MySolver, Eigen::VectorXd& x_Newton, double t1, double t2)
+void Solver_TR::Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2)
 {
 	int Max_Iteration_times = 1000;
 	double Convergence_limit = 0.0001;
@@ -118,7 +120,7 @@ void Solver_TR::Perform_BaseNewton_solver(Configuration* MyConfig, Circuit* MyCi
 
 	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
 	{
-		processJacobianAndF(MyConfig, MyCircuit, x_Newton, Jacobian, F_x0, t1, t2);
+		processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
 		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {

@@ -10,20 +10,22 @@ private:
 	Eigen::VectorXd x_Newton;
 	double dt_;
 	double t_end_;
+	Configuration* MyConfig_;
+	Circuit* MyCircuit_;
 public:
 	Solver_EulerBackward(Configuration*,Circuit*);
 	~Solver_EulerBackward();
 
-	void processExcitationDeivceMatrix(Circuit*, double);
+	void processExcitationDeivceMatrix(double);
 
 	void processGroundedNodeEqu();
 	void processSetZero();
 
-	void processJacobianAndF(Configuration*, Circuit*, const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double, double);
+	void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double, double);
 
-	void solve(Configuration*, Circuit*, BaseNewton*);
+	void solve();
 
-	void Perform_BaseNewton_solver(Configuration*, Circuit*, Solver*, Eigen::VectorXd& x_Newton, double t1, double t2);
+	void Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2);
 
 };
 

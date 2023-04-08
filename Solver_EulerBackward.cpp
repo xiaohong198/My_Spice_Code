@@ -1,6 +1,8 @@
 #include "Solver_EulerBackward.h"
 Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyCircuit) {
-    size = MyCircuit->matrixDimension;
+	MyConfig_ = MyConfig;
+	MyCircuit_ = MyCircuit;
+    size = MyCircuit_->matrixDimension;
     /*---------------------矩阵初始化---------------------*/
     A = Eigen::MatrixXd::Zero(size, size);
     B = Eigen::MatrixXd::Zero(size, size);
@@ -20,8 +22,8 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
 	F_x0 = Eigen::VectorXd::Zero(size);
 	x_Newton = Eigen::VectorXd::Zero(size);
 
-	dt_ = MyConfig->Get_dt();
-	t_end_ = MyConfig->Get_t_end();
+	dt_ = MyConfig_->Get_dt();
+	t_end_ = MyConfig_->Get_t_end();
 
     /*--------------------------------------------------*/
     /*-----x的初值-----*/
@@ -36,14 +38,14 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
 
 }
 
-void Solver_EulerBackward::processExcitationDeivceMatrix(Circuit* MyCircuit,double t) {
-    for (int m = 0; m < MyCircuit->vecExcitationDevice.size(); m++) {
-		DeviceInfoStr current_info = MyCircuit->vecExcitationDeviceInfo[m];
+void Solver_EulerBackward::processExcitationDeivceMatrix(double t) {
+    for (int m = 0; m < MyCircuit_->vecExcitationDevice.size(); m++) {
+		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::VectorXd subE = Eigen::VectorXd::Zero(xCountTemp);
-        MyCircuit->vecExcitationDevice[m]->getExcitationSubMatrix(subA, subE, t);
+		MyCircuit_->vecExcitationDevice[m]->getExcitationSubMatrix(subA, subE, t);
         for (int i = 0; i < xCountTemp; i++) {
             E(index[i]) += subE(i);
             for (int j = 0; j < xCountTemp; j++) {
@@ -77,11 +79,11 @@ void Solver_EulerBackward::processSetZero() {
     Q_last.setZero();
 }
 
-void Solver_EulerBackward::processJacobianAndF(Configuration* MyConfig, Circuit* MyCircuit, const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
+void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
     processSetZero();//每个牛顿迭代之前先把矩阵清零
-	Solver::processTimeInvariantDeviceMatrix(MyCircuit);//TimeInvariantDevice其实只用填一次
-    processExcitationDeivceMatrix(MyCircuit,t2);//ExcitationDeivce其实只用在每个时步填
-	Solver::processTimeVariantDeviceMatrix(MyCircuit, x_pr);
+	Solver::processTimeInvariantDeviceMatrix(MyCircuit_);//TimeInvariantDevice其实只用填一次
+    processExcitationDeivceMatrix(t2);//ExcitationDeivce其实只用在每个时步填
+	Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_pr);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E = " << endl << E << endl;
@@ -92,10 +94,10 @@ void Solver_EulerBackward::processJacobianAndF(Configuration* MyConfig, Circuit*
     //cout << endl;
 }
 
-void Solver_EulerBackward::solve(Configuration* MyConfig, Circuit* MyCircuit, BaseNewton* MyNewton) {
+void Solver_EulerBackward::solve() {
     Eigen::VectorXd x_Newton = x;
     for (int i = 0; i < t_end_ / dt_; i++) {
-		Perform_BaseNewton_solver(MyConfig, MyCircuit, this, x_Newton, i * dt_, (i + 1) * dt_);
+		Perform_BaseNewton_solver(x_Newton, i * dt_, (i + 1) * dt_);
 		x = x_Newton;
         Q_last = Q;
         /*-----------------------------------*/
@@ -104,14 +106,14 @@ void Solver_EulerBackward::solve(Configuration* MyConfig, Circuit* MyCircuit, Ba
     }
 }
 
-void Solver_EulerBackward::Perform_BaseNewton_solver(Configuration* MyConfig, Circuit* MyCircuit, Solver* MySolver, Eigen::VectorXd& x_Newton, double t1, double t2)
+void Solver_EulerBackward::Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2)
 {
 	int Max_Iteration_times = 1000;
 	double Convergence_limit = 0.0001;
 
 	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
 	{
-		processJacobianAndF(MyConfig, MyCircuit, x_Newton, Jacobian, F_x0, t1, t2);
+		processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
 		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {

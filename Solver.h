@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "Circuit.h"
 #include "Configuration.h"
-#include "BaseNewton.h"
+//#include "BaseNewton.h"
 
 using namespace std;
 
@@ -78,9 +78,9 @@ public:
 	virtual void processGroundedNodeEqu() = 0;
 	virtual void processSetZero() = 0;
 
-	virtual void processJacobianAndF(Configuration*, Circuit*, const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double ,double) = 0;
+	virtual void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double ,double) = 0;
 
-	virtual void solve(Configuration*, Circuit*, BaseNewton*) =0;
+	virtual void solve() =0;
 
 	virtual void saveCircuitVars();
 
