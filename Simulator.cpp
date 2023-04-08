@@ -3,7 +3,6 @@
 Simulator::Simulator() {
 	MyConfig = new Configuration();
 	MyCircuit = new Circuit();
-	//MySolver = new Solver(MyCircuit);
 	MyConfig->Set_Configuration();
 
 	if (MyConfig->Get_TimeDiscretization() == EulerBackward) {

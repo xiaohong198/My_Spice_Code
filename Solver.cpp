@@ -10,14 +10,16 @@ Solver::Solver() {
 
 void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
     for (int m = 0; m < MyCircuit->vecTimeInvariantDevice.size(); m++) {
-        int xCountTemp = MyCircuit->vecTimeInvariantDeviceInfo[m].xCount;
+		DeviceInfoStr current_info = MyCircuit->vecTimeInvariantDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         MyCircuit->vecTimeInvariantDevice[m]->getTimeInvariantSubMatrix(subA, subB);
         for (int i = 0; i < xCountTemp; i++) {
             for (int j = 0; j < xCountTemp; j++) {
-                int row_num = MyCircuit->vecTimeInvariantDeviceInfo[m].xIndex[i];
-                int col_num = MyCircuit->vecTimeInvariantDeviceInfo[m].xIndex[j];
+                int row_num = index[i];
+                int col_num = index[j];
                 A(row_num, col_num) += subA(i,j);
                 B(row_num, col_num) += subB(i,j);
             }
@@ -28,7 +30,9 @@ void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
 
 void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::VectorXd& x_pr) {
     for (int m = 0; m < MyCircuit->vecTimeVariantDevice.size(); m++) {
-        int xCountTemp = MyCircuit->vecTimeVariantDeviceInfo[m].xCount;
+		DeviceInfoStr current_info = MyCircuit->vecTimeVariantDeviceInfo[m];
+		vector<int> index = current_info.xIndex;
+        int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
@@ -36,17 +40,19 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
         Eigen::VectorXd subQ = Eigen::VectorXd::Zero(xCountTemp);
         Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
         for (int i = 0; i < xCountTemp; i++) {
-            nodeValue(i) = x_pr(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i]);
+            nodeValue(i) = x_pr(index[i]);
         }
         //cout << "nodeValue = " << endl << nodeValue << endl;
         MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subP, subPJacobian, subQ, subQJacobian);
         for (int i = 0; i < xCountTemp; i++) {
-            P(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i]) += subP(i);
-            Q(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i]) += subQ(i);
+			int index_current = index[i];
+            P(index_current) += subP(i);
+            Q(index_current) += subQ(i);
             for (int j = 0; j < xCountTemp; j++) {
-                A(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i], MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[j]) += subA(i, j);
-                P_Jacobian(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i], MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[j]) += subPJacobian(i, j);
-                Q_Jacobian(MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[i], MyCircuit->vecTimeVariantDeviceInfo[m].xIndex[j]) += subQJacobian(i, j);
+				int index_current_j = index[j];
+                A(index_current, index_current_j) += subA(i, j);
+                P_Jacobian(index_current, index_current_j) += subPJacobian(i, j);
+                Q_Jacobian(index_current, index_current_j) += subQJacobian(i, j);
             }
         }
         //cout << "A=" << endl << A << endl;
@@ -63,17 +69,19 @@ void Solver::saveCircuitVars() {
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/CircuitVars.txt";
 
-	// 自动创建文件夹
-	if (_access(output_dir_Path.c_str(), 0) == -1)//如果文件夹不存在
+	int re = _access(output_dir_Path.c_str(), 0);
+	switch (re)
 	{
-		_mkdir(output_dir_Path.c_str());				//创建目录
+		case -1:
+			_mkdir(output_dir_Path.c_str());				//创建目录
+		default:
+			remove(outputPath.c_str());//删除文件
+			//_rmdir(output_dir_Path.c_str());//删除目录
+			_mkdir(output_dir_Path.c_str());				//创建目录
+
+			break;
 	}
-	else
-	{
-		remove(outputPath.c_str());//删除文件
-		//_rmdir(output_dir_Path.c_str());//删除目录
-		_mkdir(output_dir_Path.c_str());				//创建目录
-	}
+
 	std::ofstream out_circuit_vars(outputPath, std::ios::app);
 
 	//循环-06

@@ -409,6 +409,5 @@ Circuit::~Circuit() {
     for (int i = 0; i < excitationDeviceCount; i++) {
         delete vecExcitationDevice[i];
 		vecExcitationDevice[i] = nullptr;
-
     }
 }

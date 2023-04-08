@@ -79,9 +79,9 @@ void Solver_EulerBackward::processSetZero() {
 
 void Solver_EulerBackward::processJacobianAndF(Configuration* MyConfig, Circuit* MyCircuit, const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
     processSetZero();//每个牛顿迭代之前先把矩阵清零
-    processTimeInvariantDeviceMatrix(MyCircuit);//TimeInvariantDevice其实只用填一次
+	Solver::processTimeInvariantDeviceMatrix(MyCircuit);//TimeInvariantDevice其实只用填一次
     processExcitationDeivceMatrix(MyCircuit,t2);//ExcitationDeivce其实只用在每个时步填
-    processTimeVariantDeviceMatrix(MyCircuit, x_pr);
+	Solver::processTimeVariantDeviceMatrix(MyCircuit, x_pr);
 
     processGroundedNodeEqu();//接地点对矩阵的影响
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E = " << endl << E << endl;
@@ -108,7 +108,6 @@ void Solver_EulerBackward::Perform_BaseNewton_solver(Configuration* MyConfig, Ci
 {
 	int Max_Iteration_times = 1000;
 	double Convergence_limit = 0.0001;
-	int Iteration_times = 0;
 
 	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
 	{
