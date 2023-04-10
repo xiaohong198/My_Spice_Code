@@ -97,6 +97,7 @@ void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen
 void Solver_EulerBackward::solve() {
     Eigen::VectorXd x_Newton = x;
     for (int i = 0; i < t_end_ / dt_; i++) {
+
 		Perform_BaseNewton_solver(x_Newton, i * dt_, (i + 1) * dt_);
 		x = x_Newton;
         Q_last = Q;
