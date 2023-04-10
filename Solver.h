@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "Circuit.h"
 #include "Configuration.h"
-//#include "BaseNewton.h"
+#include "BaseNewton.h"
 
 using namespace std;
 
@@ -63,6 +63,14 @@ protected:
 
 	Eigen::VectorXd x;
 
+	//Eigen::MatrixXd Jacobian;
+	//Eigen::VectorXd F_x0;
+	//Eigen::VectorXd x_Newton;
+	double dt_;
+	double t_end_;
+	Configuration* MyConfig_;
+	Circuit*  MyCircuit_;
+
 public:
 	vector<Eigen::VectorXd> x_result_vec_;
 
@@ -80,7 +88,7 @@ public:
 
 	virtual void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double ,double) = 0;
 
-	virtual void solve() =0;
+	virtual void solve(BaseNewton* MyNewton) =0;
 
 	virtual void saveCircuitVars();
 

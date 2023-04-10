@@ -18,9 +18,8 @@ Solver_TR::Solver_TR(Configuration* MyConfig,Circuit*  MyCircuit) {
     //    F = Eigen::VectorXd::Zero(size);
 
     x = Eigen::VectorXd::Zero(size);
-	Jacobian = Eigen::MatrixXd::Zero(size, size);
-	F_x0 = Eigen::VectorXd::Zero(size);
-	x_Newton = Eigen::VectorXd::Zero(size);
+	//Jacobian = Eigen::MatrixXd::Zero(size, size);
+	//F_x0 = Eigen::VectorXd::Zero(size);
 
 	dt_ = MyConfig_->Get_dt();
 	t_end_ = MyConfig_->Get_t_end();
@@ -98,11 +97,11 @@ void Solver_TR::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd&
     //cout << endl;
 }
 
-void Solver_TR::solve() {
+void Solver_TR::solve(BaseNewton* MyNewton) {
     Eigen::VectorXd x_Newton = x;
     for (int i = 0; i < t_end_ / dt_; i++) {
         //MyNewton->Perform_BaseNewton(MyConfig, MyCircuit, this, x_Newton, i * MyConfig->Get_dt(), (i + 1) * MyConfig->Get_dt());
-		Perform_BaseNewton_solver(x_Newton, i * dt_, (i + 1) * dt_);
+		MyNewton->Perform_BaseNewton(x_Newton, i * dt_, (i + 1) * dt_);
 		x = x_Newton;
         Q_last = Q;
         P_last = P;
@@ -114,18 +113,18 @@ void Solver_TR::solve() {
 }
 void Solver_TR::Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2)
 {
-	int Max_Iteration_times = 1000;
-	double Convergence_limit = 0.0001;
-	int Iteration_times = 0;
+	//int Max_Iteration_times = 1000;
+	//double Convergence_limit = 0.0001;
+	//int Iteration_times = 0;
 
-	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
-	{
-		processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
-		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
-		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
-		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
-			//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
-			break;
-		}
-	}
+	//for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
+	//{
+	//	processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
+	//	x_Newton = x_Newton - Jacobian.inverse() * F_x0;
+	//	//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
+	//	if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
+	//		//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
+	//		break;
+	//	}
+	//}
 }
