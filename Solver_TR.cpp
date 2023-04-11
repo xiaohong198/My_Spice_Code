@@ -32,7 +32,7 @@ Solver_TR::Solver_TR(Configuration* MyConfig,Circuit*  MyCircuit) {
     for (int i = 0; i < size; i++) {
         x(i) = 0;
     }
-    x(1) = 20;
+    //x(1) = 20;
 	Solver::x_result_vec_.push_back(Solver::x);
 }
 Solver_TR::~Solver_TR() {
