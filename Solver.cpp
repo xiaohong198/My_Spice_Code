@@ -37,6 +37,7 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
+        Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::VectorXd subP = Eigen::VectorXd::Zero(xCountTemp);
@@ -46,7 +47,7 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
             nodeValue(i) = x_pr(index[i]);
         }
         //cout << "nodeValue = " << endl << nodeValue << endl;
-        MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subP, subPJacobian, subQ, subQJacobian);
+        MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subB, subP, subPJacobian, subQ, subQJacobian);
         for (int i = 0; i < xCountTemp; i++) {
 			int index_current = index[i];
             P(index_current) += subP(i);
@@ -54,6 +55,7 @@ void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::Vec
             for (int j = 0; j < xCountTemp; j++) {
 				int index_current_j = index[j];
                 A(index_current, index_current_j) += subA(i, j);
+                B(index_current, index_current_j) += subB(i, j);
                 P_Jacobian(index_current, index_current_j) += subPJacobian(i, j);
                 Q_Jacobian(index_current, index_current_j) += subQJacobian(i, j);
             }

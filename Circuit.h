@@ -2,21 +2,22 @@
 #include <fstream>
 #include <vector>
 #include "Device.h"
-
-
 #include "structDeviceInfo.h"
-
-
 #include "Resistor.h"
 #include "Capacitor.h"
 #include "Inductor.h"
 #include "Vsource_DC.h"
 #include "Vsource_AC.h"
-#include "Jsource.h"
+#include "Jsource_DC.h"
+#include "Jsource_AC.h"
+#include "PWLVoltageSource.h"
 #include "Diode.h"
 #include "MOA.h"
 #include "TabulatedIVCurveDevice.h"
 #include "SurgeArrester.h"
+#include "SpiceMosfet.h"
+#include "SpiceMosLevel1Test.h"
+#include "SpiceDiode.h"
 
 using namespace std;
 

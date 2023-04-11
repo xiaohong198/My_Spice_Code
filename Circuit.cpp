@@ -3,7 +3,6 @@
 #include <fstream>
 using namespace std;
 Circuit::Circuit() {
-	//这里初始化有问题，导致内存泄漏
 //    Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
@@ -68,57 +67,57 @@ Circuit::Circuit() {
     //matrixDimension = nodeCount + AdditaionalxCount;
 
 /*-------------------------交流源+Diode+RLC测试-------------------------------*/
-	DeviceInfoStr  DeviceInfo;
+    //vecExcitationDevice.push_back(new Vsource_AC());
+    //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
+    //vecExcitationDeviceInfo[0]->deviceType = 'V';
+    //vecExcitationDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecExcitationDeviceInfo[0]->xCount = 3;
+    //vecExcitationDeviceInfo[0]->xIndex[0] = 1;
+    //vecExcitationDeviceInfo[0]->xIndex[1] = 0;
+    //vecExcitationDeviceInfo[0]->xIndex[2] = 4;
 
-    vecExcitationDevice.push_back(new Vsource_AC());
-	DeviceInfo.deviceType = 'V';
-	DeviceInfo.deviceIndexPerClass = 0;
-	DeviceInfo.xCount = 3;
-	DeviceInfo.xIndex = { 1,0,4 };
-	vecExcitationDeviceInfo.push_back(DeviceInfo);
+    //vecTimeVariantDevice.push_back(new Diode());
+    //vecTimeVariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeVariantDeviceInfo[0]->deviceType = 'D';
+    //vecTimeVariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeVariantDeviceInfo[0]->xCount = 2;
+    //vecTimeVariantDeviceInfo[0]->xIndex[0] = 1;
+    //vecTimeVariantDeviceInfo[0]->xIndex[1] = 2;
 
+    //vecTimeInvariantDevice.push_back(new Inductor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[0]->deviceType = 'L';
+    //vecTimeInvariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeInvariantDeviceInfo[0]->xCount = 3;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[0] = 2;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[1] = 3;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[2] = 5;
+    //vecTimeInvariantDevice[0]->setConstValue(1.0e-3);
 
-    vecTimeVariantDevice.push_back(new Diode());
-	DeviceInfo.deviceType = 'D';
-	DeviceInfo.deviceIndexPerClass = 0;
-	DeviceInfo.xCount = 2;
-	DeviceInfo.xIndex = { 1,2};
-	vecTimeVariantDeviceInfo.push_back(DeviceInfo);
+    //vecTimeInvariantDevice.push_back(new Capacitor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[1]->deviceType = 'C';
+    //vecTimeInvariantDeviceInfo[1]->deviceIndexPerClass = 1;
+    //vecTimeInvariantDeviceInfo[1]->xCount = 2;
+    //vecTimeInvariantDeviceInfo[1]->xIndex[0] = 3;
+    //vecTimeInvariantDeviceInfo[1]->xIndex[1] = 0;
+    //vecTimeInvariantDevice[1]->setConstValue(1.0e-4);
 
+    //vecTimeInvariantDevice.push_back(new Resistor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[2]->deviceType = 'R';
+    //vecTimeInvariantDeviceInfo[2]->deviceIndexPerClass = 2;
+    //vecTimeInvariantDeviceInfo[2]->xCount = 2;
+    //vecTimeInvariantDeviceInfo[2]->xIndex[0] = 3;
+    //vecTimeInvariantDeviceInfo[2]->xIndex[1] = 0;
+    //vecTimeInvariantDevice[2]->setConstValue(10);
 
-    vecTimeInvariantDevice.push_back(new Inductor());
-	DeviceInfo.deviceType = 'L';
-	DeviceInfo.deviceIndexPerClass = 0;
-	DeviceInfo.xCount = 3;
-	DeviceInfo.xIndex = { 2,3,5 };
-    vecTimeInvariantDevice[0]->setConstValue(1.0e-3);
-	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
-
-
-    vecTimeInvariantDevice.push_back(new Capacitor());
-	DeviceInfo.deviceType = 'C';
-	DeviceInfo.deviceIndexPerClass = 1;
-	DeviceInfo.xCount = 2;
-	DeviceInfo.xIndex = { 3,0 };
-    vecTimeInvariantDevice[1]->setConstValue(1.0e-4);
-	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
-
-
-    vecTimeInvariantDevice.push_back(new Resistor());
-	DeviceInfo.deviceType = 'R';
-	DeviceInfo.deviceIndexPerClass = 2;
-	DeviceInfo.xCount = 2;
-	DeviceInfo.xIndex = { 3,0 };
-    vecTimeInvariantDevice[2]->setConstValue(10);
-	vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
-
-
-    timeInvariantDeviceCount = vecTimeInvariantDevice.size();
-    timeVariantDeviceCount = vecTimeVariantDevice.size();
-    excitationDeviceCount = vecExcitationDevice.size();
-    nodeCount = 4;
-    AdditaionalxCount = 2;
-    matrixDimension = nodeCount + AdditaionalxCount;
+    //timeInvariantDeviceCount = vecTimeInvariantDevice.size();
+    //timeVariantDeviceCount = vecTimeVariantDevice.size();
+    //excitationDeviceCount = vecExcitationDevice.size();
+    //nodeCount = 4;
+    //AdditaionalxCount = 2;
+    //matrixDimension = nodeCount + AdditaionalxCount;
 
     /*-------------------------交流源Ramp 100t + 非线性电阻 + 电阻测试-------------------------------*/
     //vecExcitationDevice.push_back(new Vsource_AC());
@@ -154,7 +153,32 @@ Circuit::Circuit() {
     //AdditaionalxCount = 1;
     //matrixDimension = nodeCount + AdditaionalxCount;
 
-    /*--------------交流源10sin(wt) + RLC 测试-------------*/
+ /*--------------交流源10sin(wt) + Diode 测试-------------*/
+    //vecExcitationDevice.push_back(new Vsource_AC());
+    //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
+    //vecExcitationDeviceInfo[0]->deviceType = 'V';
+    //vecExcitationDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecExcitationDeviceInfo[0]->xCount = 3;
+    //vecExcitationDeviceInfo[0]->xIndex[0] = 1;
+    //vecExcitationDeviceInfo[0]->xIndex[1] = 0;
+    //vecExcitationDeviceInfo[0]->xIndex[2] = 2;
+
+    //vecTimeVariantDevice.push_back(new Diode());
+    //vecTimeVariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeVariantDeviceInfo[0]->deviceType = 'D';
+    //vecTimeVariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeVariantDeviceInfo[0]->xCount = 2;
+    //vecTimeVariantDeviceInfo[0]->xIndex[0] = 1;
+    //vecTimeVariantDeviceInfo[0]->xIndex[1] = 0;
+
+    //timeInvariantDeviceCount = vecTimeInvariantDevice.size();
+    //timeVariantDeviceCount = vecTimeVariantDevice.size();
+    //excitationDeviceCount = vecExcitationDevice.size();
+    //nodeCount = 2;
+    //AdditaionalxCount = 1;
+    //matrixDimension = nodeCount + AdditaionalxCount;
+
+    ///*--------------交流源10sin(wt) + RLC 测试-------------*/
     //vecExcitationDevice.push_back(new Vsource_AC());
     //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
     //vecExcitationDeviceInfo[0]->deviceType = 'V';
@@ -266,7 +290,151 @@ Circuit::Circuit() {
     //nodeCount = 3;
     //AdditaionalxCount = 1;
     //matrixDimension = nodeCount + AdditaionalxCount;
-    
+
+    /*---------测试--------*/
+    //vecExcitationDevice.push_back(new PWLVoltageSource());
+    //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
+    //vecExcitationDeviceInfo[0]->deviceType = 'V';
+    //vecExcitationDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecExcitationDeviceInfo[0]->xCount = 3;
+    //vecExcitationDeviceInfo[0]->xIndex[0] = 1;
+    //vecExcitationDeviceInfo[0]->xIndex[1] = 0;
+    //vecExcitationDeviceInfo[0]->xIndex[2] = 2;
+    ////vecExcitationDevice[0]->setConstValue(1);
+
+    //vecTimeInvariantDevice.push_back(new Inductor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[0]->deviceType = 'L';
+    //vecTimeInvariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeInvariantDeviceInfo[0]->xCount = 3;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[0] = 1;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[1] = 0;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[2] = 3;
+    //vecTimeInvariantDevice[0]->setConstValue(1);
+
+    //timeInvariantDeviceCount = vecTimeInvariantDevice.size();
+    //timeVariantDeviceCount = vecTimeVariantDevice.size();
+    //excitationDeviceCount = vecExcitationDevice.size();
+    //nodeCount = 2;
+    //AdditaionalxCount = 2;
+    //matrixDimension = nodeCount + AdditaionalxCount;
+
+    /*-------Mos Level1测试-----*/
+    //vecTimeVariantDevice.push_back(new SpiceMosLevel1Test());
+    //vecTimeVariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeVariantDeviceInfo[0]->deviceType = 'M';
+    //vecTimeVariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeVariantDeviceInfo[0]->xCount = 6;
+    //vecTimeVariantDeviceInfo[0]->xIndex[0] = 1;
+    //vecTimeVariantDeviceInfo[0]->xIndex[1] = 2;
+    //vecTimeVariantDeviceInfo[0]->xIndex[2] = 3;
+    //vecTimeVariantDeviceInfo[0]->xIndex[4] = 5;
+    //vecTimeVariantDeviceInfo[0]->xIndex[3] = 4;
+    //vecTimeVariantDeviceInfo[0]->xIndex[4] = 5;
+    //vecTimeVariantDeviceInfo[0]->xIndex[5] = 6;
+
+    //vecExcitationDevice.push_back(new Vsource_DC());
+    //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
+    //vecExcitationDeviceInfo[0]->deviceType = 'V';
+    //vecExcitationDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecExcitationDeviceInfo[0]->xCount = 3;
+    //vecExcitationDeviceInfo[0]->xIndex[0] = 1;
+    //vecExcitationDeviceInfo[0]->xIndex[1] = 0;
+    //vecExcitationDeviceInfo[0]->xIndex[2] = 9;
+    //vecExcitationDevice[0]->setConstValue(20);
+
+    //vecExcitationDevice.push_back(new PWLVoltageSource());
+    //vecExcitationDeviceInfo.push_back(new structDeviceInfo());
+    //vecExcitationDeviceInfo[1]->deviceType = 'P';
+    //vecExcitationDeviceInfo[1]->deviceIndexPerClass = 1;
+    //vecExcitationDeviceInfo[1]->xCount = 3;
+    //vecExcitationDeviceInfo[1]->xIndex[0] = 8;
+    //vecExcitationDeviceInfo[1]->xIndex[1] = 5;
+    //vecExcitationDeviceInfo[1]->xIndex[2] = 10;
+
+    //vecTimeInvariantDevice.push_back(new Resistor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[0]->deviceType = 'R';
+    //vecTimeInvariantDeviceInfo[0]->deviceIndexPerClass = 0;
+    //vecTimeInvariantDeviceInfo[0]->xCount = 2;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[0] = 3;
+    //vecTimeInvariantDeviceInfo[0]->xIndex[1] = 8;
+    //vecTimeInvariantDevice[0]->setConstValue(223.8e-2);
+
+    //vecTimeInvariantDevice.push_back(new Resistor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[1]->deviceType = 'R';
+    //vecTimeInvariantDeviceInfo[1]->deviceIndexPerClass = 1;
+    //vecTimeInvariantDeviceInfo[1]->xCount = 2;
+    //vecTimeInvariantDeviceInfo[1]->xIndex[0] = 7;
+    //vecTimeInvariantDeviceInfo[1]->xIndex[1] = 0;
+    //vecTimeInvariantDevice[1]->setConstValue(1.5e-3);
+
+    //vecTimeInvariantDevice.push_back(new Inductor());
+    //vecTimeInvariantDeviceInfo.push_back(new structDeviceInfo());
+    //vecTimeInvariantDeviceInfo[2]->deviceType = 'L';
+    //vecTimeInvariantDeviceInfo[2]->deviceIndexPerClass = 2;
+    //vecTimeInvariantDeviceInfo[2]->xCount = 3;
+    //vecTimeInvariantDeviceInfo[2]->xIndex[0] = 5;
+    //vecTimeInvariantDeviceInfo[2]->xIndex[1] = 7;
+    //vecTimeInvariantDeviceInfo[2]->xIndex[2] = 11;
+    //vecTimeInvariantDevice[2]->setConstValue(1.0e-9);
+
+    //timeInvariantDeviceCount = vecTimeInvariantDevice.size();
+    //timeVariantDeviceCount = vecTimeVariantDevice.size();
+    //excitationDeviceCount = vecExcitationDevice.size();
+    //nodeCount = 9;
+    //AdditaionalxCount = 3;
+    //matrixDimension = nodeCount + AdditaionalxCount;
+
+    /*----------SpiceDiode测试---------*/
+	DeviceInfoStr  DeviceInfo;
+    vecExcitationDevice.push_back(new Vsource_AC());
+	DeviceInfo.deviceType = 'V';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 3;
+	DeviceInfo.xIndex = { 1,0,5 };
+	vecExcitationDeviceInfo.push_back(DeviceInfo);
+
+    vecTimeVariantDevice.push_back(new SpiceDiode());
+	DeviceInfo.deviceType = 'D';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 3;
+	DeviceInfo.xIndex = { 1,2,3 };
+    vecTimeVariantDeviceInfo.push_back(DeviceInfo);
+
+
+    vecTimeInvariantDevice.push_back(new Inductor());
+	DeviceInfo.deviceType = 'L';
+	DeviceInfo.deviceIndexPerClass = 0;
+	DeviceInfo.xCount = 3;
+	DeviceInfo.xIndex = { 3,4,6 };
+    vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+    vecTimeInvariantDevice[0]->setConstValue(1.0e-3);
+
+    vecTimeInvariantDevice.push_back(new Capacitor());
+	DeviceInfo.deviceType = 'C';
+	DeviceInfo.deviceIndexPerClass = 1;
+	DeviceInfo.xCount = 2;
+	DeviceInfo.xIndex = { 4,0 };
+    vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+    vecTimeInvariantDevice[1]->setConstValue(1.0e-4);
+
+    vecTimeInvariantDevice.push_back(new Resistor());
+	DeviceInfo.deviceType = 'R';
+	DeviceInfo.deviceIndexPerClass = 2;
+	DeviceInfo.xCount = 2;
+	DeviceInfo.xIndex = { 4,0 };
+    vecTimeInvariantDeviceInfo.push_back(DeviceInfo);
+    vecTimeInvariantDevice[2]->setConstValue(10);
+
+    timeInvariantDeviceCount = vecTimeInvariantDevice.size();
+    timeVariantDeviceCount = vecTimeVariantDevice.size();
+    excitationDeviceCount = vecExcitationDevice.size();
+    nodeCount = 5;
+    AdditaionalxCount = 2;
+    matrixDimension = nodeCount + AdditaionalxCount;
+
     /*-----测试coding功能---*/
     //cout << endl;
 }
@@ -277,8 +445,6 @@ void Circuit::Read_Inputfile() {
     stringstream sstr;
     int last_sp;
     int nodeMax = 0;
-
-
     while (getline(fin, nowline)) {
         int i = 0;
         while (1) {
@@ -353,10 +519,10 @@ void Circuit::Read_Inputfile() {
             excitationDeviceCount++;
 
             break;
-        case 'J':
-            vecExcitationDevice.push_back(new Jsource());
-            excitationDeviceCount++;
-            break;
+        //case 'J':
+        //    vecExcitationDevice.push_back(new Jsource());
+        //    excitationDeviceCount++;
+        //    break;
         case 'D':
             vecTimeVariantDevice.push_back(new Diode());
             timeVariantDeviceCount++;

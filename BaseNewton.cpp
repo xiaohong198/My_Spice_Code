@@ -2,7 +2,7 @@
 BaseNewton::BaseNewton(Solver* MySolver) {
 	MySolver_ = MySolver;
 	Max_Iteration_times = 1000;
-	Convergence_limit = 0.0001;
+	Convergence_limit = 1.0e-9;//1.0e-4
 }
 
 void BaseNewton::Perform_BaseNewton(Eigen::VectorXd& x_Newton, double t1, double t2) {

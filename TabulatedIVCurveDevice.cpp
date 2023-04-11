@@ -124,7 +124,7 @@ double TabulatedIVCurveDevice::G(double V) {
 	return 1;
 	}
 }
-void TabulatedIVCurveDevice::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
+void TabulatedIVCurveDevice::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
 	subA.setZero();
 	double V = nodeValue(0) - nodeValue(1);
 	subP.setZero();

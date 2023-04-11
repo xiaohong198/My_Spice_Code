@@ -143,9 +143,11 @@
     <ClCompile Include="Diode.cpp" />
     <ClCompile Include="ExcitationDevice.cpp" />
     <ClCompile Include="Inductor.cpp" />
-    <ClCompile Include="Jsource.cpp" />
+    <ClCompile Include="Jsource_AC.cpp" />
+    <ClCompile Include="Jsource_DC.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MOA.cpp" />
+    <ClCompile Include="PWLVoltageSource.cpp" />
     <ClCompile Include="Resistor.cpp" />
     <ClCompile Include="Simulator.cpp" />
     <ClCompile Include="Solver.cpp" />
@@ -153,7 +155,9 @@
     <ClCompile Include="Solver_SDC.cpp" />
     <ClCompile Include="Solver_TR.cpp" />
     <ClCompile Include="SpiceDevice.cpp" />
+    <ClCompile Include="SpiceDiode.cpp" />
     <ClCompile Include="SpiceMosfet.cpp" />
+    <ClCompile Include="SpiceMosLevel1Test.cpp" />
     <ClCompile Include="structDeviceInfo.cpp" />
     <ClCompile Include="SurgeArrester.cpp" />
     <ClCompile Include="TabulatedIVCurveDevice.cpp" />
@@ -171,8 +175,10 @@
     <ClInclude Include="Diode.h" />
     <ClInclude Include="ExcitationDevice.h" />
     <ClInclude Include="Inductor.h" />
-    <ClInclude Include="Jsource.h" />
+    <ClInclude Include="Jsource_AC.h" />
+    <ClInclude Include="Jsource_DC.h" />
     <ClInclude Include="MOA.h" />
+    <ClInclude Include="PWLVoltageSource.h" />
     <ClInclude Include="Resistor.h" />
     <ClInclude Include="Simulator.h" />
     <ClInclude Include="Solver.h" />
@@ -180,7 +186,9 @@
     <ClInclude Include="Solver_SDC.h" />
     <ClInclude Include="Solver_TR.h" />
     <ClInclude Include="SpiceDevice.h" />
+    <ClInclude Include="SpiceDiode.h" />
     <ClInclude Include="SpiceMosfet.h" />
+    <ClInclude Include="SpiceMosLevel1Test.h" />
     <ClInclude Include="structDeviceInfo.h" />
     <ClInclude Include="SurgeArrester.h" />
     <ClInclude Include="TabulatedIVCurveDevice.h" />
@@ -188,6 +196,9 @@
     <ClInclude Include="TimeVariantDevice.h" />
     <ClInclude Include="Vsource_AC.h" />
     <ClInclude Include="Vsource_DC.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

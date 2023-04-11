@@ -9,7 +9,7 @@ public:
 	TimeVariantDevice();
 	~TimeVariantDevice();
 
-	virtual double f(double)=0;
-	virtual double G(double)=0;
+	//virtual double f(double)=0;
+	//virtual double G(double)=0;
 };
 

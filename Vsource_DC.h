@@ -9,8 +9,10 @@ public:
 	Vsource_DC();
 	~Vsource_DC();
 	void setConstValue(double);
-	void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
 
+	double eFunction(double);
+	void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
+	double setIntegration(double, double);
 	void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double);
 };
 

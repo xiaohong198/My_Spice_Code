@@ -12,8 +12,7 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
 
     P_Jacobian = Eigen::MatrixXd::Zero(size, size);
     Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
-//    Jacobian = Eigen::MatrixXd::Zero(size, size)
-	;
+//    Jacobian = Eigen::MatrixXd::Zero(size, size);
 
     E = Eigen::VectorXd::Zero(size);
 	E_mid = Eigen::VectorXd::Zero(size);
@@ -39,6 +38,7 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
     for (int i = 0; i < size; i++) {
         x(i) = 0;
     }
+	//x(1) = 20;
 	Solver::x_result_vec_.push_back(Solver::x);
 
 	processSetZeroABE();

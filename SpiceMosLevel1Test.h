@@ -1,6 +1,6 @@
 #pragma once
 #include "SpiceDevice.h"
-class SpiceMosfet : public SpiceDevice
+class SpiceMosLevel1Test : public SpiceDevice
 {
 protected:
 	double MTYPE;
@@ -103,21 +103,9 @@ protected:
 	double VFB;
 	double Vsatmin;
 
-	//Calculation Needs
-	/*double Cgs;
-	double Cgd;
-	double Cgb;
-	double Cbd;
-	double Cbs;
-	double Vgs;
-	double Vgd;
-	double Vgb;
-	double Vds;
-	double Vbs;*/
-
 public:
-	SpiceMosfet();
-	~SpiceMosfet();
+	SpiceMosLevel1Test();
+	~SpiceMosLevel1Test();
 
 	//放在各种Level的Mosfet的构造函数里
 	void GetGateCapacitance();
@@ -125,7 +113,6 @@ public:
 	void SpecifyInitialCondition();//和Solver里的初值关联上
 
 	void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-
 
 };
 
