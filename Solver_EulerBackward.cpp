@@ -5,13 +5,19 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
     size = MyCircuit_->matrixDimension;
     /*---------------------矩阵初始化---------------------*/
     A = Eigen::MatrixXd::Zero(size, size);
+	A_mid = Eigen::MatrixXd::Zero(size, size);
+
     B = Eigen::MatrixXd::Zero(size, size);
+	B_mid = Eigen::MatrixXd::Zero(size, size);
+
     P_Jacobian = Eigen::MatrixXd::Zero(size, size);
     Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
 //    Jacobian = Eigen::MatrixXd::Zero(size, size)
 	;
 
     E = Eigen::VectorXd::Zero(size);
+	E_mid = Eigen::VectorXd::Zero(size);
+
     P = Eigen::VectorXd::Zero(size);
     Q = Eigen::VectorXd::Zero(size);
     Q_last = Eigen::VectorXd::Zero(size);
@@ -35,9 +41,11 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
     }
 	Solver::x_result_vec_.push_back(Solver::x);
 
-	processSetZero();//每个牛顿迭代之前先把矩阵清零
+	processSetZeroABE();
 	Solver::processTimeInvariantDeviceMatrix(MyCircuit_);//TimeInvariantDevice其实只用填一次
-
+	A_mid = A;
+	B_mid = B;
+	E_mid = E;
 
 }
 
@@ -46,9 +54,12 @@ void Solver_EulerBackward::processExcitationDeivceMatrix(double t) {
 		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
+
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::VectorXd subE = Eigen::VectorXd::Zero(xCountTemp);
+
 		MyCircuit_->vecExcitationDevice[m]->getExcitationSubMatrix(subA, subE, t);
+
         for (int i = 0; i < xCountTemp; i++) {
             E(index[i]) += subE(i);
             for (int j = 0; j < xCountTemp; j++) {
@@ -72,18 +83,24 @@ void Solver_EulerBackward::processGroundedNodeEqu() {
 }
 
 void Solver_EulerBackward::processSetZero() {
-    A.setZero();
-    B.setZero();
     P_Jacobian.setZero();
     Q_Jacobian.setZero();
-    E.setZero();
     P.setZero();
     Q.setZero();
     Q_last.setZero();
 }
 
-void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
+void Solver_EulerBackward::processSetZeroABE() {
+	A.setZero();
+	B.setZero();
+	E.setZero();
+}
 
+
+void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
+	processSetZero();//每个牛顿迭代之前先把矩阵清零
+	Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_pr);
+	processGroundedNodeEqu();//接地点对矩阵的影响
 
     //cout << " A = " << endl << A << endl << " B = " << endl << B << endl << " P = " << endl << P << endl << " Q = " << endl << Q << endl << " E = " << endl << E << endl;
     F = A * x_pr + B * (x_pr - x) / dt_ + P + (Q - Q_last) / dt_ - E;
@@ -96,12 +113,12 @@ void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen
 void Solver_EulerBackward::solve(BaseNewton* MyNewton) {
     Eigen::VectorXd x_Newton = x;
     for (int i = 0; i < t_end_ / dt_; i++) {
+		A = A_mid;	B = B_mid;	E = E_mid;
+
+		processExcitationDeivceMatrix((i + 1) * dt_);//ExcitationDeivce其实只用在每个时步填
 
 		MyNewton->Perform_BaseNewton(x_Newton, i * dt_, (i + 1) * dt_);
 		x = x_Newton;
-		processExcitationDeivceMatrix((i + 1) * dt_);//ExcitationDeivce其实只用在每个时步填
-		Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_Newton);
-		processGroundedNodeEqu();//接地点对矩阵的影响
 
         Q_last = Q;
         /*-----------------------------------*/

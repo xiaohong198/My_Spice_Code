@@ -13,9 +13,12 @@ void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
 		DeviceInfoStr current_info = MyCircuit->vecTimeInvariantDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
+
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
+
         MyCircuit->vecTimeInvariantDevice[m]->getTimeInvariantSubMatrix(subA, subB);
+
         for (int i = 0; i < xCountTemp; i++) {
             for (int j = 0; j < xCountTemp; j++) {
                 int row_num = index[i];

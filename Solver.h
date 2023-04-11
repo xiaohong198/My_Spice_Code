@@ -49,14 +49,24 @@ protected:
 	*/
 	Eigen::MatrixXd A;
 	Eigen::MatrixXd B;
+	Eigen::MatrixXd A_mid;
+	Eigen::MatrixXd B_mid;
 	Eigen::MatrixXd P_Jacobian;//时变电容电感
+	Eigen::MatrixXd P_Jacobian_mid;//时变电容电感
 	Eigen::MatrixXd Q_Jacobian;
+	Eigen::MatrixXd Q_Jacobian_mid;
 
 //	Eigen::VectorXd E;派生类Solver_EulerBackward的数据成员
 	Eigen::VectorXd P;
+	Eigen::VectorXd P_mid;
+
 //	Eigen::VectorXd P_last;派生类Solver_TR的数据成员
 	Eigen::VectorXd Q;
+	Eigen::VectorXd Q_mid;
+
 	Eigen::VectorXd Q_last;
+	Eigen::VectorXd Q_last_mid;
+
 
 	//Eigen::VectorXd F;
 	//Eigen::MatrixXd Jacobian;
