@@ -1,9 +1,16 @@
 #include "Circuit.h"
 #include <iostream>
 #include <fstream>
+#include <direct.h> 
+#include <filesystem> 
+#include <io.h>
+#define byte my_byte
+#include <windows.h>
+
 using namespace std;
 Circuit::Circuit() {
-//    Read_Inputfile();
+	//Read_InputIni();
+    //Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
     //vecExcitationDevice.push_back(new Vsource_AC());
@@ -439,8 +446,26 @@ Circuit::Circuit() {
     //cout << endl;
 }
 
+void Circuit::Read_InputIni()
+{
+	// 获取当前路径
+	string path = _getcwd(NULL, 0);
+	string output_dir_Path = path + "/Config";
+	string outputPath = output_dir_Path + "/Input_Circuit_Diode_level.ini";
+
+	string value;
+	GetPrivateProfileStringA("section", "key", "default_value", &value[0], 256, "test.ini");
+	std::cout << "value:" << value.c_str() << std::endl;
+
+}
+
 void Circuit::Read_Inputfile() {
-    ifstream fin("../ CircuitVarsData / Input_Circuit_Diode_level1.txt");
+	// 获取当前路径
+	string path = _getcwd(NULL, 0);
+	string output_dir_Path = path + "/CircuitVarsData";
+	string outputPath = output_dir_Path + "/Input_Circuit_Diode_level1.txt";
+
+    ifstream fin(outputPath);
     string nowline;
     stringstream sstr;
     int last_sp;

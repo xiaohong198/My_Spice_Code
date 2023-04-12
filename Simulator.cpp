@@ -21,25 +21,25 @@ Simulator::Simulator() {
 }
 
 void Simulator::Run() {
-	auto start = std::chrono::steady_clock::now();
+	//auto start = std::chrono::steady_clock::now();
 
 	MySolver->solve(MyNewton);
 
-	auto end = std::chrono::steady_clock::now();
+	//auto end = std::chrono::steady_clock::now();
 
-	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	//auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-	cout << "程序用时:" << time.count() / 1000 << "毫秒" << endl;
+	//cout << "程序用时:" << time.count() / 1000 << "毫秒" << endl;
 
-	auto start2 = std::chrono::steady_clock::now();
+	//auto start2 = std::chrono::steady_clock::now();
 
 	MySolver->saveCircuitVars();
 
-	auto end2 = std::chrono::steady_clock::now();
+	//auto end2 = std::chrono::steady_clock::now();
 
-	auto time2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
+	//auto time2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2);
 
-	cout << "程序用时:" << time2.count() / 1000 << "毫秒" << endl;
+	//cout << "程序用时:" << time2.count() / 1000 << "毫秒" << endl;
 }
 
 Simulator::~Simulator() {

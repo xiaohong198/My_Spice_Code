@@ -112,20 +112,3 @@ void Solver_TR::solve(BaseNewton* MyNewton) {
 
 	}
 }
-void Solver_TR::Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2)
-{
-	//int Max_Iteration_times = 1000;
-	//double Convergence_limit = 0.0001;
-	//int Iteration_times = 0;
-
-	//for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
-	//{
-	//	processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
-	//	x_Newton = x_Newton - Jacobian.inverse() * F_x0;
-	//	//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
-	//	if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
-	//		//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
-	//		break;
-	//	}
-	//}
-}

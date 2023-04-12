@@ -46,7 +46,6 @@ Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyC
 	A_mid = A;
 	B_mid = B;
 	E_mid = E;
-
 }
 
 void Solver_EulerBackward::processExcitationDeivceMatrix(double t) {
@@ -96,7 +95,6 @@ void Solver_EulerBackward::processSetZeroABE() {
 	E.setZero();
 }
 
-
 void Solver_EulerBackward::processJacobianAndF(const Eigen::VectorXd x_pr, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, double t1, double t2) {
 	processSetZero();//每个牛顿迭代之前先把矩阵清零
 	Solver::processTimeVariantDeviceMatrix(MyCircuit_, x_pr);
@@ -125,23 +123,6 @@ void Solver_EulerBackward::solve(BaseNewton* MyNewton) {
         //saveCircuitVars();
 		Solver::x_result_vec_.push_back(Solver::x);
     }
-}
-
-void Solver_EulerBackward::Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2)
-{
-	//int Max_Iteration_times = 1000;
-	//double Convergence_limit = 0.0001;
-
-	//for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
-	//{
-	//	processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
-	//	x_Newton = x_Newton - Jacobian.inverse() * F_x0;
-	//	//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
-	//	if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {
-	//		//cout << "Convergent Already! F_x0 = " << endl << F_x0 << endl;
-	//		break;
-	//	}
-	//}
 }
 
 Solver_EulerBackward::~Solver_EulerBackward() {

@@ -20,7 +20,5 @@ public:
 
 	void solve(BaseNewton* MyNewton);
 
-	void Perform_BaseNewton_solver(Eigen::VectorXd& x_Newton, double t1, double t2);
-
 };
 

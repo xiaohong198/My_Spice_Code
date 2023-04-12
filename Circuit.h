@@ -61,5 +61,6 @@ public:
 	~Circuit();
 	//得到vector <Device*> f和deviceCount
 	void Read_Inputfile();
+	void Read_InputIni();
 };
 
