@@ -19,6 +19,7 @@ class Simulator
 private:
 	Configuration* MyConfig;
 	Circuit* MyCircuit;
+	Solver* BaseSolver;
 	Solver* MySolver;
 	BaseNewton* MyNewton;
 public:

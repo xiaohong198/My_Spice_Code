@@ -5,14 +5,14 @@ BaseNewton::BaseNewton(Solver* MySolver) {
 	Convergence_limit = 1.0e-9;//1.0e-4
 }
 
-void BaseNewton::Perform_BaseNewton(Eigen::VectorXd& x_Newton, double t1, double t2) {
+void BaseNewton::Perform_BaseNewton(Eigen::VectorXd& x_Newton, int index) {
 	int Iteration_times = 0;
 	int size = MySolver_->getSize();
 	Eigen::MatrixXd Jacobian = Eigen::MatrixXd::Zero(size, size);
 	Eigen::VectorXd F_x0 = Eigen::VectorXd::Zero(size);
 	for (int Iteration_times = 0; Iteration_times < Max_Iteration_times; Iteration_times++)
 	{
-		MySolver_->processJacobianAndF(x_Newton, Jacobian, F_x0, t1, t2);
+		MySolver_->processJacobianAndF(x_Newton, Jacobian, F_x0, index);
 		x_Newton = x_Newton - Jacobian.inverse() * F_x0;
 		//cout << "Every Iteration x_Newton = " << endl << x_Newton << endl;
 		if (((F_x0.cwiseAbs()).maxCoeff() <= Convergence_limit ? true : false)) {

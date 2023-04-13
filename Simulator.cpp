@@ -4,7 +4,7 @@ Simulator::Simulator() {
 	MyConfig = new Configuration();
 	MyCircuit = new Circuit();
 	MyConfig->Set_Configuration();
-	
+
 	TimeDiscretization return_time = MyConfig->Get_TimeDiscretization();
 	switch (return_time)
 	{

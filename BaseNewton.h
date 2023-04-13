@@ -15,7 +15,7 @@ public:
 	BaseNewton(Solver*);
 	~BaseNewton();
 
-	void Perform_BaseNewton(Eigen::VectorXd& x_Newton, double t1, double t2);
+	void Perform_BaseNewton(Eigen::VectorXd& x_Newton, int);
 	bool Check_Convergence(Configuration*, Circuit*, Solver*, Eigen::VectorXd& F_x0);
 };
 
