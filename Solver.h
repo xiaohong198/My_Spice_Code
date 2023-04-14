@@ -9,13 +9,13 @@
 #include <stdio.h>
 #include "Circuit.h"
 #include "Configuration.h"
-#include "BaseNewton.h"
+#include "Newton.h"
 
 using namespace std;
 
 class Configuration;
 class Circuit;
-class BaseNewton;
+class Newton;
 
 class Resistor;
 class Diode;
@@ -74,17 +74,13 @@ protected:
 	//Eigen::VectorXd E_integral;
 	//Eigen::VectorXd E_integral_mid;
 
-
-
-
 	//Eigen::VectorXd F;
 	//Eigen::MatrixXd Jacobian;
 
 	Eigen::VectorXd x;
+	
 
-	//Eigen::MatrixXd Jacobian;
-	//Eigen::VectorXd F_x0;
-	//Eigen::VectorXd x_Newton;
+
 	double dt_;
 	double t_end_;
 	Configuration* MyConfig_;
@@ -93,26 +89,26 @@ protected:
 public:
 	vector<Eigen::VectorXd> x_result_vec_;
 
+	Eigen::MatrixXd Jacobian;
+	Eigen::VectorXd F_x0;
+	Eigen::VectorXd x_Newton;
 
 public:
 	Solver(Configuration*, Circuit*);
 	~Solver();
-
-	virtual void processTimeInvariantDeviceMatrix(Circuit*);
-	virtual void processTimeVariantDeviceMatrix(Circuit*, const Eigen::VectorXd& x_pr);
-
-	virtual void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F,int) = 0;
-
-	virtual void solve(BaseNewton* MyNewton) =0;
-
-	virtual void saveCircuitVars();
-
-	virtual int getSize();
-
 	virtual void processSetZero();
 	virtual void processSetZeroABE();
 	virtual void processGroundedNodeEqu();
 	virtual void processExcitationDeivceMatrix(int);
+	virtual void processTimeInvariantDeviceMatrix();
+	virtual void processTimeVariantDeviceMatrix();
+
+	virtual void processJacobianAndF() = 0;
+
+	virtual void solve(Newton* MyNewton) =0;
+
+	virtual void saveCircuitVars();
+
 
 
 };

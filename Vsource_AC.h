@@ -12,5 +12,9 @@ public:
 
 	double setIntegration(double, double);
 	void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double);
+private:
+	int PeakAmplitude;
+	int Frequency;
+	int PhaseShift;
 };
 

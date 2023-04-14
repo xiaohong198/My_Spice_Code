@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseNewton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Capacitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,11 +102,14 @@
     <ClCompile Include="SpiceMosLevel1Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BasicNewton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Newton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseNewton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Capacitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -194,9 +194,16 @@
     <ClInclude Include="TimeInvariantDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BasicNewton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Newton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

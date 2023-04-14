@@ -7,9 +7,10 @@ public:
 	Solver_TR(Configuration*, Circuit*);
 	~Solver_TR();
 
-	void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, int);
-
-	void solve(BaseNewton* MyNewton);
+private:
+	void processJacobianAndF();
+	void solve(Newton* MyNewton);
+	int index;
 
 };
 

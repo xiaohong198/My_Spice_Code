@@ -17,7 +17,7 @@ Simulator::Simulator() {
 	default:
 		break;
 	}
-	MyNewton = new BaseNewton(MySolver);
+	MyNewton = new BasicNewton(MySolver);
 }
 
 void Simulator::Run() {

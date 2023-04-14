@@ -11,11 +11,13 @@ private:
 
 public:
 	Configuration();
-	void Set_Configuration();
+	~Configuration();
+
 	double Get_dt();
 	double Get_t_end();
 	TimeDiscretization Get_TimeDiscretization();
 
-	~Configuration();
+private:
+	void Set_Configuration();
 };
 

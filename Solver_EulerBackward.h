@@ -8,9 +8,10 @@ public:
 	Solver_EulerBackward(Configuration*, Circuit*);
 	~Solver_EulerBackward();
 
-	void processJacobianAndF(const Eigen::VectorXd, Eigen::MatrixXd& Jacobian, Eigen::VectorXd& F, int);
-
-	void solve(BaseNewton* MyNewton);
+private:
+	void processJacobianAndF();
+	void solve(Newton* MyNewton);
+	int index;
 
 };
 

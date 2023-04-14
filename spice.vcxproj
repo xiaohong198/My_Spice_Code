@@ -135,7 +135,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseNewton.cpp" />
+    <ClCompile Include="BasicNewton.cpp" />
     <ClCompile Include="Capacitor.cpp" />
     <ClCompile Include="Circuit.cpp" />
     <ClCompile Include="Configuration.cpp" />
@@ -147,6 +147,7 @@
     <ClCompile Include="Jsource_DC.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MOA.cpp" />
+    <ClCompile Include="Newton.cpp" />
     <ClCompile Include="PWLVoltageSource.cpp" />
     <ClCompile Include="Resistor.cpp" />
     <ClCompile Include="Simulator.cpp" />
@@ -167,7 +168,7 @@
     <ClCompile Include="Vsource_DC.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseNewton.h" />
+    <ClInclude Include="BasicNewton.h" />
     <ClInclude Include="Capacitor.h" />
     <ClInclude Include="Circuit.h" />
     <ClInclude Include="Configuration.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Jsource_AC.h" />
     <ClInclude Include="Jsource_DC.h" />
     <ClInclude Include="MOA.h" />
+    <ClInclude Include="Newton.h" />
     <ClInclude Include="PWLVoltageSource.h" />
     <ClInclude Include="Resistor.h" />
     <ClInclude Include="Simulator.h" />
@@ -199,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
