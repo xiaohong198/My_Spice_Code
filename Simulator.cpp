@@ -18,12 +18,13 @@ Simulator::Simulator() {
 		break;
 	}
 	MyNewton = new BasicNewton(MySolver);
+	MySolver->MyNewton = MyNewton;
 }
 
 void Simulator::Run() {
 	//auto start = std::chrono::steady_clock::now();
 
-	MySolver->solve(MyNewton);
+	MySolver->solve();
 
 	//auto end = std::chrono::steady_clock::now();
 

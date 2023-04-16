@@ -21,7 +21,7 @@ void Solver_TR::processJacobianAndF() {
     Jacobian = (t2 - t1) / 2 * A + B + (t2 - t1) / 2 * P_Jacobian + Q_Jacobian;
 }
 
-void Solver_TR::solve(Newton* MyNewton) {
+void Solver_TR::solve() {
     for (index = 0; index < t_end_ / dt_; index++) {
 
 		MyNewton->Perform_BaseNewton();

@@ -18,17 +18,33 @@
 #include "SpiceMosfet.h"
 #include "SpiceMosLevel1Test.h"
 #include "SpiceDiode.h"
+#include "tinyxml.h" 
+#include <iostream>
+#include <vector>
+#include <map>  
+#include "Struct.h"
 
 using namespace std;
 
-struct DeviceInfoStr
-{
-	char deviceType;
-	int  deviceIndexPerClass;
-	int  xCount;//未知量的个数
-	vector<int> xIndex;//未知量的位置
-	int  additionalxCount;//额外变量的个数
-};
+//struct DeviceInfoStr
+//{
+//	char deviceType;
+//	int  deviceIndexPerClass;
+//	int  xCount;//未知量的个数
+//	vector<int> xIndex;//未知量的位置
+//	int  additionalxCount;//额外变量的个数
+//};
+//
+////输入xml参数结构体
+//struct InputDataStr
+//{
+//	string InstanceName;//自定义名称
+//	string  PSET;//类名
+//	vector<double>  EelectrodesVec;//electrode数值
+//	map<string,double> ParametersMap;//参数名称及数值
+//	bool IsSpecial;//是否是特殊类
+//	double MaxElectrode;//特殊类的最大数值
+//};
 
 
 class Device;
@@ -55,6 +71,14 @@ protected:
 	vector <DeviceInfoStr> vecTimeInvariantDeviceInfo;
 	vector <DeviceInfoStr> vecTimeVariantDeviceInfo;
 	vector <DeviceInfoStr> vecExcitationDeviceInfo;
+
+	vector<string> SpecialClassNameVec;// 特殊类
+	vector<InputDataStr&> SpecialClassVec;// 特殊类
+	vector<InputDataStr> InputDataStrSVec;// 特殊类
+	
+
+	double max_electrode;
+
 
 public:
 	Circuit();

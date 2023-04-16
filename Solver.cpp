@@ -107,6 +107,7 @@ void Solver::processExcitationDeivceMatrix(int _index) {
 
 		Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);;
 		Eigen::VectorXd subE = Eigen::VectorXd::Zero(xCountTemp);
+		
 		string child_name = typeid(*this).name();
 		if (child_name == "class Solver_TR")
 		{
@@ -116,7 +117,6 @@ void Solver::processExcitationDeivceMatrix(int _index) {
 		{
 			MyCircuit_->vecExcitationDevice[m]->getExcitationSubMatrix(subA, subE, t2);
 		}
-		
 
 		for (int i = 0; i < xCountTemp; i++) {
 			E(index[i]) += subE(i);
@@ -146,7 +146,6 @@ void Solver::processTimeInvariantDeviceMatrix() {
                 B(row_num, col_num) += subB(i,j);
             }
         }
-        //cout << "A=" << endl << A << endl;
     }
 }
 
@@ -155,6 +154,7 @@ void Solver::processTimeVariantDeviceMatrix() {
 		DeviceInfoStr current_info = MyCircuit_->vecTimeVariantDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
         int xCountTemp = current_info.xCount;
+
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
@@ -162,10 +162,11 @@ void Solver::processTimeVariantDeviceMatrix() {
         Eigen::VectorXd subP = Eigen::VectorXd::Zero(xCountTemp);
         Eigen::VectorXd subQ = Eigen::VectorXd::Zero(xCountTemp);
         Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
+
         for (int i = 0; i < xCountTemp; i++) {
             nodeValue(i) = x_Newton(index[i]);
         }
-        //cout << "nodeValue = " << endl << nodeValue << endl;
+
 		MyCircuit_->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subB, subP, subPJacobian, subQ, subQJacobian);
         for (int i = 0; i < xCountTemp; i++) {
 			int index_current = index[i];
@@ -179,7 +180,6 @@ void Solver::processTimeVariantDeviceMatrix() {
                 Q_Jacobian(index_current, index_current_j) += subQJacobian(i, j);
             }
         }
-        //cout << "A=" << endl << A << endl;
     }
 }
 

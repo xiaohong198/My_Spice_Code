@@ -15,7 +15,7 @@ void Solver_EulerBackward::processJacobianAndF() {
     Jacobian = A + B / dt_ + P_Jacobian + Q_Jacobian / dt_;
 }
 
-void Solver_EulerBackward::solve(Newton* MyNewton) {
+void Solver_EulerBackward::solve() {
     for (index = 0; index < t_end_ / dt_; index++) {
 		A = A_mid;	B = B_mid;	E = E_mid;
 		Solver::processExcitationDeivceMatrix(index);//ExcitationDeivce其实只用在每个时步填

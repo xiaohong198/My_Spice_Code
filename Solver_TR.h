@@ -9,7 +9,7 @@ public:
 
 private:
 	void processJacobianAndF();
-	void solve(Newton* MyNewton);
+	void solve();
 	int index;
 
 };

@@ -7,9 +7,10 @@
 #define byte my_byte
 #include <windows.h>
 
+
 using namespace std;
 Circuit::Circuit() {
-	//Read_InputIni();
+	Read_InputIni();
     //Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
@@ -451,11 +452,151 @@ void Circuit::Read_InputIni()
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
-	string outputPath = output_dir_Path + "/Input_Circuit_Diode_level.ini";
+	string outputPath = output_dir_Path + "/input.xml";
+	
+	//string outputPath = output_dir_Path + "/Input_Circuit_Diode_level.ini";
+	//string value;
+	//GetPrivateProfileStringA("section", "key", "default_value", &value[0], 256, "test.ini");
+	//std::cout << "value:" << value.c_str() << std::endl;
 
-	string value;
-	GetPrivateProfileStringA("section", "key", "default_value", &value[0], 256, "test.ini");
-	std::cout << "value:" << value.c_str() << std::endl;
+	max_electrode = 0;
+
+
+	TiXmlDocument doc(outputPath.c_str());
+	bool loadOkay = doc.LoadFile();
+	if (!loadOkay) {
+		printf("Could not load test file %s. Error='%s'. Exiting.\n", outputPath, doc.ErrorDesc());
+	}
+	TiXmlElement* root = doc.RootElement();
+	//特殊类
+	TiXmlNode*  SpecialClass = root->FirstChild("SpecialClass");
+	for (TiXmlNode* item = SpecialClass->FirstChild();
+		item;
+		item = item->NextSibling()) 
+	{
+		const char* name = item->ToElement()->GetText();
+		if (!name) 
+		{
+			cout << "Input Data Is False!" << endl;
+			return;
+		}
+
+		SpecialClassNameVec.push_back(name);
+	}
+
+
+	//写入数据
+	for (TiXmlNode* item = root->FirstChild("INSTANCE");
+		item;
+		item = item->NextSibling())
+	{
+		InputDataStr input_str;
+
+		TiXmlNode*  NAME = item->FirstChild("NAME");
+		const char* instance_name = NAME->ToElement()->GetText();
+		if (!instance_name)
+		{
+			cout << "Input Data Is False!" << endl;
+			return;
+		}
+		input_str.InstanceName = instance_name;
+
+		TiXmlNode*  PSET = item->FirstChild("PSET");
+		const char* pest_name = PSET->ToElement()->GetText();
+		if (!pest_name)
+		{
+			cout << "Input Data Is False!" << endl;
+			return;
+		}
+		input_str.PSET = pest_name;
+
+		//判断特殊类
+		vector<string>::iterator it = find(SpecialClassNameVec.begin(), SpecialClassNameVec.end(), pest_name);
+		if (it != SpecialClassNameVec.end())
+		{
+			input_str.IsSpecial = true;
+		}
+		else
+		{
+			input_str.IsSpecial = false;
+		}
+
+
+		TiXmlNode*  ELECTRODES = item->FirstChild("ELECTRODES");
+		for (TiXmlNode* electrode = ELECTRODES->FirstChild();
+			electrode;
+			electrode = electrode->NextSibling())
+		{
+			const char* electrode_value = electrode->ToElement()->GetText();
+			if (!electrode_value)
+			{
+				cout << "Input Data Is False!" << endl;
+				return;
+			}
+			input_str.EelectrodesVec.push_back(atof(electrode_value));
+
+			//特殊类，记录最大值和结构体
+			if (input_str.IsSpecial)
+			{
+				SpecialClassVec.push_back(input_str);
+				if (atof(electrode_value) > max_electrode)
+				{
+					max_electrode = atof(electrode_value);
+				}
+			}
+		}
+
+		TiXmlNode*  PARAMETERS = item->FirstChild("PARAMETERS");
+		for (TiXmlNode*  PARAMETER = PARAMETERS->FirstChild("PARAMETER");
+			PARAMETER;
+			PARAMETER = PARAMETER->NextSibling())
+		{
+			TiXmlNode*  PARAMETER_name = PARAMETER->FirstChild("name");
+			const char* parameter_name = PARAMETER_name->ToElement()->GetText();
+			if (!parameter_name)
+			{
+				cout << "Input Data Is False!" << endl;
+				return;
+			}
+			TiXmlNode*  PARAMETER_value = PARAMETER->FirstChild("value");
+			const char* parameter_value = PARAMETER_value->ToElement()->GetText();
+			if (!parameter_value)
+			{
+				cout << "Input Data Is False!" << endl;
+				return;
+			}
+			input_str.ParametersMap.insert({ parameter_name, atof(parameter_value) });
+		}
+
+		InputDataStrSVec.push_back(input_str);
+	}
+	//处理特殊类
+
+
+
+	//______________________________________________________________________  
+
+
+	//______________________________________________________________________  
+	// Add information to xml file and save it.  
+	//TiXmlElement* writeRoot = doc.RootElement();
+	//TiXmlNode* newNode = new TiXmlElement("item");
+
+	//const TiXmlNode* name4NewNode = new TiXmlElement("name");
+	//newNode->InsertEndChild(*name4NewNode)->InsertEndChild(TiXmlText("pipi"));
+
+	//const TiXmlNode* addr4NewNode = new TiXmlElement("addr");
+	//newNode->InsertEndChild(*addr4NewNode)->InsertEndChild(TiXmlText("Shaanxi Xianyang"));
+
+	//const TiXmlNode* tel4NewNode = new TiXmlElement("tel");
+	//newNode->InsertEndChild(*tel4NewNode)->InsertEndChild(TiXmlText("02937310627"));
+
+	//const TiXmlNode* email4NewNode = new TiXmlElement("email");
+	//newNode->InsertEndChild(*email4NewNode)->InsertEndChild(TiXmlText("pipi@home.com"));
+
+	//writeRoot->InsertEndChild(*newNode);
+	//doc.SaveFile();
+
 
 }
 

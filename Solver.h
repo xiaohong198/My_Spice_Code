@@ -87,6 +87,8 @@ protected:
 	Circuit*  MyCircuit_;
 
 public:
+	Newton* MyNewton;
+
 	vector<Eigen::VectorXd> x_result_vec_;
 
 	Eigen::MatrixXd Jacobian;
@@ -105,7 +107,7 @@ public:
 
 	virtual void processJacobianAndF() = 0;
 
-	virtual void solve(Newton* MyNewton) =0;
+	virtual void solve() =0;
 
 	virtual void saveCircuitVars();
 
