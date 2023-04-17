@@ -73,7 +73,7 @@ protected:
 	vector <DeviceInfoStr> vecExcitationDeviceInfo;
 
 	vector<string> SpecialClassNameVec;// 特殊类
-	vector<InputDataStr&> SpecialClassVec;// 特殊类
+	vector<InputDataStr*> SpecialClassVec;// 特殊类
 	vector<InputDataStr> InputDataStrSVec;// 特殊类
 	
 
@@ -85,6 +85,6 @@ public:
 	~Circuit();
 	//得到vector <Device*> f和deviceCount
 	void Read_Inputfile();
-	void Read_InputIni();
+	void Read_InputXML();
 };
 

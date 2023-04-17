@@ -25,9 +25,9 @@ void Solver_TR::solve() {
     for (index = 0; index < t_end_ / dt_; index++) {
 
 		MyNewton->Perform_BaseNewton();
-		x = x_Newton;
+
         Q_last = Q;
         P_last = P;
-		Solver::x_result_vec_.push_back(x);
+		Solver::x_result_vec_.push_back(x_Newton);
 	}
 }

@@ -10,7 +10,7 @@
 
 using namespace std;
 Circuit::Circuit() {
-	Read_InputIni();
+	Read_InputXML();
     //Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
@@ -447,7 +447,7 @@ Circuit::Circuit() {
     //cout << endl;
 }
 
-void Circuit::Read_InputIni()
+void Circuit::Read_InputXML()
 {
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
@@ -538,7 +538,7 @@ void Circuit::Read_InputIni()
 			//特殊类，记录最大值和结构体
 			if (input_str.IsSpecial)
 			{
-				SpecialClassVec.push_back(input_str);
+				SpecialClassVec.push_back(&input_str);
 				if (atof(electrode_value) > max_electrode)
 				{
 					max_electrode = atof(electrode_value);
