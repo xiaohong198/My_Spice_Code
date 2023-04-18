@@ -1,7 +1,7 @@
 #pragma once
-#include "TimeInvariantDevice.h"
+#include "Device.h"
 
-class Resistor :public TimeInvariantDevice
+class Resistor :public Device
 {
 private:
 	double resistance;

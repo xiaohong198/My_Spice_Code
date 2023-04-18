@@ -2,7 +2,7 @@
 #include <cmath>
 #include "Simulator.h"
 #include <chrono>
-#include <adolc/adolc.h>
+//#include <adolc/adolc.h>
 //#include <adolc/adouble.h>
 //#include <adolc/taping.h>
 //#include <stdio.h>

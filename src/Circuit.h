@@ -17,12 +17,13 @@
 #include "SurgeArrester.h"
 #include "SpiceMosfet.h"
 #include "SpiceMosLevel1Test.h"
-#include "SpiceDiode.h"
-#include "tinyxml.h" 
+#include "SpiceDiode.h" 
 #include <iostream>
 #include <vector>
 #include <map>  
 #include "Struct.h"
+
+#include <tinyxml.h>
 
 using namespace std;
 
@@ -86,5 +87,6 @@ public:
 	//得到vector <Device*> f和deviceCount
 	void Read_Inputfile();
 	void Read_InputXML();
+	void Read_InputTXT();
 };
 

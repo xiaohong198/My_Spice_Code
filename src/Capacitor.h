@@ -1,18 +1,16 @@
 #pragma once
 #include "Solver.h"
-#include "TimeInvariantDevice.h"
+#include "Device.h"
 class Solver;
-class Inductor :public TimeInvariantDevice
+class Capacitor :public Device
 {
 private:
-	double Inductance;
+	double capacitance;
 public:
-	Inductor();
-	~Inductor();
+	Capacitor();
+	~Capacitor();
 
 	void setConstValue(double);
 	void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
 };
-
-
 

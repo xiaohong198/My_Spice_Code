@@ -1,7 +1,7 @@
 #pragma once
-#include "TimeVariantDevice.h"
+#include "Device.h"
 
-class TabulatedIVCurveDevice :public TimeVariantDevice
+class TabulatedIVCurveDevice :public Device
 {
 protected:
 	int IVCount;

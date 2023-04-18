@@ -65,9 +65,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\tinyxml\;$(SolutionDir)\include\spice</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -87,6 +99,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,7 +110,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\tinyxml\;$(SolutionDir)\include\spice</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -109,11 +124,14 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\tinyxml\;$(SolutionDir)\include\spice</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -122,10 +140,15 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib\</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\tinyxml\;$(SolutionDir)\include\spice</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -134,85 +157,77 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
     </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib\</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BasicNewton.cpp" />
-    <ClCompile Include="Capacitor.cpp" />
-    <ClCompile Include="Circuit.cpp" />
-    <ClCompile Include="Configuration.cpp" />
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Diode.cpp" />
-    <ClCompile Include="ExcitationDevice.cpp" />
-    <ClCompile Include="Inductor.cpp" />
-    <ClCompile Include="Jsource_AC.cpp" />
-    <ClCompile Include="Jsource_DC.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MOA.cpp" />
-    <ClCompile Include="Newton.cpp" />
-    <ClCompile Include="PWLVoltageSource.cpp" />
-    <ClCompile Include="Resistor.cpp" />
-    <ClCompile Include="Simulator.cpp" />
-    <ClCompile Include="Solver.cpp" />
-    <ClCompile Include="Solver_EulerBackward.cpp" />
-    <ClCompile Include="Solver_SDC.cpp" />
-    <ClCompile Include="Solver_TR.cpp" />
-    <ClCompile Include="SpiceDevice.cpp" />
-    <ClCompile Include="SpiceDiode.cpp" />
-    <ClCompile Include="SpiceMosfet.cpp" />
-    <ClCompile Include="SpiceMosLevel1Test.cpp" />
-    <ClCompile Include="structDeviceInfo.cpp" />
-    <ClCompile Include="SurgeArrester.cpp" />
-    <ClCompile Include="TabulatedIVCurveDevice.cpp" />
-    <ClCompile Include="TimeInvariantDevice.cpp" />
-    <ClCompile Include="TimeVariantDevice.cpp" />
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
-    <ClCompile Include="Vsource_AC.cpp" />
-    <ClCompile Include="Vsource_DC.cpp" />
+    <None Include="src\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicNewton.h" />
-    <ClInclude Include="Capacitor.h" />
-    <ClInclude Include="Circuit.h" />
-    <ClInclude Include="Configuration.h" />
-    <ClInclude Include="Device.h" />
-    <ClInclude Include="Diode.h" />
-    <ClInclude Include="ExcitationDevice.h" />
-    <ClInclude Include="Inductor.h" />
-    <ClInclude Include="Jsource_AC.h" />
-    <ClInclude Include="Jsource_DC.h" />
-    <ClInclude Include="MOA.h" />
-    <ClInclude Include="Newton.h" />
-    <ClInclude Include="PWLVoltageSource.h" />
-    <ClInclude Include="Resistor.h" />
-    <ClInclude Include="Simulator.h" />
-    <ClInclude Include="Solver.h" />
-    <ClInclude Include="Solver_EulerBackward.h" />
-    <ClInclude Include="Solver_SDC.h" />
-    <ClInclude Include="Solver_TR.h" />
-    <ClInclude Include="SpiceDevice.h" />
-    <ClInclude Include="SpiceDiode.h" />
-    <ClInclude Include="SpiceMosfet.h" />
-    <ClInclude Include="SpiceMosLevel1Test.h" />
-    <ClInclude Include="structDeviceInfo.h" />
-    <ClInclude Include="SurgeArrester.h" />
-    <ClInclude Include="TabulatedIVCurveDevice.h" />
-    <ClInclude Include="TimeInvariantDevice.h" />
-    <ClInclude Include="TimeVariantDevice.h" />
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="tinyxml.h" />
-    <ClInclude Include="Vsource_AC.h" />
-    <ClInclude Include="Vsource_DC.h" />
+    <ClCompile Include="src\BasicNewton.cpp" />
+    <ClCompile Include="src\Capacitor.cpp" />
+    <ClCompile Include="src\Circuit.cpp" />
+    <ClCompile Include="src\Configuration.cpp" />
+    <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\Diode.cpp" />
+    <ClCompile Include="src\ExcitationDevice.cpp" />
+    <ClCompile Include="src\Inductor.cpp" />
+    <ClCompile Include="src\Jsource.cpp" />
+    <ClCompile Include="src\Jsource_AC.cpp" />
+    <ClCompile Include="src\Jsource_DC.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MOA.cpp" />
+    <ClCompile Include="src\Newton.cpp" />
+    <ClCompile Include="src\PWLVoltageSource.cpp" />
+    <ClCompile Include="src\Resistor.cpp" />
+    <ClCompile Include="src\Simulator.cpp" />
+    <ClCompile Include="src\Solver.cpp" />
+    <ClCompile Include="src\Solver_EulerBackward.cpp" />
+    <ClCompile Include="src\Solver_SDC.cpp" />
+    <ClCompile Include="src\Solver_TR.cpp" />
+    <ClCompile Include="src\SpiceDevice.cpp" />
+    <ClCompile Include="src\SpiceDiode.cpp" />
+    <ClCompile Include="src\SpiceMosfet.cpp" />
+    <ClCompile Include="src\SpiceMosLevel1Test.cpp" />
+    <ClCompile Include="src\structDeviceInfo.cpp" />
+    <ClCompile Include="src\SurgeArrester.cpp" />
+    <ClCompile Include="src\TabulatedIVCurveDevice.cpp" />
+    <ClCompile Include="src\Vsource_AC.cpp" />
+    <ClCompile Include="src\Vsource_DC.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
-    <None Include="ClassDiagram4.cd" />
-    <None Include="README.md" />
+    <ClInclude Include="src\BasicNewton.h" />
+    <ClInclude Include="src\Capacitor.h" />
+    <ClInclude Include="src\Circuit.h" />
+    <ClInclude Include="src\Configuration.h" />
+    <ClInclude Include="src\Device.h" />
+    <ClInclude Include="src\Diode.h" />
+    <ClInclude Include="src\ExcitationDevice.h" />
+    <ClInclude Include="src\Inductor.h" />
+    <ClInclude Include="src\Jsource.h" />
+    <ClInclude Include="src\Jsource_AC.h" />
+    <ClInclude Include="src\Jsource_DC.h" />
+    <ClInclude Include="src\MOA.h" />
+    <ClInclude Include="src\Newton.h" />
+    <ClInclude Include="src\PWLVoltageSource.h" />
+    <ClInclude Include="src\Resistor.h" />
+    <ClInclude Include="src\Simulator.h" />
+    <ClInclude Include="src\Solver.h" />
+    <ClInclude Include="src\Solver_EulerBackward.h" />
+    <ClInclude Include="src\Solver_SDC.h" />
+    <ClInclude Include="src\Solver_TR.h" />
+    <ClInclude Include="src\SpiceDevice.h" />
+    <ClInclude Include="src\SpiceDiode.h" />
+    <ClInclude Include="src\SpiceMosfet.h" />
+    <ClInclude Include="src\SpiceMosLevel1Test.h" />
+    <ClInclude Include="src\structDeviceInfo.h" />
+    <ClInclude Include="src\SurgeArrester.h" />
+    <ClInclude Include="src\TabulatedIVCurveDevice.h" />
+    <ClInclude Include="src\Vsource_AC.h" />
+    <ClInclude Include="src\Vsource_DC.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,213 +15,187 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Capacitor.cpp">
+    <None Include="src\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BasicNewton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Circuit.cpp">
+    <ClCompile Include="src\Capacitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Configuration.cpp">
+    <ClCompile Include="src\Circuit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Device.cpp">
+    <ClCompile Include="src\Configuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Diode.cpp">
+    <ClCompile Include="src\Device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExcitationDevice.cpp">
+    <ClCompile Include="src\Diode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Inductor.cpp">
+    <ClCompile Include="src\ExcitationDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\Inductor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MOA.cpp">
+    <ClCompile Include="src\Jsource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resistor.cpp">
+    <ClCompile Include="src\Jsource_AC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Simulator.cpp">
+    <ClCompile Include="src\Jsource_DC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Solver.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Solver_EulerBackward.cpp">
+    <ClCompile Include="src\MOA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Solver_SDC.cpp">
+    <ClCompile Include="src\Newton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Solver_TR.cpp">
+    <ClCompile Include="src\PWLVoltageSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpiceDevice.cpp">
+    <ClCompile Include="src\Resistor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpiceMosfet.cpp">
+    <ClCompile Include="src\Simulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="structDeviceInfo.cpp">
+    <ClCompile Include="src\Solver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SurgeArrester.cpp">
+    <ClCompile Include="src\Solver_EulerBackward.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TabulatedIVCurveDevice.cpp">
+    <ClCompile Include="src\Solver_SDC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimeInvariantDevice.cpp">
+    <ClCompile Include="src\Solver_TR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimeVariantDevice.cpp">
+    <ClCompile Include="src\SpiceDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vsource_AC.cpp">
+    <ClCompile Include="src\SpiceDiode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vsource_DC.cpp">
+    <ClCompile Include="src\SpiceMosfet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Jsource_AC.cpp">
+    <ClCompile Include="src\SpiceMosLevel1Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Jsource_DC.cpp">
+    <ClCompile Include="src\structDeviceInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PWLVoltageSource.cpp">
+    <ClCompile Include="src\SurgeArrester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpiceDiode.cpp">
+    <ClCompile Include="src\TabulatedIVCurveDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpiceMosLevel1Test.cpp">
+    <ClCompile Include="src\Vsource_AC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BasicNewton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Newton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinystr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlerror.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlparser.cpp">
+    <ClCompile Include="src\Vsource_DC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Capacitor.h">
+    <ClInclude Include="src\BasicNewton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Circuit.h">
+    <ClInclude Include="src\Capacitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Configuration.h">
+    <ClInclude Include="src\Circuit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Device.h">
+    <ClInclude Include="src\Configuration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Diode.h">
+    <ClInclude Include="src\Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExcitationDevice.h">
+    <ClInclude Include="src\Diode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Inductor.h">
+    <ClInclude Include="src\ExcitationDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MOA.h">
+    <ClInclude Include="src\Inductor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resistor.h">
+    <ClInclude Include="src\Jsource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Simulator.h">
+    <ClInclude Include="src\Jsource_AC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver.h">
+    <ClInclude Include="src\Jsource_DC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver_EulerBackward.h">
+    <ClInclude Include="src\MOA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver_SDC.h">
+    <ClInclude Include="src\Newton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solver_TR.h">
+    <ClInclude Include="src\PWLVoltageSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpiceDevice.h">
+    <ClInclude Include="src\Resistor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpiceMosfet.h">
+    <ClInclude Include="src\Simulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="structDeviceInfo.h">
+    <ClInclude Include="src\Solver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SurgeArrester.h">
+    <ClInclude Include="src\Solver_EulerBackward.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TabulatedIVCurveDevice.h">
+    <ClInclude Include="src\Solver_SDC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TimeVariantDevice.h">
+    <ClInclude Include="src\Solver_TR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vsource_AC.h">
+    <ClInclude Include="src\SpiceDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vsource_DC.h">
+    <ClInclude Include="src\SpiceDiode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Jsource_AC.h">
+    <ClInclude Include="src\SpiceMosfet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Jsource_DC.h">
+    <ClInclude Include="src\SpiceMosLevel1Test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PWLVoltageSource.h">
+    <ClInclude Include="src\structDeviceInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpiceDiode.h">
+    <ClInclude Include="src\SurgeArrester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpiceMosLevel1Test.h">
+    <ClInclude Include="src\TabulatedIVCurveDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TimeInvariantDevice.h">
+    <ClInclude Include="src\Vsource_AC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BasicNewton.h">
+    <ClInclude Include="src\Vsource_DC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Newton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tinystr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyxml.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

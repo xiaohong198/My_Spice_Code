@@ -10,7 +10,8 @@
 
 using namespace std;
 Circuit::Circuit() {
-	Read_InputXML();
+	Read_InputTXT();
+	//Read_InputXML();
     //Read_Inputfile();
 
 /*---------------单相全桥不控整流电路Rectifier---------------*/
@@ -447,6 +448,18 @@ Circuit::Circuit() {
     //cout << endl;
 }
 
+void Circuit::Read_InputTXT()
+{
+	// 获取当前路径
+	string path = _getcwd(NULL, 0);
+	string output_dir_Path = path + "/Config";
+	string outputPath = output_dir_Path + "/input.txt";
+
+	max_electrode = 0;
+
+
+}
+
 void Circuit::Read_InputXML()
 {
 	// 获取当前路径
@@ -468,6 +481,11 @@ void Circuit::Read_InputXML()
 		printf("Could not load test file %s. Error='%s'. Exiting.\n", outputPath, doc.ErrorDesc());
 	}
 	TiXmlElement* root = doc.RootElement();
+	if(!root)
+	{
+		printf("Path is falth");
+		return;
+	}
 	//特殊类
 	TiXmlNode*  SpecialClass = root->FirstChild("SpecialClass");
 	for (TiXmlNode* item = SpecialClass->FirstChild();
@@ -483,7 +501,6 @@ void Circuit::Read_InputXML()
 
 		SpecialClassNameVec.push_back(name);
 	}
-
 
 	//写入数据
 	for (TiXmlNode* item = root->FirstChild("INSTANCE");
@@ -520,7 +537,6 @@ void Circuit::Read_InputXML()
 		{
 			input_str.IsSpecial = false;
 		}
-
 
 		TiXmlNode*  ELECTRODES = item->FirstChild("ELECTRODES");
 		for (TiXmlNode* electrode = ELECTRODES->FirstChild();

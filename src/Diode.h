@@ -1,7 +1,7 @@
 #pragma once
-#include "TimeVariantDevice.h"
+#include "Device.h"
 
-class Diode :public TimeVariantDevice
+class Diode :public Device
 {
 private:
 	double Is;

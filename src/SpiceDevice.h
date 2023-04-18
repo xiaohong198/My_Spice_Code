@@ -1,7 +1,7 @@
 #pragma once
-#include "TimeVariantDevice.h"
+#include "Device.h"
 #include <cmath>
-class SpiceDevice: public TimeVariantDevice
+class SpiceDevice: public Device
 {
 protected://常数参数单独放一个文件比较好？
 	double q;//elementary charge on an electron
