@@ -24,6 +24,10 @@
 #include "Struct.h"
 
 #include <tinyxml.h>
+#include <iostream>
+#include <string>
+#include <boost/algorithm/string.hpp>
+
 
 using namespace std;
 
@@ -88,5 +92,7 @@ public:
 	void Read_Inputfile();
 	void Read_InputXML();
 	void Read_InputTXT();
+	void MySplit(string str, string delimiter, vector<string>&tokens);
+
 };
 

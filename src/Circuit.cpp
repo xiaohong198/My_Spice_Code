@@ -448,16 +448,161 @@ Circuit::Circuit() {
     //cout << endl;
 }
 
+void Circuit::MySplit(string str,string delimiter,vector<string>&tokens)
+{
+	size_t pos = 0;
+	string token;
+	while ((pos = str.find(delimiter)) != string::npos)
+	{
+		token = str.substr(0, pos);
+		tokens.push_back(token);
+		str.erase(0, pos + delimiter.length());
+	}
+	tokens.push_back(str);
+}
+
 void Circuit::Read_InputTXT()
 {
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
-	string outputPath = output_dir_Path + "/input.txt";
+	string outputPath = output_dir_Path + "/InputFile.txt";
 
 	max_electrode = 0;
 
+	//读取txt成一个string
+#if 0
+	std::ifstream in_txt(outputPath);
+	std::ostringstream tmp;
+	tmp << in_txt.rdbuf();
+	std::string str_txt = tmp.str();
+	std::vector<std::string> txt_result;
+	MySplit(str_txt, "INSTANCE", txt_result);
+#endif // 0
 
+	//特殊类
+	SpecialClassNameVec.push_back("Vsource_AC");
+	SpecialClassNameVec.push_back("Vsource_DC");
+	SpecialClassNameVec.push_back("Inductor");
+	SpecialClassNameVec.push_back("PWLVoltageSource");
+
+	InputDataStr input_data;
+	InputDataStr input_data_null;
+	ifstream in(outputPath);
+	bool is_value = false;
+	vector<InputDataStr> para;// 存储各字段
+	string line;
+
+	while (getline(in, line))
+	{
+		//开始
+		if (line.find("INSTANCE") != string::npos)
+		{
+			std::vector<std::string> txt_result;
+			MySplit(line, "INSTANCE", txt_result);
+			for (auto iter : txt_result)
+			{
+				if (iter!=" ")
+				{
+					input_data.InstanceName = iter;
+				}
+			}
+		}
+		else if (line.find("PSET") != string::npos)
+		{
+			std::vector<std::string> txt_result;
+			MySplit(line, "PSET", txt_result);
+			for (auto iter : txt_result)
+			{
+				if (iter != " ")
+				{
+					input_data.PSET = iter;
+					// 特殊类判断
+					vector<string>::iterator it = find(SpecialClassNameVec.begin(), SpecialClassNameVec.end(), iter);
+					if (it != SpecialClassNameVec.end())
+					{
+						input_data.IsSpecial = true;
+					}
+					else
+					{
+						input_data.IsSpecial = false;
+					}
+				}
+			}
+		}
+		else if (line.find("ELECTRODES") != string::npos)
+		{
+			std::vector<std::string> txt_result;
+			MySplit(line, "ELECTRODES", txt_result);
+			for (auto iter : txt_result)
+			{
+				if (iter != " ")
+				{
+					input_data.EelectrodesVec.push_back(atof(iter.c_str()));
+					//特殊类，记录最大值和结构体
+					if (input_data.IsSpecial)
+					{
+						SpecialClassVec.push_back(&input_data);
+						if (atof(iter.c_str()) > max_electrode)
+						{
+							max_electrode = atof(iter.c_str());
+						}
+					}
+
+				}
+			}
+		}
+		else if (line.find("PARAMETERS") != string::npos)
+		{
+			is_value = true;
+			std::vector<std::string> txt_result;
+			MySplit(line, "PARAMETERS", txt_result);
+			for (auto iter : txt_result)
+			{
+				if (iter != " ")
+				{
+					input_data.EelectrodesVec.push_back(atof(iter.c_str()));
+				}
+			}
+		}
+		// 填值
+		else if (is_value)
+		{
+			if (line.find("=") != string::npos)
+			{
+				std::vector<std::string> txt_result;
+				MySplit(line, "=", txt_result);
+				for (auto iter : txt_result)
+				{
+					if (iter != " ")
+					{
+						string parameter_name;
+						string parameter_value;
+						if (iter != " ")
+						{
+							parameter_name;
+						}
+						else if (iter != " ")
+						{
+							parameter_value;
+						}
+						input_data.ParametersMap.insert({ parameter_name, atof(parameter_value.c_str()) });
+
+					}
+				}
+			}
+		}
+		//结束
+		else if (line.find("END INSTANCE") != string::npos)
+		{
+			is_value = false;
+			para.push_back(input_data);
+			input_data = input_data_null;
+			continue;
+		}
+	}
+	in.close();
+	return;
 }
 
 void Circuit::Read_InputXML()

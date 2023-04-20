@@ -97,6 +97,7 @@ void Solver::processSetZeroABE() {
 	E.setZero();
 }
 
+#if 0
 void Solver::processExcitationDeivceMatrix(int _index) {
 	double t1 = _index * dt_;
 	double t2 = (_index + 1) * dt_;
@@ -107,7 +108,7 @@ void Solver::processExcitationDeivceMatrix(int _index) {
 
 		Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);;
 		Eigen::VectorXd subE = Eigen::VectorXd::Zero(xCountTemp);
-		
+
 		string child_name = typeid(*this).name();
 		if (child_name == "class Solver_TR")
 		{
@@ -126,6 +127,8 @@ void Solver::processExcitationDeivceMatrix(int _index) {
 		}
 	}
 }
+
+#endif // 0
 
 void Solver::processTimeInvariantDeviceMatrix() {
     for (int m = 0; m < MyCircuit_->vecTimeInvariantDevice.size(); m++) {

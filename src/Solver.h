@@ -101,13 +101,13 @@ public:
 	virtual void processSetZero();
 	virtual void processSetZeroABE();
 	virtual void processGroundedNodeEqu();
-	virtual void processExcitationDeivceMatrix(int);
+	virtual void processExcitationDeivceMatrix(int) = 0;
 	virtual void processTimeInvariantDeviceMatrix();
 	virtual void processTimeVariantDeviceMatrix();
 
 	virtual void processJacobianAndF() = 0;
 
-	virtual void solve() =0;
+	virtual void solve() = 0;
 
 	virtual void saveCircuitVars();
 

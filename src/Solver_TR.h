@@ -9,6 +9,7 @@ public:
 
 private:
 	void processJacobianAndF();
+	void processExcitationDeivceMatrix(int);
 	void solve();
 	int index;
 
