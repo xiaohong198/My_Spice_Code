@@ -25,6 +25,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 
 	E = Eigen::VectorXd::Zero(size);
 	E_mid = Eigen::VectorXd::Zero(size);
+	E_Integral = Eigen::VectorXd::Zero(size);
 
 	P = Eigen::VectorXd::Zero(size);
 	P_mid = Eigen::VectorXd::Zero(size);
@@ -37,6 +38,8 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 
 	Q_last = Eigen::VectorXd::Zero(size);
 	Q_last_mid = Eigen::VectorXd::Zero(size);
+
+	C = Eigen::MatrixXd::Zero(size, size);
 
 	//F = Eigen::VectorXd::Zero(size);
 
@@ -57,8 +60,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	for (int i = 0; i < size; i++) {
 		x(i) = 0;
 	}
-	//x(1) = 20;
-
+	x(1) = 20;
 	Solver::x_result_vec_.push_back(Solver::x);
 
 	//processSetZeroABE();
@@ -221,17 +223,14 @@ void Solver::processSetZero() {
 }
 
 void Solver::solve() {
-    Eigen::VectorXd x_Newton = x;//初始化
-    int N = t_end_ / dt_;
     processAandB();//A、B只填一次就不动了
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < t_end_ / dt_; i++) {
         double tList[2] = { i * dt_,(i + 1) * dt_ };
         E_Integral.setZero();
         processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循环
 		MyNewton_->Perform_BaseNewton();
-        x = x_Newton;
         Q_last = Q;
-        saveCircuitVars();
+		Solver::x_result_vec_.push_back(Solver::x_Newton);
     }
 }
 

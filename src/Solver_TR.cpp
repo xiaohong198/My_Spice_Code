@@ -1,34 +1,5 @@
 #include "Solver_TR.h"
 Solver_TR::Solver_TR(Configuration* MyConfig, Circuit* MyCircuit) :Solver(MyConfig, MyCircuit) {
-    size = MyCircuit->matrixDimension;
-    /*---------------------矩阵初始化---------------------*/
-    A = Eigen::MatrixXd::Zero(size, size);
-    B = Eigen::MatrixXd::Zero(size, size);
-    P_Jacobian = Eigen::MatrixXd::Zero(size, size);
-    Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
-    //    Jacobian = Eigen::MatrixXd::Zero(size, size);
-
-    E_integral = Eigen::VectorXd::Zero(size);
-    P = Eigen::VectorXd::Zero(size);
-    P_last = Eigen::VectorXd::Zero(size);
-    Q = Eigen::VectorXd::Zero(size);
-    Q_last = Eigen::VectorXd::Zero(size);
-    //    F = Eigen::VectorXd::Zero(size);
-
-    x = Eigen::VectorXd::Zero(size);
-    /*--------------------------------------------------*/
-    /*-----x的初值-----*/
-    //x(0) = 0;
-    //x(1) = 0;//19.4736
-    //x(2) = 20;
-    //x(3) = 0;//-1.94736
-    for (int i = 0; i < size; i++) {
-        x(i) = 0;
-    }
-    x(1) = 20;
-    std::ofstream out_circuit_vars("../spice0/CircuitVarsData/CircuitVars.txt", std::ios::trunc | std::ios::out);
-    out_circuit_vars.close();
-    saveCircuitVars();
 }
 Solver_TR::~Solver_TR() {
 

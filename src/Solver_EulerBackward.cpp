@@ -1,34 +1,5 @@
 #include "Solver_EulerBackward.h"
 Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyCircuit) :Solver(MyConfig, MyCircuit) {
-    size = MyCircuit->matrixDimension;
-    /*---------------------矩阵初始化---------------------*/
-    A = Eigen::MatrixXd::Zero(size, size);
-    B = Eigen::MatrixXd::Zero(size, size);
-    P_Jacobian = Eigen::MatrixXd::Zero(size, size);
-    Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
-    C = Eigen::MatrixXd::Zero(size, size);
-//    Jacobian = Eigen::MatrixXd::Zero(size, size);
-
-    E_Integral = Eigen::VectorXd::Zero(size);
-    P = Eigen::VectorXd::Zero(size);
-    Q = Eigen::VectorXd::Zero(size);
-    Q_last = Eigen::VectorXd::Zero(size);
-//    F = Eigen::VectorXd::Zero(size);
-
-    x = Eigen::VectorXd::Zero(size);
-    /*--------------------------------------------------*/
-    /*-----x的初值-----*/
-    //x(0) = 0;
-    //x(1) = 20;//19.4736
-    //x(2) = 0;
-    //x(3) = 0;//-1.94736
-    for (int i = 0; i < size; i++) {
-        x(i) = 0;
-    }
-    x(1) = 20;
-    std::ofstream out_circuit_vars("../spice0_V2/CircuitVarsData/CircuitVars.txt", std::ios::trunc | std::ios::out);
-    out_circuit_vars.close();
-    saveCircuitVars();
 }
 
 //void Solver_EulerBackward::processGroundedNodeEqu() {
