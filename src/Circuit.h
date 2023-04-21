@@ -69,8 +69,10 @@ protected:
 	int matrixDimension;
 
 	//vector <Device*> vecTimeInvariantDevice;
+	//vector <Device*> vecTimeVariantDevice;
+	//vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两类中
 	vector <Device*> vecTimeVariantDevice;
-	vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两类中
+	vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两	
 	vector <Device*> vecDevice;
 
 	//vector <structDeviceInfo*> vecDeviceInfo;
@@ -78,7 +80,17 @@ protected:
 	vector <DeviceInfoStr> vecTimeVariantDeviceInfo;
 	vector <DeviceInfoStr> vecExcitationDeviceInfo;
 	vector <DeviceInfoStr> vecDeviceInfo;
+	//vector <structDeviceInfo*> vecTimeInvariantDeviceInfo;
+	//vector <structDeviceInfo*> vecTimeVariantDeviceInfo;
+	//vector <structDeviceInfo*> vecExcitationDeviceInfo;
 
+
+	vector <int> vecDeviceForMatrixA;
+	vector <int> vecDeviceForMatrixB;
+	vector <int> vecDeviceForMatrixP;
+	vector <int> vecDeviceForMatrixQ;
+	vector <int> vecDeviceForMatrixC;
+	vector <int> vecDeviceForVectorE;
 
 	vector<string> SpecialClassNameVec;// 特殊类
 	vector<InputDataStr*> SpecialClassVec;// 特殊类
