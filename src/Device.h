@@ -9,14 +9,12 @@ public:
     Device();
     ~Device();
 
-    virtual double f(double);//只有ExcitationDevice和TimeVariantDevice会用到
-    virtual double G(double);//只有TimeVariantDevice会用到
     virtual void setConstValue(double);
-
-    virtual void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
-    virtual void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
-    virtual void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double);
-    virtual void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-
+    virtual void getSubA(Eigen::MatrixXd& subA);
+    virtual void getSubB(Eigen::MatrixXd& SubB);
+    virtual void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);//传入[t1]或者[t1,t2]
+    virtual void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
+    virtual void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
+    virtual void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);//Meyer电容
 };
 

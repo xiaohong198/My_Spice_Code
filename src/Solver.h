@@ -13,24 +13,24 @@
 
 using namespace std;
 
-class Configuration;
-class Circuit;
+//class Configuration;
+//class Circuit;
 class Newton;
 
-class Resistor;
-class Diode;
-class Vsource;
-class Capacitor;
-class Inductor;
+//class Resistor;
+//class Diode;
+//class Vsource;
+//class Capacitor;
+//class Inductor;
 
 class Solver
 {
-	friend Configuration;
-	friend Resistor;
-	friend Diode;
-	friend Vsource;
-	friend Capacitor;
-	friend Inductor;
+	//friend Configuration;
+	//friend Resistor;
+	//friend Diode;
+	//friend Vsource;
+	//friend Capacitor;
+	//friend Inductor;
 protected:
 	int size;//矩阵维度
 	/*
@@ -71,8 +71,10 @@ protected:
 
 	Eigen::VectorXd E;
 	Eigen::VectorXd E_mid;
-	//Eigen::VectorXd E_integral;
+	Eigen::VectorXd E_Integral;
 	//Eigen::VectorXd E_integral_mid;
+	Eigen::MatrixXd C;
+
 
 	//Eigen::VectorXd F;
 	//Eigen::MatrixXd Jacobian;
@@ -86,8 +88,10 @@ protected:
 	Configuration* MyConfig_;
 	Circuit*  MyCircuit_;
 
+
 public:
-	Newton* MyNewton;
+
+	Newton* MyNewton_;
 
 	vector<Eigen::VectorXd> x_result_vec_;
 
@@ -95,23 +99,25 @@ public:
 	Eigen::VectorXd F_x0;
 	Eigen::VectorXd x_Newton;
 
-public:
 	Solver(Configuration*, Circuit*);
 	~Solver();
-	virtual void processSetZero();
-	virtual void processSetZeroABE();
+
+	//virtual void processTimeInvariantDeviceMatrix(Circuit*);
+	//virtual void processTimeVariantDeviceMatrix(Circuit*, const Eigen::VectorXd& x_pr);
+	//virtual void processExcitationDeivceMatrix(Circuit*,double);
+	virtual void processAandB();
+	virtual void processEIntegral(double*);
+	virtual void processPandQandC();
+
 	virtual void processGroundedNodeEqu();
-	virtual void processExcitationDeivceMatrix(int) = 0;
-	virtual void processTimeInvariantDeviceMatrix();
-	virtual void processTimeVariantDeviceMatrix();
+	virtual void processSetZero();
 
 	virtual void processJacobianAndF() = 0;
 
-	virtual void solve() = 0;
+	virtual void solve();
 
 	virtual void saveCircuitVars();
 
-
-
+	virtual int getSize();
 };
 

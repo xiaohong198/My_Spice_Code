@@ -104,17 +104,13 @@ protected:
 	double Vsatmin;
 
 	//Calculation Needs
-	/*double Cgs;
-	double Cgd;
-	double Cgb;
-	double Cbd;
-	double Cbs;
-	double Vgs;
 	double Vgd;
-	double Vgb;
+	double Vgs;
 	double Vds;
-	double Vbs;*/
-
+	double Vbs;
+	double Vbd;
+	double Vgb;
+	double Von;
 public:
 	SpiceMosfet();
 	~SpiceMosfet();
@@ -124,8 +120,12 @@ public:
 	void GetJunctionCapacitance();
 	void SpecifyInitialCondition();//和Solver里的初值关联上
 
-	void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-
+	//void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
+	void getSubA(Eigen::MatrixXd& subA);
+	void getSubB(Eigen::MatrixXd& SubB);
+	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
+	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
+	void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);
 
 };
 

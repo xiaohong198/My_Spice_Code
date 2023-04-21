@@ -11,6 +11,7 @@ public:
 
 	void setConstValue(double);
 
-	void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
+	//void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
+	void getSubA(Eigen::MatrixXd& subA);
 };
 

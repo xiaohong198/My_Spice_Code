@@ -60,22 +60,25 @@ class Circuit
 	friend class Solver_EulerBackward;
 	friend class Solver_TR;
 protected:
-	int timeInvariantDeviceCount;
+	//int timeInvariantDeviceCount;
 	int timeVariantDeviceCount;
 	int excitationDeviceCount;
+	int DeviceCount;
 	int nodeCount;
 	int AdditaionalxCount;//未知量x中有多少个除节点电压以外的变量
 	int matrixDimension;
 
-	//vector <Device*> vecDevice;
-	vector <Device*> vecTimeInvariantDevice;
+	//vector <Device*> vecTimeInvariantDevice;
 	vector <Device*> vecTimeVariantDevice;
 	vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两类中
+	vector <Device*> vecDevice;
 
 	//vector <structDeviceInfo*> vecDeviceInfo;
 	vector <DeviceInfoStr> vecTimeInvariantDeviceInfo;
 	vector <DeviceInfoStr> vecTimeVariantDeviceInfo;
 	vector <DeviceInfoStr> vecExcitationDeviceInfo;
+	vector <DeviceInfoStr> vecDeviceInfo;
+
 
 	vector<string> SpecialClassNameVec;// 特殊类
 	vector<InputDataStr*> SpecialClassVec;// 特殊类
@@ -89,7 +92,10 @@ public:
 	Circuit();
 	~Circuit();
 	//得到vector <Device*> f和deviceCount
+#if 0
 	void Read_Inputfile();
+
+#endif // 0
 	void Read_InputXML();
 	void Read_InputTXT();
 	void MySplit(string str, string delimiter, vector<string>&tokens);

@@ -11,6 +11,7 @@ public:
 	~Capacitor();
 
 	void setConstValue(double);
-	void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
+	//void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
+	void getSubB(Eigen::MatrixXd& SubB);
 };
 

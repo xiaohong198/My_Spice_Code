@@ -73,17 +73,17 @@ double PWLVoltageSource::eFunction(double t) {
 
 }
 
-void PWLVoltageSource::getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t) {
-	subA.setZero();
-	subA(0, 2) = 1;
-	subA(1, 2) = -1;
-	subA(2, 0) = 1;
-	subA(2, 1) = -1;
-	subE.setZero();
-	subE(2) = eFunction(t);
-}
+//void PWLVoltageSource::getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t) {
+//	subA.setZero();
+//	subA(0, 2) = 1;
+//	subA(1, 2) = -1;
+//	subA(2, 0) = 1;
+//	subA(2, 1) = -1;
+//	subE.setZero();
+//	subE(2) = eFunction(t);
+//}
 
-double PWLVoltageSource::setIntegration(double t1, double t2) {
+double PWLVoltageSource::setIntegration(double* tList) {
 	//std::vector<double> sort_vec_t;
 	//sort_vec_t.push_back(t1);
 	//sort_vec_t.push_back(t2);
@@ -114,7 +114,8 @@ double PWLVoltageSource::setIntegration(double t1, double t2) {
 	//		PSLIntegral += PSLIntegral;
 	//	}
 	//}
-
+	double t1 = tList[0];
+	double t2 = tList[1];
 	double PSLIntegral = 0;
 	double vt1 = eFunction(t1);
 	double vt2 = eFunction(t2);
@@ -146,13 +147,26 @@ double PWLVoltageSource::setIntegration(double t1, double t2) {
 	return PSLIntegral;
 }
 
-void PWLVoltageSource::getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double t1, double t2) {
+//void PWLVoltageSource::getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double t1, double t2) {
+//	subA.setZero();
+//	subA(0, 2) = 1;
+//	subA(1, 2) = -1;
+//	subA(2, 0) = 1;
+//	subA(2, 1) = -1;
+//	subEIntegral.setZero();
+//	//subEIntegral(2) = setIntegration(t1, t2);
+//	subEIntegral(2) = (eFunction(t1) + eFunction(t2)) / 2 * (t2 - t1);
+//}
+
+void PWLVoltageSource::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
 	subA(0, 2) = 1;
 	subA(1, 2) = -1;
 	subA(2, 0) = 1;
 	subA(2, 1) = -1;
+}
+
+void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
 	subEIntegral.setZero();
-	//subEIntegral(2) = setIntegration(t1, t2);
-	subEIntegral(2) = (eFunction(t1) + eFunction(t2)) / 2 * (t2 - t1);
+	subEIntegral(2) = (eFunction(tList[0]) + eFunction(tList[1])) / 2 * (tList[1] - tList[0]);
 }

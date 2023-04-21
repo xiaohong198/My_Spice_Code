@@ -13,35 +13,6 @@ int main() {
 	/*-------------PWL 电源的测试-----------*/
 	//TestPWLSource();
 	/*----------------------------------------*/
-
-	//// 定义自变量 x 和 y
-	//double x, y;
-
-	//// 对 x 和 y 分别赋初值
-	//x = 2.0;
-	//y = 3.0;
-	//short i = 1;
-	//short j = 2;
-
-	//// 在 tape 上记录函数 f(x, y) = x^2 + y^3
-	//trace_on(1,0);
-	//double f = x * x + pow(y, 3.0);
-	//trace_off(0);
-
-	//// 计算 f 在 (x,y) = (2,3) 处的梯度
-	//double grad[2];
-	//double point[2] = { 2.0, 3.0 };
-	//gradient(i, j, point, grad);
-
-	//// 输出结果
-	//cout << "f = " << f << endl;
-	//cout << "grad_f = (" << grad[0] << ", " << grad[1] << ")" << endl;
-
-	//system("pause");
-	//return 0;
-
-
-
 	Simulator MySimulator;
 
 	auto start = std::chrono::steady_clock::now();
@@ -69,10 +40,11 @@ void TestPWLSource() {
 	double VInteg[1000] = { 0 };
 	PWLVoltageSource MyPWL;
 	for (int i = 0; i < 1000; i++) {
-		t = i * dt;
-		tplus = (i + 1) * dt;
+		double tList[2] = { i * dt ,(i + 1) * dt };
+		//t = i * dt;
+		//tplus = (i + 1) * dt;
 		Vout[i] = MyPWL.eFunction(t);
-		VInteg[i] = MyPWL.setIntegration(t, tplus);
+		VInteg[i] = MyPWL.setIntegration(tList);
 	}
 	std::ofstream Vout_vars("../spice0/CircuitVarsData/TestPWLVout.txt", std::ios::trunc | std::ios::out);
 //	std::ofstream Vout_vars("../spice0/CircuitVarsData/TestPWLVout.txt", std::ios::app);

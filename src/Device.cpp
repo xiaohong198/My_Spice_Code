@@ -5,33 +5,26 @@ using namespace std;
 Device::Device() {
 }
 
-double Device::f(double Vd) {
-    return Vd / 1;
-}
-
-double Device::G(double Vd) {
-    return 1;
+Device::~Device() {
 }
 
 void Device::setConstValue(double value) {
-
 }
 
-void Device::getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB) {
-
+void Device::getSubA(Eigen::MatrixXd& subA) {
 }
 
-void Device::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
-
+void Device::getSubB(Eigen::MatrixXd& SubB) {
 }
 
-void Device::getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t) {
-
+void Device::getSubEIntegral(Eigen::VectorXd& subE, double* tList) {
 }
 
-void Device::getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t1, double t2) {
-
+void Device::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian) {
 }
 
-Device::~Device() {
+void Device::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
+}
+
+void Device::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC) {
 }

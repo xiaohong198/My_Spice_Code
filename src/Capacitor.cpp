@@ -8,8 +8,8 @@ void Capacitor::setConstValue(double c) {
     capacitance = c;
 }
 
-void Capacitor::getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB) {
-    subA.setZero();
+void Capacitor::getSubB(Eigen::MatrixXd& subB) {
+    //subA.setZero();
     subB(0, 0) = capacitance;
     subB(0, 1) = -capacitance;
     subB(1, 0) = -capacitance;

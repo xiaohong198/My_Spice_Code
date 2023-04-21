@@ -1,7 +1,7 @@
 #pragma once
-#include "ExcitationDevice.h"
+#include "Device.h"
 
-class Vsource_DC:public ExcitationDevice
+class Vsource_DC:public Device
 {
 private:
 	double V_DC;
@@ -11,8 +11,10 @@ public:
 	void setConstValue(double);
 
 	double eFunction(double);
-	void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
-	double setIntegration(double, double);
-	void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double);
+	//void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
+	double setIntegration(double*);
+	//void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double);
+	void getSubA(Eigen::MatrixXd& subA);
+	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 };
 

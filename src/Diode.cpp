@@ -3,14 +3,19 @@
 #include <iostream>
 using namespace std;
 Diode::Diode() {
-	Is = 1.0e-12;
-	Vt = 0.026;
+	//Is = 1.0e-12;
+	//Vt = 0.026;
 	Ron = 0.001;
 	Vf = 0.8;
 }
 
 Diode::~Diode() {
 
+}
+
+void Diode::setConstValue(double ron, double vf) {
+	Ron = ron;
+	Vf = vf;
 }
 
 double Diode::f(double Vd) {
@@ -31,13 +36,8 @@ double Diode::G(double Vd) {
 		return 0;
 }
 
-//void Diode::setConstValue(double is, double vt) {
-//	Is = is;
-//	Vt = vt;
-//}
-
-void Diode::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
-	subA.setZero();
+void Diode::getsubP(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian) {
+	//subA.setZero();
 	double Vd = nodeValue(0) - nodeValue(1);
 	subP.setZero();
 	subP(0) = f(Vd);
@@ -48,6 +48,6 @@ void Diode::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::Mat
 	subPJacobian(0, 1) = -G(Vd);
 	subPJacobian(1, 0) = -G(Vd);
 	subPJacobian(1, 1) = G(Vd);
-	subQ.setZero();
-	subQJacobian.setZero();
+	//subQ.setZero();
+	//subQJacobian.setZero();
 }

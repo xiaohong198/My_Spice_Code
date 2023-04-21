@@ -124,17 +124,27 @@ double TabulatedIVCurveDevice::G(double V) {
 	return 1;
 	}
 }
-void TabulatedIVCurveDevice::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
-	subA.setZero();
+//void TabulatedIVCurveDevice::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
+//	subA.setZero();
+//	double V = nodeValue(0) - nodeValue(1);
+//	subP.setZero();
+//	subP(0) = f(V);
+//	subP(1) = -f(V);
+//	subPJacobian.setZero();
+//	subPJacobian(0, 0) = G(V);
+//	subPJacobian(0, 1) = -G(V);
+//	subPJacobian(1, 0) = -G(V);
+//	subPJacobian(1, 1) = G(V);
+//	subQ.setZero();
+//	subQJacobian.setZero();
+//}
+
+void TabulatedIVCurveDevice::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian) {
 	double V = nodeValue(0) - nodeValue(1);
-	subP.setZero();
 	subP(0) = f(V);
 	subP(1) = -f(V);
-	subPJacobian.setZero();
 	subPJacobian(0, 0) = G(V);
 	subPJacobian(0, 1) = -G(V);
 	subPJacobian(1, 0) = -G(V);
 	subPJacobian(1, 1) = G(V);
-	subQ.setZero();
-	subQJacobian.setZero();
 }
