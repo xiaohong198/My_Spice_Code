@@ -54,13 +54,16 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	x(1) = 20;
 	x_Newton = x;
 	Solver::x_result_vec_.push_back(Solver::x);
+
+	processAandB();//A、B只填一次就不动了
+
 }
 
 void Solver::processAandB() {//扫描所有器件
     for (int m = 0; m < MyCircuit_->vecDevice.size(); m++) {
 		DeviceInfoStr current_info = MyCircuit_->vecDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
-		int xCountTemp = current_info.xCount;
+		int xCountTemp = index.size();
 
         Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
@@ -82,8 +85,7 @@ void Solver::processEIntegral(double* tList) {
     for (int m = 0; m < MyCircuit_->vecExcitationDevice.size(); m++) {
 		DeviceInfoStr current_info = MyCircuit_->vecExcitationDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
-		int xCountTemp = current_info.xCount;
-
+		int xCountTemp = index.size();
         Eigen::VectorXd subEIntegral = Eigen::VectorXd::Zero(xCountTemp);
 		MyCircuit_->vecExcitationDevice[m]->getSubEIntegral(subEIntegral, tList);
         for (int i = 0; i < xCountTemp; i++) {
@@ -98,8 +100,7 @@ void Solver::processPandQandC() {//扫描TimeVariantDevice
     for (int m = 0; m < MyCircuit_->vecTimeVariantDevice.size(); m++) {
 		DeviceInfoStr current_info = MyCircuit_->vecTimeVariantDeviceInfo[m];
 		vector<int> index = current_info.xIndex;
-		int xCountTemp = current_info.xCount;
-
+		int xCountTemp = index.size();
         Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
         Eigen::MatrixXd subC = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
@@ -158,7 +159,6 @@ void Solver::processSetZero() {
 }
 
 void Solver::solve() {
-    processAandB();//A、B只填一次就不动了
 	int num_t = t_end_ / dt_;
     for (int i = 0; i < num_t; i++) {
         double tList[2] = { i * dt_,(i + 1) * dt_ };

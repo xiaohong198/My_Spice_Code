@@ -1,6 +1,4 @@
 #pragma once
-#include <fstream>
-#include <vector>
 #include "Device.h"
 #include "structDeviceInfo.h"
 #include "Resistor.h"
@@ -18,39 +16,11 @@
 #include "SpiceMosfet.h"
 #include "SpiceMosLevel1Test.h"
 #include "SpiceDiode.h" 
-#include <iostream>
-#include <vector>
-#include <map>  
-#include "Struct.h"
+#include "Input.h"
 
-#include <tinyxml.h>
-#include <iostream>
-#include <string>
-#include <boost/algorithm/string.hpp>
-
+//#include <boost/algorithm/string.hpp>
 
 using namespace std;
-
-//struct DeviceInfoStr
-//{
-//	char deviceType;
-//	int  deviceIndexPerClass;
-//	int  xCount;//未知量的个数
-//	vector<int> xIndex;//未知量的位置
-//	int  additionalxCount;//额外变量的个数
-//};
-//
-////输入xml参数结构体
-//struct InputDataStr
-//{
-//	string InstanceName;//自定义名称
-//	string  PSET;//类名
-//	vector<double>  EelectrodesVec;//electrode数值
-//	map<string,double> ParametersMap;//参数名称及数值
-//	bool IsSpecial;//是否是特殊类
-//	double MaxElectrode;//特殊类的最大数值
-//};
-
 
 class Device;
 class structDeviceInfo;
@@ -85,32 +55,26 @@ protected:
 	//vector <structDeviceInfo*> vecExcitationDeviceInfo;
 
 
-	vector <int> vecDeviceForMatrixA;
-	vector <int> vecDeviceForMatrixB;
-	vector <int> vecDeviceForMatrixP;
-	vector <int> vecDeviceForMatrixQ;
-	vector <int> vecDeviceForMatrixC;
-	vector <int> vecDeviceForVectorE;
-
-	vector<string> SpecialClassNameVec;// 特殊类
-	vector<InputDataStr*> SpecialClassVec;// 特殊类
-	vector<InputDataStr> InputDataStrSVec;// 特殊类
+	vector <DeviceInfoStr> vecDeviceForMatrixA;
+	vector <DeviceInfoStr> vecDeviceForMatrixB;
+	vector <DeviceInfoStr> vecDeviceForMatrixP;
+	vector <DeviceInfoStr> vecDeviceForMatrixQ;
+	vector <DeviceInfoStr> vecDeviceForMatrixC;
+	vector <DeviceInfoStr> vecDeviceForVectorE;
 	
+	vector<InputDataStr> input_vec_;//存放读取结果（暂时）
 
-	double max_electrode;
+
+private:
+	Input* Input_;
+	Device* Device_;
+	DeviceInfoStr DeviceInfo_;
 
 
 public:
 	Circuit();
 	~Circuit();
 	//得到vector <Device*> f和deviceCount
-#if 0
-	void Read_Inputfile();
-
-#endif // 0
-	void Read_InputXML();
-	void Read_InputTXT();
-	void MySplit(string str, string delimiter, vector<string>&tokens);
 
 };
 
