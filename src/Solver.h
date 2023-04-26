@@ -48,31 +48,21 @@ protected:
 		F = A*x+P(x)+(B+Q(x))*dx/dt-E(t)
 	*/
 	Eigen::MatrixXd A;
-	Eigen::MatrixXd A_mid;
 	Eigen::MatrixXd B;
-	Eigen::MatrixXd B_mid;
 
 	Eigen::MatrixXd P_Jacobian;//时变电容电感
-	Eigen::MatrixXd P_Jacobian_mid;//时变电容电感
 	Eigen::MatrixXd Q_Jacobian;
-	Eigen::MatrixXd Q_Jacobian_mid;
 
 //	Eigen::VectorXd E;派生类Solver_EulerBackward的数据成员
 	Eigen::VectorXd P;
-	Eigen::VectorXd P_mid;
 	Eigen::VectorXd P_last;
-	Eigen::VectorXd P_last_mid;
 
 //	Eigen::VectorXd P_last;派生类Solver_TR的数据成员
 	Eigen::VectorXd Q;
-	Eigen::VectorXd Q_mid;
 	Eigen::VectorXd Q_last;
-	Eigen::VectorXd Q_last_mid;
 
 	Eigen::VectorXd E;
-	Eigen::VectorXd E_mid;
 	Eigen::VectorXd E_Integral;
-	//Eigen::VectorXd E_integral_mid;
 	Eigen::MatrixXd C;
 
 
@@ -102,9 +92,6 @@ public:
 	Solver(Configuration*, Circuit*);
 	~Solver();
 
-	//virtual void processTimeInvariantDeviceMatrix(Circuit*);
-	//virtual void processTimeVariantDeviceMatrix(Circuit*, const Eigen::VectorXd& x_pr);
-	//virtual void processExcitationDeivceMatrix(Circuit*,double);
 	virtual void processAandB();
 	virtual void processEIntegral(double*);
 	virtual void processPandQandC();

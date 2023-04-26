@@ -12,32 +12,23 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	size = MyCircuit_->matrixDimension;
 	/*---------------------矩阵初始化---------------------*/
 	A = Eigen::MatrixXd::Zero(size, size);
-	A_mid = Eigen::MatrixXd::Zero(size, size);
 
 	B = Eigen::MatrixXd::Zero(size, size);
-	B_mid = Eigen::MatrixXd::Zero(size, size);
 
 	P_Jacobian = Eigen::MatrixXd::Zero(size, size);
-	P_Jacobian_mid = Eigen::MatrixXd::Zero(size, size);
 
 	Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
-	Q_Jacobian_mid = Eigen::MatrixXd::Zero(size, size);
 
 	E = Eigen::VectorXd::Zero(size);
-	E_mid = Eigen::VectorXd::Zero(size);
 	E_Integral = Eigen::VectorXd::Zero(size);
 
 	P = Eigen::VectorXd::Zero(size);
-	P_mid = Eigen::VectorXd::Zero(size);
 
 	P_last = Eigen::VectorXd::Zero(size);
-	P_last_mid = Eigen::VectorXd::Zero(size);
 
 	Q = Eigen::VectorXd::Zero(size);
-	Q_mid = Eigen::VectorXd::Zero(size);
 
 	Q_last = Eigen::VectorXd::Zero(size);
-	Q_last_mid = Eigen::VectorXd::Zero(size);
 
 	C = Eigen::MatrixXd::Zero(size, size);
 
@@ -47,7 +38,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	x_Newton = Eigen::VectorXd::Zero(size);
 	F_x0 = Eigen::VectorXd::Zero(size);
 	Jacobian = Eigen::MatrixXd::Zero(size, size);
-
+	
 	dt_ = MyConfig_->Get_dt();
 	t_end_ = MyConfig_->Get_t_end();
 
@@ -61,65 +52,9 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 		x(i) = 0;
 	}
 	x(1) = 20;
+	x_Newton = x;
 	Solver::x_result_vec_.push_back(Solver::x);
-
-	//processSetZeroABE();
-	//processTimeInvariantDeviceMatrix();//TimeInvariantDevice其实只用填一次
-	A_mid = A;
-	B_mid = B;
-	E_mid = E;
 }
-
-//void Solver::processTimeInvariantDeviceMatrix(Circuit* MyCircuit) {
-//    for (int m = 0; m < MyCircuit->vecTimeInvariantDevice.size(); m++) {
-//        int xCountTemp = MyCircuit->vecTimeInvariantDeviceInfo[m]->getXCount();
-//        Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        MyCircuit->vecTimeInvariantDevice[m]->getTimeInvariantSubMatrix(subA, subB);
-//        for (int i = 0; i < xCountTemp; i++) {
-//            for (int j = 0; j < xCountTemp; j++) {
-//                int row_num = *(MyCircuit->vecTimeInvariantDeviceInfo[m]->getxIndex() + i);
-//                int col_num = *(MyCircuit->vecTimeInvariantDeviceInfo[m]->getxIndex() + j);
-//                A(row_num, col_num) += subA(i,j);
-//                B(row_num, col_num) += subB(i,j);
-//            }
-//        }
-//        //cout << "A=" << endl << A << endl;
-//    }
-//}
-//
-//void Solver::processTimeVariantDeviceMatrix(Circuit* MyCircuit, const Eigen::VectorXd& x_pr) {
-//    for (int m = 0; m < MyCircuit->vecTimeVariantDevice.size(); m++) {
-//        int xCountTemp = MyCircuit->vecTimeVariantDeviceInfo[m]->getXCount();
-//        Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-//        Eigen::VectorXd subP = Eigen::VectorXd::Zero(xCountTemp);
-//        Eigen::VectorXd subQ = Eigen::VectorXd::Zero(xCountTemp);
-//        Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
-//        for (int i = 0; i < xCountTemp; i++) {
-//            nodeValue(i) = x_pr(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i));
-//        }
-//        cout << "nodeValue = " << endl << nodeValue << endl;
-//        MyCircuit->vecTimeVariantDevice[m]->getTimeVariantSubMatrix(nodeValue, subA, subB, subP, subPJacobian, subQ, subQJacobian);
-//        for (int i = 0; i < xCountTemp; i++) {
-//            P(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i)) += subP(i);
-//            Q(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i)) += subQ(i);
-//            for (int j = 0; j < xCountTemp; j++) {
-//                A(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i), *(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + j)) += subA(i, j);
-//                B(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i), *(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + j)) += subB(i, j);
-//                P_Jacobian(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i), *(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + j)) += subPJacobian(i, j);
-//                Q_Jacobian(*(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + i), *(MyCircuit->vecTimeVariantDeviceInfo[m]->getxIndex() + j)) += subQJacobian(i, j);
-//            }
-//        }
-//        //cout << "A=" << endl << A << endl;
-//    }
-//}
-//
-//void Solver::processExcitationDeivceMatrix(Circuit* MyCircuit, double t) {
-//
-//}
 
 void Solver::processAandB() {//扫描所有器件
     for (int m = 0; m < MyCircuit_->vecDevice.size(); m++) {
@@ -229,8 +164,9 @@ void Solver::solve() {
         E_Integral.setZero();
         processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循环
 		MyNewton_->Perform_BaseNewton();
+		x = x_Newton;
         Q_last = Q;
-		Solver::x_result_vec_.push_back(Solver::x_Newton);
+		Solver::x_result_vec_.push_back(Solver::x);
     }
 }
 
