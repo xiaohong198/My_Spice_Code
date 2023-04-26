@@ -159,7 +159,8 @@ void Solver::processSetZero() {
 
 void Solver::solve() {
     processAandB();//A、B只填一次就不动了
-    for (int i = 0; i < t_end_ / dt_; i++) {
+	int num_t = t_end_ / dt_;
+    for (int i = 0; i < num_t; i++) {
         double tList[2] = { i * dt_,(i + 1) * dt_ };
         E_Integral.setZero();
         processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循环
