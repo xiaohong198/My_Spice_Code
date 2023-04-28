@@ -26,6 +26,20 @@ void Resistor::getSubA(Eigen::MatrixXd& subA) {
     subA(1, 1) = 1 / resistance;
 }
 
+int Resistor::getReturnPrime()
+{
+	return PrimeA;
+}
+
+void Resistor::setDeviceInfo_(vector<int> _index)
+{
+	DeviceInfo_.xIndex = _index;
+}
+
+DeviceInfoStr Resistor::getDeviceInfo_()
+{
+	return DeviceInfo_;
+}
 Resistor::~Resistor() {
 
 }

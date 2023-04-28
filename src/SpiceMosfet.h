@@ -111,6 +111,8 @@ protected:
 	double Vbd;
 	double Vgb;
 	double Von;
+private:
+	DeviceInfoStr DeviceInfo_;
 public:
 	SpiceMosfet();
 	~SpiceMosfet();
@@ -126,6 +128,8 @@ public:
 	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
 	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
 	void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);
-
+	int getReturnPrime();
+	void setDeviceInfo_(vector<int>);
+	DeviceInfoStr getDeviceInfo_();
 };
 

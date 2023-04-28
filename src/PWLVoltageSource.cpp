@@ -170,3 +170,18 @@ void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tL
 	subEIntegral.setZero();
 	subEIntegral(2) = (eFunction(tList[0]) + eFunction(tList[1])) / 2 * (tList[1] - tList[0]);
 }
+
+int PWLVoltageSource::getReturnPrime()
+{
+	return PrimeA * PrimeE;
+}
+
+void PWLVoltageSource::setDeviceInfo_(vector<int> _index)
+{
+	DeviceInfo_.xIndex = _index;
+}
+
+DeviceInfoStr PWLVoltageSource::getDeviceInfo_()
+{
+	return DeviceInfo_;
+}

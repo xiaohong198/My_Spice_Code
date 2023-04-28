@@ -125,52 +125,35 @@ Circuit::Circuit()
 #if 1
 	/*-------Mos Level1测试-----*/
 	Device_ = new SpiceMosfet();
-	vecTimeVariantDevice.push_back(Device_);
+	Device_->setDeviceInfo_({ 1,2,3,4,5,6 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 1,2,3,4,5,6 };
-	vecTimeVariantDeviceInfo.push_back(DeviceInfo_);
-	vecDeviceInfo.push_back(DeviceInfo_);
 
-	vecDeviceForMatrixA;
-	
 	Device_ = new Vsource_DC();
 	Device_->setConstValue(20);
-	vecExcitationDevice.push_back(Device_);
+	Device_->setDeviceInfo_({ 1,0,9 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 1,0,9 };
-	vecExcitationDeviceInfo.push_back(DeviceInfo_);
-	vecDeviceInfo.push_back(DeviceInfo_);
-
 
 	Device_ = new PWLVoltageSource();
-	vecExcitationDevice.push_back(Device_);
+	Device_->setDeviceInfo_({ 8,5,10 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 8,5,10 };
-	vecExcitationDeviceInfo.push_back(DeviceInfo_);
-	vecDeviceInfo.push_back(DeviceInfo_);
 
 	Device_ = new Resistor();
 	Device_->setConstValue(223.8e-2);
+	Device_->setDeviceInfo_({ 3,8 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 3,8 };
-	vecDeviceInfo.push_back(DeviceInfo_);
 
 	Device_ = new Resistor();
 	Device_->setConstValue(1.5e-3);
+	Device_->setDeviceInfo_({ 7,0 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 7,0 };
-	vecDeviceInfo.push_back(DeviceInfo_);
 
 	Device_ = new Inductor();
 	Device_->setConstValue(1.0e-9);
+	Device_->setDeviceInfo_({ 5,7,11 });
 	vecDevice.push_back(Device_);
-	DeviceInfo_.xIndex = { 5,7,11 };
-	vecDeviceInfo.push_back(DeviceInfo_);
 
-	//timeInvariantDeviceCount = vecTimeInvariantDevice.size();
-	DeviceCount = vecDevice.size();
-	timeVariantDeviceCount = vecTimeVariantDevice.size();
-	excitationDeviceCount = vecExcitationDevice.size();
+	SetClassVec();
+	
 	nodeCount = 9;
 	AdditaionalxCount = 3;
 	matrixDimension = nodeCount + AdditaionalxCount;
@@ -236,13 +219,69 @@ Circuit::Circuit()
 }
 
 Circuit::~Circuit() {
-    for (int i = 0; i < DeviceCount; i++) {
-        delete vecDevice[i];
-    }
-    for (int i = 0; i < timeVariantDeviceCount; i++) {
-        delete vecTimeVariantDevice[i];
-    }
-    for (int i = 0; i < excitationDeviceCount; i++) {
-        delete vecExcitationDevice[i];
-    }
+    //for (int i = 0; i < DeviceCount; i++) {
+    //    delete vecDevice[i];
+    //}
+    //for (int i = 0; i < timeVariantDeviceCount; i++) {
+    //    delete vecTimeVariantDevice[i];
+    //}
+    //for (int i = 0; i < excitationDeviceCount; i++) {
+    //    delete vecExcitationDevice[i];
+    //}
+}
+
+void Circuit::SetClassVec()
+{
+	for (auto iter: vecDevice)
+	{
+		// 获得类型值
+		int re_prime = iter->getReturnPrime();
+		// 获取质数构成
+		vector<int> factors;
+		//质数组成
+		if (re_prime % 2 == 0)
+		{
+			factors.push_back(2);
+			re_prime = re_prime / 2;
+		}
+		for (int i = 3; i <= sqrt(re_prime); i = i + 2)
+		{
+			if (re_prime % i == 0)
+			{
+				factors.push_back(i);
+				re_prime = re_prime / i;
+			}
+		}
+		if (re_prime > 2)
+			factors.push_back(re_prime);
+		//判断质数类别
+		for (auto factors_iter: factors)
+		{
+			if (factors_iter == PrimeA)
+			{
+				vecDeviceForMatrixA.push_back(iter);
+			}
+			if (factors_iter == PrimeB)
+			{
+				vecDeviceForMatrixB.push_back(iter);
+			}
+			if (factors_iter == PrimeP)
+			{
+				vecDeviceForMatrixP.push_back(iter);
+			}
+			if (factors_iter == PrimeQ)
+			{
+				vecDeviceForMatrixQ.push_back(iter);
+			}
+			if (factors_iter == PrimeC)
+			{
+				vecDeviceForMatrixC.push_back(iter);
+			}
+			if (factors_iter == PrimeE)
+			{
+				vecDeviceForVectorE.push_back(iter);
+			}
+		}
+	}
+
 }

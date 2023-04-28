@@ -23,3 +23,15 @@ struct InputDataStr
 	bool IsSpecial;//是否是特殊类
 	double MaxElectrode;//特殊类的最大数值
 };
+
+// 质数
+enum ClassPrime
+{
+	PrimeA = 2,
+	PrimeB = 3,
+	PrimeP = 5,
+	PrimeQ = 7,
+	PrimeC = 9,
+	PrimeE = 11
+};
+

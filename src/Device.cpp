@@ -28,3 +28,19 @@ void Device::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::Vector
 
 void Device::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC) {
 }
+
+int Device::getReturnPrime()
+{
+	return 0;
+}
+
+void Device::setDeviceInfo_(vector<int> _index)
+{
+
+}
+
+DeviceInfoStr Device::getDeviceInfo_()
+{
+	DeviceInfoStr str_null;
+	return str_null;
+}

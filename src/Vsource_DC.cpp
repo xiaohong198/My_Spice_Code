@@ -51,3 +51,18 @@ void Vsource_DC::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
     subEIntegral.setZero();
     subEIntegral(2) = setIntegration(tList);
 }
+
+int Vsource_DC::getReturnPrime()
+{
+	return PrimeA * PrimeE;
+}
+
+void Vsource_DC::setDeviceInfo_(vector<int> _index)
+{
+	DeviceInfo_.xIndex = _index;
+}
+
+DeviceInfoStr Vsource_DC::getDeviceInfo_()
+{
+	return DeviceInfo_;
+}

@@ -30,38 +30,20 @@ class Circuit
 	friend class Solver_EulerBackward;
 	friend class Solver_TR;
 protected:
-	//int timeInvariantDeviceCount;
-	int timeVariantDeviceCount;
-	int excitationDeviceCount;
-	int DeviceCount;
+
 	int nodeCount;
 	int AdditaionalxCount;//未知量x中有多少个除节点电压以外的变量
 	int matrixDimension;
 
-	//vector <Device*> vecTimeInvariantDevice;
-	//vector <Device*> vecTimeVariantDevice;
-	//vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两类中
-	vector <Device*> vecTimeVariantDevice;
-	vector <Device*> vecExcitationDevice;//是直流源、交流源这种激励源E(t)单独一类，受控源依然放在前两	
+
+	vector <Device*> vecDeviceForMatrixA;
+	vector <Device*> vecDeviceForMatrixB;
+	vector <Device*> vecDeviceForMatrixP;
+	vector <Device*> vecDeviceForMatrixQ;
+	vector <Device*> vecDeviceForMatrixC;
+	vector <Device*> vecDeviceForVectorE;
 	vector <Device*> vecDevice;
 
-	//vector <structDeviceInfo*> vecDeviceInfo;
-	vector <DeviceInfoStr> vecTimeInvariantDeviceInfo;
-	vector <DeviceInfoStr> vecTimeVariantDeviceInfo;
-	vector <DeviceInfoStr> vecExcitationDeviceInfo;
-	vector <DeviceInfoStr> vecDeviceInfo;
-	//vector <structDeviceInfo*> vecTimeInvariantDeviceInfo;
-	//vector <structDeviceInfo*> vecTimeVariantDeviceInfo;
-	//vector <structDeviceInfo*> vecExcitationDeviceInfo;
-
-
-	vector <DeviceInfoStr> vecDeviceForMatrixA;
-	vector <DeviceInfoStr> vecDeviceForMatrixB;
-	vector <DeviceInfoStr> vecDeviceForMatrixP;
-	vector <DeviceInfoStr> vecDeviceForMatrixQ;
-	vector <DeviceInfoStr> vecDeviceForMatrixC;
-	vector <DeviceInfoStr> vecDeviceForVectorE;
-	
 	vector<InputDataStr> input_vec_;//存放读取结果（暂时）
 
 
@@ -74,7 +56,7 @@ private:
 public:
 	Circuit();
 	~Circuit();
-	//得到vector <Device*> f和deviceCount
+	void SetClassVec();
 
 };
 

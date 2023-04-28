@@ -31,3 +31,18 @@ void Inductor::getSubB(Eigen::MatrixXd& subB) {
     subB.setZero();
     subB(2, 2) = Inductance;
 }
+
+int Inductor::getReturnPrime()
+{
+	return PrimeA * PrimeB;
+}
+
+void Inductor::setDeviceInfo_(vector<int> _index)
+{
+	DeviceInfo_.xIndex = _index;
+}
+
+DeviceInfoStr Inductor::getDeviceInfo_()
+{
+	return DeviceInfo_;
+}

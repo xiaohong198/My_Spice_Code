@@ -92,9 +92,13 @@ public:
 	Solver(Configuration*, Circuit*);
 	~Solver();
 
-	virtual void processAandB();
+
+	virtual void processA();
+	virtual void processB();
+	virtual void processP();
+	virtual void processQ();
+	virtual void processC();
 	virtual void processEIntegral(double*);
-	virtual void processPandQandC();
 
 	virtual void processGroundedNodeEqu();
 	virtual void processSetZero();
