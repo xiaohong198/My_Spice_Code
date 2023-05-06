@@ -1,0 +1,14 @@
+System { 
+	IRFR3505 Mos1 (n1 n3 n5 n4) {SCALE=42 LENGTH=1.0e-4 WIDTH=1.0e-4}
+	Vsource_DC_pset Vs (n1 n0) {V_DC=20}
+	PWLVoltageSource_pset PWLVs (n8 n5) {pwl=(0 0
+							    0.9e-6 0
+							    1.0e-6 5
+							    3.0e-6 5
+							    3.1e-6 0
+							)}
+	Resistor_pset Rg2 (n3 n8) {resistance=223.8e-2}
+	Resistor_pset RL2 (n7 n0) {resistance=1.5e-3}
+	Inductor_pset L4 (n5 n7) {Inductance=1.0e-9}
+
+	}

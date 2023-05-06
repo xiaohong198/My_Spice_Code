@@ -219,15 +219,7 @@ Circuit::Circuit()
 }
 
 Circuit::~Circuit() {
-    //for (int i = 0; i < DeviceCount; i++) {
-    //    delete vecDevice[i];
-    //}
-    //for (int i = 0; i < timeVariantDeviceCount; i++) {
-    //    delete vecTimeVariantDevice[i];
-    //}
-    //for (int i = 0; i < excitationDeviceCount; i++) {
-    //    delete vecExcitationDevice[i];
-    //}
+
 }
 
 void Circuit::SetClassVec()

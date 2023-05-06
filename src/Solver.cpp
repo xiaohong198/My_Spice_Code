@@ -59,6 +59,58 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	processB();//A、B只填一次就不动了
 
 }
+void Solver::Process(vector<int> _process)
+{
+	vector <Device*> current_device;
+	for (auto iter : _process)
+	{
+		if (iter == PrimeA)
+		{
+			current_device = MyCircuit_->vecDeviceForMatrixA;
+		}
+		if (iter == PrimeB)
+		{
+			current_device = MyCircuit_->vecDeviceForMatrixB;
+
+		}
+		if (iter == PrimeC)
+		{
+			current_device = MyCircuit_->vecDeviceForMatrixC;
+
+		}
+		if (iter == PrimeP)
+		{
+			current_device = MyCircuit_->vecDeviceForMatrixP;
+
+		}
+		if (iter == PrimeQ)
+		{
+			current_device = MyCircuit_->vecDeviceForMatrixQ;
+
+		}
+		if (iter == PrimeE)
+		{
+			current_device = MyCircuit_->vecDeviceForVectorE;
+
+		}
+
+		for (auto iter : current_device) {
+			DeviceInfoStr current_info = iter->getDeviceInfo_();
+			vector<int> index = current_info.xIndex;
+			int xCountTemp = index.size();
+			Eigen::MatrixXd sub = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
+			iter->getSubB(sub);
+			for (int i = 0; i < xCountTemp; i++) {
+				for (int j = 0; j < xCountTemp; j++) {
+					int row_num = index[i];
+					int col_num = index[j];
+					B(row_num, col_num) += sub(i, j);
+				}
+			}
+		}
+	}
+}
+
 
 void Solver::processA() {//扫描所有器件
 	for (auto iter : MyCircuit_->vecDeviceForMatrixA) {
@@ -207,7 +259,9 @@ void Solver::processSetZero() {
     C.setZero();
 }
 
-void Solver::solve() {
+
+void Solver::solve() 
+{
 	int num_t = t_end_ / dt_;
     for (int i = 0; i < num_t; i++) {
         double tList[2] = { i * dt_,(i + 1) * dt_ };

@@ -92,6 +92,7 @@ public:
 	Solver(Configuration*, Circuit*);
 	~Solver();
 
+	virtual void Process(vector<int> _process);
 
 	virtual void processA();
 	virtual void processB();
@@ -110,5 +111,7 @@ public:
 	virtual void saveCircuitVars();
 
 	virtual int getSize();
+
+
 };
 
