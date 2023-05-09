@@ -24,6 +24,24 @@ struct InputDataStr
 	double MaxElectrode;//特殊类的最大数值
 };
 
+struct InputSCFStr
+{
+	string PSET;
+	string DEVICE;
+	map<string, string> ParametersMap;//参数名称及数值
+};
+
+struct InputCMDStr
+{
+	string Class;
+	string Example;
+	vector<string> NumVec;
+	map<string, string> ParametersMap;//参数名称及数值
+	vector<vector<string>> PWL;
+	bool IsPWL;
+	bool IsPest;
+};
+
 // 质数
 enum ClassPrime
 {

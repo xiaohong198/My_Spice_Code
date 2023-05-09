@@ -7,6 +7,7 @@ Circuit::Circuit()
 
 	Input_ = new Input();
 	Input_->ReadSCF();
+	Input_->ReadCMD();
 	Input_->GetInput(input_vec_);
 
 /*-------------------------交流源+Diode+RLC测试-------------------------------*/

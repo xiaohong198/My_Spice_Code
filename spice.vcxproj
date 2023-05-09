@@ -87,11 +87,11 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
@@ -113,10 +113,10 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -133,9 +133,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -151,11 +151,11 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>

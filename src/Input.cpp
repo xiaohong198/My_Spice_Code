@@ -7,152 +7,206 @@ Input::~Input() {
 
 }
 
+std::vector<std::string> Input::getSplitVec(string str, string str_trans, string delimiter)
+{
+	vector<string> tokens;
+	size_t pos = 0;
+	string token;
+	while ((pos = str_trans.find(delimiter)) != string::npos)
+	{
+		token = str.substr(0, pos);
+		if (token != "")
+		{
+			tokens.push_back(token);
+		}
+		str.erase(0, pos + delimiter.length());
+		str_trans.erase(0, pos + delimiter.length());
+	}
+	if (str != "")
+	{
+		tokens.push_back(str);
+	}
+	return tokens;
+}
+
+std::vector<std::string> Input::getSplitVec(string str, string delimiter)
+{
+	vector<string> tokens;
+	size_t pos = 0;
+	string token;
+	while ((pos = str.find(delimiter)) != string::npos)
+	{
+		token = str.substr(0, pos);
+		if (token != "")
+		{
+			tokens.push_back(token);
+		}
+		str.erase(0, pos + delimiter.length());
+	}
+	if (str != "")
+	{
+		tokens.push_back(str);
+	}
+
+	return tokens;
+}
+
+string Input::getContent(string _str, string begin_symbol, string end_symbol)
+{
+	int startIndex = _str.find_first_of(begin_symbol);
+	int endIndex = _str.find_last_of(end_symbol);
+	string token = _str.substr(startIndex + 1, endIndex - startIndex - 1);
+	return token;
+}
+
+string Input::TransformUp(string _str)
+{
+	std::transform(_str.begin(), _str.end(), _str.begin(), ::toupper);
+	return _str;
+}
+string Input::TransformLow(string _str)
+{
+	std::transform(_str.begin(), _str.end(), _str.begin(), ::tolower);
+	return _str;
+}
+
 void Input::ReadSCF()
 {
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
-	string outputPath = output_dir_Path + "/InputFile.txt";
+	string outputPath = output_dir_Path + "/scf.txt";
 
-	max_electrode = 0;
-
-	//读取txt成一个string
-#if 0
-	std::ifstream in_txt(outputPath);
-	std::ostringstream tmp;
-	tmp << in_txt.rdbuf();
-	std::string str_txt = tmp.str();
-	std::vector<std::string> txt_result;
-	MySplit(str_txt, "INSTANCE", txt_result);
-#endif // 0
-
-	//特殊类
-	SpecialClassNameVec.push_back("Vsource_AC");
-	SpecialClassNameVec.push_back("Vsource_DC");
-	SpecialClassNameVec.push_back("Inductor");
-	SpecialClassNameVec.push_back("PWLVoltageSource");
-
-	InputDataStr input_data;
-	InputDataStr input_data_null;
 	ifstream in(outputPath);
-	bool is_value = false;
-	vector<InputDataStr> para;// 存储各字段
 	string line;
-
+	InputSCFStr scf_str;
 	while (getline(in, line))
 	{
-		//开始
-		if (line.find("INSTANCE") != string::npos)
+		string line_trans = TransformUp(line);
+		if (line.find("END PSET") != string::npos)
 		{
-			std::vector<std::string> txt_result;
-			MySplit(line, "INSTANCE", txt_result);
-			for (auto iter : txt_result)
+			InputSCFStrVec.push_back(scf_str);
+			scf_str.ParametersMap.clear();
+			//END
+		}
+		else if (line_trans.find("PSET") != string::npos)
+		{
+			//PSET
+			for (auto iter : getSplitVec(line, line_trans, "PSET"))
 			{
 				if (iter != " ")
 				{
-					input_data.InstanceName = iter;
+					scf_str.PSET = iter;
 				}
 			}
 		}
-		else if (line.find("PSET") != string::npos)
-		{
-			std::vector<std::string> txt_result;
-			MySplit(line, "PSET", txt_result);
-			for (auto iter : txt_result)
-			{
-				if (iter != " ")
-				{
-					input_data.PSET = iter;
-					// 特殊类判断
-					vector<string>::iterator it = find(SpecialClassNameVec.begin(), SpecialClassNameVec.end(), iter);
-					if (it != SpecialClassNameVec.end())
-					{
-						input_data.IsSpecial = true;
-					}
-					else
-					{
-						input_data.IsSpecial = false;
-					}
-				}
-			}
-		}
-		else if (line.find("ELECTRODES") != string::npos)
-		{
-			std::vector<std::string> txt_result;
-			MySplit(line, "ELECTRODES", txt_result);
-			for (auto iter : txt_result)
-			{
-				if (iter != " ")
-				{
-					input_data.EelectrodesVec.push_back(atof(iter.c_str()));
-					//特殊类，记录最大值和结构体
-					if (input_data.IsSpecial)
-					{
-						SpecialClassVec.push_back(&input_data);
-						if (atof(iter.c_str()) > max_electrode)
-						{
-							max_electrode = atof(iter.c_str());
-						}
-					}
 
-				}
-			}
-		}
-		else if (line.find("PARAMETERS") != string::npos)
+		else if (line_trans.find("DEVICE") != string::npos)
 		{
-			is_value = true;
-			std::vector<std::string> txt_result;
-			MySplit(line, "PARAMETERS", txt_result);
-			for (auto iter : txt_result)
+			// DEVICE
+			for (auto iter : getSplitVec(line, line_trans, "DEVICE"))
 			{
 				if (iter != " ")
 				{
-					input_data.EelectrodesVec.push_back(atof(iter.c_str()));
+					scf_str.DEVICE = iter;
 				}
 			}
 		}
-		// 填值
-		else if (is_value)
+		else if (line_trans.find("PARAMETERS") != string::npos)
 		{
+			// PARAMETERS
+		}
+		else
+		{
+			// PARAMETERS_VALUE
 			if (line.find("=") != string::npos)
 			{
-				std::vector<std::string> txt_result;
-				MySplit(line, "=", txt_result);
-				for (auto iter : txt_result)
+				std::vector<std::string> txt_result = getSplitVec(line, "=");
+				if (txt_result.size() == 2)
 				{
-					if (iter != " ")
-					{
-						string parameter_name;
-						string parameter_value;
-						if (iter != " ")
-						{
-							parameter_name;
-						}
-						else if (iter != " ")
-						{
-							parameter_value;
-						}
-						input_data.ParametersMap.insert({ parameter_name, atof(parameter_value.c_str()) });
-
-					}
 				}
 			}
 		}
-		//结束
-		else if (line.find("END INSTANCE") != string::npos)
-		{
-			is_value = false;
-			para.push_back(input_data);
-			input_data = input_data_null;
-			continue;
-		}
 	}
-	in.close();
 }
 
 void Input::ReadCMD()
 {
+	// 获取当前路径
+	string path = _getcwd(NULL, 0);
+	string output_dir_Path = path + "/Config";
+	string outputPath = output_dir_Path + "/cmd.txt";
 
+	ifstream in(outputPath);
+	string line;
+	InputCMDStr cmd_str;
+	cmd_str.IsPWL = false;
+	cmd_str.IsPest = false;
+
+	while (getline(in, line))
+	{
+		if (line.find("\t") != string::npos)
+		{
+			string line_trans = TransformLow(line);
+			if (line_trans.find("_pset") != string::npos)
+			{
+				cmd_str.IsPest = true;
+			}
+			if (line_trans.find("(") != string::npos)
+			{
+				std::vector<std::string> txt_result = getSplitVec(line, " ");
+				cmd_str.Class = getSplitVec(txt_result[0],"\t")[0];
+				cmd_str.Example = txt_result[1];
+
+				string content_str = getContent(line, "(", ")");
+				cmd_str.NumVec = getSplitVec(content_str, " ");
+
+				if (line_trans.find("pwl") != string::npos)
+				{
+					//pwl
+					cmd_str.IsPWL = true;
+					std::vector<std::string> txt_result = getSplitVec(line, "=(");
+					std::vector<std::string> split_result = getSplitVec(txt_result[txt_result.size() - 1], " ");
+					vector<string> array = { split_result[split_result.size() - 2] ,split_result[split_result.size() - 1] };
+					cmd_str.PWL.push_back(array);
+				}
+				else
+				{
+					content_str = getContent(line, "{", "}");
+					for (auto iter : getSplitVec(content_str, " "))
+					{
+						std::vector<std::string> split_result = getSplitVec(iter, "=");
+						cmd_str.ParametersMap.insert({ split_result[0], split_result[1] });
+					}
+					InputCMDStrVec.push_back(cmd_str);
+					cmd_str = *(new InputCMDStr);
+					cmd_str.IsPWL = false;
+					cmd_str.IsPest = false;
+				}
+			}
+			else if (line_trans.find(")}") != string::npos)
+			{
+				//pwl END
+				InputCMDStrVec.push_back(cmd_str);
+				cmd_str = *(new InputCMDStr);
+				cmd_str.IsPWL = false;
+				cmd_str.IsPest = false;
+			}
+			else if (line_trans.find("}") != string::npos)
+			{
+				//END
+				continue;
+			}
+			else
+			{
+				//pwl value
+				std::vector<std::string> split_result = getSplitVec(line, " ");
+				vector<string> array = { split_result[split_result.size() - 2] ,split_result[split_result.size()-1] };
+				cmd_str.PWL.push_back(array);
+			}
+		}
+	}
+	
 }
 
 void Input::ReadXML()
@@ -452,17 +506,4 @@ void Input::ReadINI()
 void Input::GetInput(vector<InputDataStr>& input_vec)
 {
 
-}
-
-void Input::MySplit(string str, string delimiter, vector<string>&tokens)
-{
-	size_t pos = 0;
-	string token;
-	while ((pos = str.find(delimiter)) != string::npos)
-	{
-		token = str.substr(0, pos);
-		tokens.push_back(token);
-		str.erase(0, pos + delimiter.length());
-	}
-	tokens.push_back(str);
 }
