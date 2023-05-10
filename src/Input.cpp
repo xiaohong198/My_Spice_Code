@@ -124,6 +124,8 @@ void Input::ReadSCF()
 				std::vector<std::string> txt_result = getSplitVec(line, "=");
 				if (txt_result.size() == 2)
 				{
+					std::vector<std::string> split_result = getSplitVec(txt_result[0], "\t");
+					scf_str.ParametersMap.insert({ split_result[split_result.size()-1], txt_result[1] });
 				}
 			}
 		}
