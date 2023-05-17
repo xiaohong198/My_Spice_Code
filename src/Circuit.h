@@ -1,6 +1,5 @@
 #pragma once
 #include "Device.h"
-#include "structDeviceInfo.h"
 #include "Resistor.h"
 #include "Capacitor.h"
 #include "Inductor.h"
@@ -43,8 +42,6 @@ protected:
 	vector <Device*> vecDeviceForMatrixC;
 	vector <Device*> vecDeviceForVectorE;
 	vector <Device*> vecDevice;
-
-	vector<InputDataStr> input_vec_;//存放读取结果（暂时）
 
 
 private:

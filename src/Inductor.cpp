@@ -34,7 +34,7 @@ void Inductor::getSubB(Eigen::MatrixXd& subB) {
 
 int Inductor::getReturnPrime()
 {
-	return PrimeA * PrimeB;
+	return PrimeA + PrimeB;
 }
 
 void Inductor::setDeviceInfo_(vector<int> _index)

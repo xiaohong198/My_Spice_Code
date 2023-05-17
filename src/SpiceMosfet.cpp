@@ -753,7 +753,7 @@ void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& sub
 
 int SpiceMosfet::getReturnPrime()
 {
-	return PrimeA * PrimeB * PrimeP * PrimeQ * PrimeC;
+	return PrimeA + PrimeB + PrimeP + PrimeQ + PrimeC;
 }
 
 void SpiceMosfet::setDeviceInfo_(vector<int> _index)

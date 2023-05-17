@@ -71,27 +71,22 @@ void Solver::Process(vector<int> _process)
 		if (iter == PrimeB)
 		{
 			current_device = MyCircuit_->vecDeviceForMatrixB;
-
 		}
 		if (iter == PrimeC)
 		{
 			current_device = MyCircuit_->vecDeviceForMatrixC;
-
 		}
 		if (iter == PrimeP)
 		{
 			current_device = MyCircuit_->vecDeviceForMatrixP;
-
 		}
 		if (iter == PrimeQ)
 		{
 			current_device = MyCircuit_->vecDeviceForMatrixQ;
-
 		}
 		if (iter == PrimeE)
 		{
 			current_device = MyCircuit_->vecDeviceForVectorE;
-
 		}
 
 		for (auto iter : current_device) {

@@ -54,7 +54,7 @@ void Vsource_DC::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
 
 int Vsource_DC::getReturnPrime()
 {
-	return PrimeA * PrimeE;
+	return PrimeA + PrimeE;
 }
 
 void Vsource_DC::setDeviceInfo_(vector<int> _index)

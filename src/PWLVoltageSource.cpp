@@ -173,7 +173,7 @@ void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tL
 
 int PWLVoltageSource::getReturnPrime()
 {
-	return PrimeA * PrimeE;
+	return PrimeA + PrimeE;
 }
 
 void PWLVoltageSource::setDeviceInfo_(vector<int> _index)

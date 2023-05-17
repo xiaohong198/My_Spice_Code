@@ -193,7 +193,7 @@
     <ClCompile Include="src\SpiceDiode.cpp" />
     <ClCompile Include="src\SpiceMosfet.cpp" />
     <ClCompile Include="src\SpiceMosLevel1Test.cpp" />
-    <ClCompile Include="src\structDeviceInfo.cpp" />
+    <ClCompile Include="src\SpiceString.cpp" />
     <ClCompile Include="src\SurgeArrester.cpp" />
     <ClCompile Include="src\TabulatedIVCurveDevice.cpp" />
     <ClCompile Include="src\Vsource_AC.cpp" />
@@ -225,7 +225,7 @@
     <ClInclude Include="src\SpiceDiode.h" />
     <ClInclude Include="src\SpiceMosfet.h" />
     <ClInclude Include="src\SpiceMosLevel1Test.h" />
-    <ClInclude Include="src\structDeviceInfo.h" />
+    <ClInclude Include="src\SpiceString.h" />
     <ClInclude Include="src\SurgeArrester.h" />
     <ClInclude Include="src\TabulatedIVCurveDevice.h" />
     <ClInclude Include="src\Vsource_AC.h" />
