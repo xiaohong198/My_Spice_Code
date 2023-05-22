@@ -175,7 +175,6 @@
     <ClCompile Include="src\Device\Jsource.cpp" />
     <ClCompile Include="src\Device\Jsource_AC.cpp" />
     <ClCompile Include="src\Device\Jsource_DC.cpp" />
-    <ClCompile Include="src\Device\MOA.cpp" />
     <ClCompile Include="src\Device\PWLVoltageSource.cpp" />
     <ClCompile Include="src\Device\Resistor.cpp" />
     <ClCompile Include="src\Device\SpiceDevice.cpp" />
@@ -208,7 +207,6 @@
     <ClInclude Include="src\Device\Jsource.h" />
     <ClInclude Include="src\Device\Jsource_AC.h" />
     <ClInclude Include="src\Device\Jsource_DC.h" />
-    <ClInclude Include="src\Device\MOA.h" />
     <ClInclude Include="src\Device\PWLVoltageSource.h" />
     <ClInclude Include="src\Device\Resistor.h" />
     <ClInclude Include="src\Device\SpiceDevice.h" />

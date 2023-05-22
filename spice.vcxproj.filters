@@ -65,9 +65,6 @@
     <ClCompile Include="src\Device\Jsource_DC.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\MOA.cpp">
-      <Filter>Source Files\Device</Filter>
-    </ClCompile>
     <ClCompile Include="src\Device\PWLVoltageSource.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
@@ -155,9 +152,6 @@
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\Jsource_DC.h">
-      <Filter>Header Files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Device\MOA.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\PWLVoltageSource.h">
