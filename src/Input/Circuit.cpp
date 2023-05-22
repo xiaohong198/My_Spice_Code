@@ -51,34 +51,18 @@ Circuit::~Circuit() {
 
 void Circuit::SetClassVec()
 {
-	for (auto iter: vecDevice)
+	const int primes[] = { PrimeA, PrimeB, PrimeP, PrimeQ, PrimeC, PrimeE };
+	vector<Device*> matrixes[] = { vecDeviceForMatrixA, vecDeviceForMatrixB, vecDeviceForMatrixP, vecDeviceForMatrixQ, vecDeviceForMatrixC, vecDeviceForVectorE };
+
+	for (auto iter : vecDevice)
 	{
-		// 获得类型值
 		int re_prime = iter->getReturnPrime();
-	
-		if ((re_prime & PrimeA) == PrimeA)
+		for (int i = 0; i < sizeof(primes) / sizeof(int); i++)
 		{
-			vecDeviceForMatrixA.push_back(iter);
-		}
-		if ((re_prime & PrimeB) == PrimeB)
-		{
-			vecDeviceForMatrixB.push_back(iter);
-		}
-		if ((re_prime & PrimeP) == PrimeP)
-		{
-			vecDeviceForMatrixP.push_back(iter);
-		}
-		if ((re_prime & PrimeQ) == PrimeQ)
-		{
-			vecDeviceForMatrixQ.push_back(iter);
-		}
-		if ((re_prime & PrimeC) == PrimeC)
-		{
-			vecDeviceForMatrixC.push_back(iter);
-		}
-		if ((re_prime & PrimeE) == PrimeE)
-		{
-			vecDeviceForVectorE.push_back(iter);
+			if ((re_prime & primes[i]) == primes[i])
+			{
+				matrixes[i].push_back(iter);
+			}
 		}
 	}
 }

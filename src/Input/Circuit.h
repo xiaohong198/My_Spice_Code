@@ -9,15 +9,12 @@
 #include "Device/Jsource_AC.h"
 #include "Device/PWLVoltageSource.h"
 #include "Device/Diode.h"
-#include "Device/MOA.h"
 #include "Device/TabulatedIVCurveDevice.h"
 #include "Device/SurgeArrester.h"
 #include "Device/SpiceMosfet.h"
 #include "Device/SpiceMosLevel1Test.h"
 #include "Device/SpiceDiode.h" 
 #include "Input.h"
-
-//#include <boost/algorithm/string.hpp>
 
 using namespace std;
 

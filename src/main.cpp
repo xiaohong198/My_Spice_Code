@@ -1,14 +1,11 @@
+#pragma once
+#pragma execution_character_set("utf-8")
 #include <iostream>
 #include <cmath>
-#include "Simulator.h"
+#include "Solver/Simulator.h"
 #include <chrono>
-//#include <adolc/adolc.h>
-//#include <adolc/adouble.h>
-//#include <adolc/taping.h>
-//#include <stdio.h>
 
 using namespace std;
-//void TestPWLSource();
 int main() {
 	/*-------------PWL 电源的测试-----------*/
 	//TestPWLSource();
@@ -22,9 +19,9 @@ int main() {
 	auto end = std::chrono::steady_clock::now();
 
 	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
-	cout << "程序用时:" << time.count()/1000 << "毫秒" << endl;
-
+	
+	cout << "程序用时:" << time.count() / 1000 << "毫秒" << endl;
+	
 	system("pause");
 
 	return 0;
@@ -47,13 +44,9 @@ void TestPWLSource() {
 		VInteg[i] = MyPWL.setIntegration(tList);
 	}
 	std::ofstream Vout_vars("../spice0/CircuitVarsData/TestPWLVout.txt", std::ios::trunc | std::ios::out);
-//	std::ofstream Vout_vars("../spice0/CircuitVarsData/TestPWLVout.txt", std::ios::app);
 	std::ofstream VInteg_vars("../spice0/CircuitVarsData/TestPWLVinteg.txt", std::ios::trunc | std::ios::out);
-//	std::ofstream VInteg_vars("../spice0/CircuitVarsData/TestPWLVinteg.txt", std::ios::app);
 	for (int i = 0; i < 1000; i++)
 	{
-		//Vout_vars << std::setprecision(8) << Vout[i] << ',';
-		//VInteg_vars << std::setprecision(8) << VInteg[i] << ',';
 		Vout_vars << Vout[i] << endl;
 		VInteg_vars << VInteg[i] << endl;
 	}

@@ -28,35 +28,6 @@ PWLVoltageSource::~PWLVoltageSource() {
 }
 
 double PWLVoltageSource::eFunction(double t) {
-	//std::map<double, double> sort_map;
-	//std::vector<double> sort_vec;
-	//std::vector<double> sort_vec_t;
-	//sort_vec_t.push_back(t);
-	//for (auto i = 0; i < tCount; i++)
-	//{
-	//	sort_vec.push_back(tList[i]);
-	//	sort_vec_t.push_back(tList[i]);
-	//	sort_map.insert(pair<double, double>(tList[i], vList[i]));
-	//}
-	//sort(sort_vec.begin(), sort_vec.end());
-	//sort(sort_vec_t.begin(), sort_vec_t.end());
-
-	//double PSL;
-	//if (t < *sort_vec.begin())
-	//{
-	//	PSL = sort_map[*sort_vec.begin()];
-	//}
-	//else if (t >= *(sort_vec.end() - 1))
-	//{
-	//	PSL = sort_map[*(sort_vec.end() - 1)];
-	//}
-	//else
-	//{
-	//	auto iter = find(sort_vec_t.begin(), sort_vec_t.end(), t);
-	//	PSL = (sort_map[*(iter + 1)] - sort_map[*(iter - 1)]) / (*(iter + 1) - *(iter - 1)) * (t - *(iter - 1)) + sort_map[*(iter - 1)];
-	//}
-
-	//return PSL;
 	if (t < tList[0]) {
 		return vList[0];
 	}
@@ -73,47 +44,7 @@ double PWLVoltageSource::eFunction(double t) {
 
 }
 
-//void PWLVoltageSource::getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t) {
-//	subA.setZero();
-//	subA(0, 2) = 1;
-//	subA(1, 2) = -1;
-//	subA(2, 0) = 1;
-//	subA(2, 1) = -1;
-//	subE.setZero();
-//	subE(2) = eFunction(t);
-//}
-
 double PWLVoltageSource::setIntegration(double* tList) {
-	//std::vector<double> sort_vec_t;
-	//sort_vec_t.push_back(t1);
-	//sort_vec_t.push_back(t2);
-	//for (auto i = 0; i < tCount; i++)
-	//{
-	//	sort_vec_t.push_back(tList[i]);
-	//}
-	//sort(sort_vec_t.begin(), sort_vec_t.end());
-
-	//double PSLIntegral = 0;
-
-	//auto iter_t1 = find(sort_vec_t.begin(), sort_vec_t.end(), t1);
-	//auto iter_t2 = find(sort_vec_t.begin(), sort_vec_t.end(), t2);
-
-	//auto mid = iter_t2 - iter_t1;
-
-	//if (mid == 0)
-	//{
-	//	PSLIntegral = (eFunction(t1) + eFunction(t2)) * (t2 - t1) / 2;
-	//}
-	//else
-	//{
-	//	for (auto iter_mid = 0; iter_mid <= mid - 1; iter_mid++)
-	//	{
-	//		double t_mid = *(iter_t2 - iter_mid);
-	//		double t_mid_before = *(iter_t2 - iter_mid - 1);
-	//		PSLIntegral = (eFunction(t_mid) + eFunction(t_mid_before)) * (t_mid - t_mid_before) / 2;
-	//		PSLIntegral += PSLIntegral;
-	//	}
-	//}
 	double t1 = tList[0];
 	double t2 = tList[1];
 	double PSLIntegral = 0;
@@ -146,17 +77,6 @@ double PWLVoltageSource::setIntegration(double* tList) {
 	}
 	return PSLIntegral;
 }
-
-//void PWLVoltageSource::getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double t1, double t2) {
-//	subA.setZero();
-//	subA(0, 2) = 1;
-//	subA(1, 2) = -1;
-//	subA(2, 0) = 1;
-//	subA(2, 1) = -1;
-//	subEIntegral.setZero();
-//	//subEIntegral(2) = setIntegration(t1, t2);
-//	subEIntegral(2) = (eFunction(t1) + eFunction(t2)) / 2 * (t2 - t1);
-//}
 
 void PWLVoltageSource::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();

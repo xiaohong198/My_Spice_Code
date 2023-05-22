@@ -42,29 +42,6 @@ void TabulatedIVCurveDevice::fitting(int IVCount, double* IList, double* VList, 
 	for (int i = 1; i < IVCount - 1; i++) {
 		rhs(i) = 6 *(  *(IDifference + i)/ *(VDifference+i) - *(IDifference+i-1) / *(VDifference+i-1)  );
 	}
-	/*for (int i = 0; i < IVCount; i++) {
-		cout << "IList[" << i << "]:" << *(IList+i) << endl;
-	}
-	for (int i = 0; i < IVCount; i++) {
-		cout << "VList[" << i << "]:" << *(VList + i) << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "IDifference[" << i << "]:" << *(IDifference + i) << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "VDifference[" << i << "]:" << *(VDifference + i) << endl;
-	}
-	for (int i = 0; i < IVCount ; i++) {
-		cout << "rhs(" << i << "):" << rhs(i) << endl;
-	}
-	for (int i = 0; i < IVCount; i++) {
-		for (int j = 0; j < IVCount; j++) {
-			cout << mat(i, j) << " ";
-			if (j == IVCount - 1) {
-				cout << endl;
-			}
-		}
-	}*/
 	sol = mat.lu().solve(rhs);//求出m向量
 	for (int i = 0; i < IVCount - 1; i++) {
 		*(Coeff0 + i) = *(IList + i);
@@ -72,21 +49,6 @@ void TabulatedIVCurveDevice::fitting(int IVCount, double* IList, double* VList, 
 		*(Coeff2 + i) = sol(i) / 2;
 		*(Coeff3 + i) = (sol(i + 1) - sol(i)) / (6 * *(VDifference+i));
 	}//给三次多项式系数赋值
-	/*for (int i = 0; i < IVCount; i++) {
-		cout << "sol(" << i << "):" << sol(i) << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "Coeff0[" << i << "]:" << Coeff0[i] << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "Coeff1[" << i << "]:" << Coeff1[i] << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "Coeff2[" << i << "]:" << Coeff2[i] << endl;
-	}
-	for (int i = 0; i < IVCount - 1; i++) {
-		cout << "Coeff3[" << i << "]:" << Coeff3[i] << endl;
-	}*/
 }
 double TabulatedIVCurveDevice::f(double V) {
 	if (V < this->VList[0]) {
@@ -124,20 +86,6 @@ double TabulatedIVCurveDevice::G(double V) {
 	return 1;
 	}
 }
-//void TabulatedIVCurveDevice::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
-//	subA.setZero();
-//	double V = nodeValue(0) - nodeValue(1);
-//	subP.setZero();
-//	subP(0) = f(V);
-//	subP(1) = -f(V);
-//	subPJacobian.setZero();
-//	subPJacobian(0, 0) = G(V);
-//	subPJacobian(0, 1) = -G(V);
-//	subPJacobian(1, 0) = -G(V);
-//	subPJacobian(1, 1) = G(V);
-//	subQ.setZero();
-//	subQJacobian.setZero();
-//}
 
 void TabulatedIVCurveDevice::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian) {
 	double V = nodeValue(0) - nodeValue(1);

@@ -61,33 +61,6 @@ std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter, 
 	return tokens;
 }
 
-//std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter, bool is_remove)
-//{
-//	vector<string> tokens;
-//	size_t pos = 0;
-//	string token;
-//	while ((pos = str.find(delimiter)) != string::npos)
-//	{
-//		token = str.substr(0, pos);
-//		if (token != "")
-//		{
-//			tokens.push_back(token);
-//		}
-//		str.erase(0, pos + delimiter.length());
-//	}
-//	if (!is_remove)
-//	{
-//		str = RemoveChars(str, " ");
-//	}
-//
-//	if (str != "")
-//	{
-//		tokens.push_back(str);
-//	}
-//
-//	return tokens;
-//}
-
 string SpiceString::getContent(string _str, string begin_symbol, string end_symbol)
 {
 	int startIndex = _str.find_first_of(begin_symbol);

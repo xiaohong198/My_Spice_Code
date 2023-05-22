@@ -13,10 +13,8 @@ class SpiceString
 public:
 	SpiceString();
 	~SpiceString();
-	// 字符串分割但是是通过大小写来改原来的
+	// 字符串分割但是是通过大小写来改原来的(str 字符串 delimiter 分割字符 str_trans 大小写转换后的 is_remove 是否保留空格)
 	std::vector<std::string> getSplitVec(string str, string delimiter, string str_trans = "", bool is_remove = false);
-	//// 字符串分割
-	//std::vector<std::string> getSplitVec(string str, string delimiter, bool is_remove = false);
 	// 字符串大写
 	string TransformUp(string _str);
 	// 字符串小写
