@@ -19,18 +19,18 @@ struct ComparisonStr
 
 struct InputSCFStr
 {
-	string PSET;
-	string DEVICE;
-	map<string, string> ParametersMap;//参数名称及数值
+	string PsetName;
+	string DeviceName;
+	map<string, vector<string>> ParametersMap;//参数名称及数值
 };
 
 struct InputCMDStr
 {
-	string Class;
-	string Example;
+	string DeviceType;
+	string Instance;
 	vector<string> Port;
-	map<string, string> ParametersMap;//参数名称及数值
-	bool IsPest;
+	map<string, vector<string>> ParametersMap;//参数名称及数值
+	bool IsPset;
 };
 
 // 位运算

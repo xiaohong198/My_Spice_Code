@@ -1,10 +1,10 @@
 PSET IRFR3505
 	DEVICE SpiceMosfet
 	PARAMETERS
-		IS = 1e-32
+		IS = 1e-35
         	VTO = 4.17022
         	LAMBDA = 0.0567706
-        	KP = 67.7358
+        	KP = 67.7359
         	CGSO = 1.82225e-05
         	CGDO = 1e-11
         	RD = 0.0001

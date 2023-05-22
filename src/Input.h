@@ -12,17 +12,14 @@ using namespace std;
 
 class Input
 {
-
 private:
 	SpiceString * SpiceString_;
 
 public:
 	vector<InputSCFStr> InputSCFStrVec;
 	vector<InputCMDStr> InputCMDStrVec;
-	vector<ComparisonStr> ComparisonStrVec;
-
-	map<string, string> InitializeClassParametersMap;// xml解析出来的各个类的初始化参数
-	map<string, string> InputClassParametersMap;// 读过.scf和.cmd之后要给器件用的类的参数
+	vector<ComparisonStr> DefaultParameterStrVec;
+	vector<ComparisonStr> UserParameterStrVec;// 交给器件类的
 
 public:
 	Input();
@@ -30,7 +27,6 @@ public:
 	void ReadSCF();
 	void ReadCMD();
 	void ReadCompareXML();
-	void ReadTXT();
-	
+	void SetParameter();
 };
 

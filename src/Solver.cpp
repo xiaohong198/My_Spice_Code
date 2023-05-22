@@ -106,7 +106,6 @@ void Solver::Process(vector<int> _process)
 	}
 }
 
-
 void Solver::processA() {//É¨ÃèËùÓÐÆ÷¼þ
 	for (auto iter : MyCircuit_->vecDeviceForMatrixA) {
 		DeviceInfoStr current_info = iter->getDeviceInfo_();

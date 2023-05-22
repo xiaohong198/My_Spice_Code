@@ -5,13 +5,6 @@ Circuit::Circuit()
 	, Device_(nullptr)
 {
 	Input_ = new Input();
-	Input_->ReadCompareXML();
-	Input_->ReadCMD();
-	Input_->ReadSCF();
-
-	Input_->InputSCFStrVec;
-	Input_->InputCMDStrVec;
-	Input_->ComparisonStrVec;
 
 #if 1
 	/*-------Mos Level1测试-----*/

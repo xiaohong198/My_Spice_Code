@@ -7,49 +7,86 @@ SpiceString::~SpiceString() {
 
 }
 
-std::vector<std::string> SpiceString::getSplitVec(string str, string str_trans, string delimiter)
+std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter, string str_trans, bool is_remove)
 {
 	vector<string> tokens;
 	size_t pos = 0;
 	string token;
-	while ((pos = str_trans.find(delimiter)) != string::npos)
+	if (str_trans != "")
 	{
-		token = str.substr(0, pos);
-		if (token != "")
+		while ((pos = str_trans.find(delimiter)) != string::npos)
 		{
-			tokens.push_back(token);
+			token = str.substr(0, pos);
+			if (!is_remove)
+			{
+				token = RemoveChars(token, " ");
+			}
+			if (token != "")
+			{
+				token = RemoveChars(token, "\t");
+				tokens.push_back(token);
+			}
+			str.erase(0, pos + delimiter.length());
+			str_trans.erase(0, pos + delimiter.length());
 		}
-		str.erase(0, pos + delimiter.length());
-		str_trans.erase(0, pos + delimiter.length());
 	}
+	else
+	{
+		while ((pos = str.find(delimiter)) != string::npos)
+		{
+			token = str.substr(0, pos);
+			if (!is_remove)
+			{
+				token = RemoveChars(token, " ");
+			}
+			if (token != "")
+			{
+				token = RemoveChars(token, "\t");
+				tokens.push_back(token);
+			}
+			str.erase(0, pos + delimiter.length());
+		}
+	}
+
+	if (!is_remove)
+	{
+		str = RemoveChars(str, " ");
+	}
+
 	if (str != "")
 	{
+		str = RemoveChars(str, "\t");
 		tokens.push_back(str);
 	}
 	return tokens;
 }
 
-std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter)
-{
-	vector<string> tokens;
-	size_t pos = 0;
-	string token;
-	while ((pos = str.find(delimiter)) != string::npos)
-	{
-		token = str.substr(0, pos);
-		if (token != "")
-		{
-			tokens.push_back(token);
-		}
-		str.erase(0, pos + delimiter.length());
-	}
-	if (str != "")
-	{
-		tokens.push_back(str);
-	}
-
-	return tokens;
-}
+//std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter, bool is_remove)
+//{
+//	vector<string> tokens;
+//	size_t pos = 0;
+//	string token;
+//	while ((pos = str.find(delimiter)) != string::npos)
+//	{
+//		token = str.substr(0, pos);
+//		if (token != "")
+//		{
+//			tokens.push_back(token);
+//		}
+//		str.erase(0, pos + delimiter.length());
+//	}
+//	if (!is_remove)
+//	{
+//		str = RemoveChars(str, " ");
+//	}
+//
+//	if (str != "")
+//	{
+//		tokens.push_back(str);
+//	}
+//
+//	return tokens;
+//}
 
 string SpiceString::getContent(string _str, string begin_symbol, string end_symbol)
 {
@@ -67,5 +104,11 @@ string SpiceString::TransformUp(string _str)
 string SpiceString::TransformLow(string _str)
 {
 	std::transform(_str.begin(), _str.end(), _str.begin(), ::tolower);
+	return _str;
+}
+
+string SpiceString::RemoveChars(string _str, string _chars)
+{
+	_str.erase(remove(_str.begin(), _str.end(), *(_chars.c_str())), _str.end());
 	return _str;
 }

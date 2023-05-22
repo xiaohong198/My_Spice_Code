@@ -3,6 +3,10 @@ Input::Input()
 	:SpiceString_(nullptr) 
 {
 	SpiceString_ = new SpiceString();
+	ReadCompareXML();
+	ReadCMD();
+	ReadSCF();
+	SetParameter();
 }
 
 Input::~Input() {
@@ -31,11 +35,11 @@ void Input::ReadSCF()
 		else if (line_trans.find("PSET") != string::npos)
 		{
 			//PSET
-			for (auto iter : SpiceString_->getSplitVec(line, line_trans, "PSET"))
+			for (auto iter : SpiceString_->getSplitVec(line, "PSET", line_trans))
 			{
 				if (iter != " ")
 				{
-					scf_str.PSET = iter;
+					scf_str.PsetName = iter;
 				}
 			}
 		}
@@ -43,11 +47,11 @@ void Input::ReadSCF()
 		else if (line_trans.find("DEVICE") != string::npos)
 		{
 			// DEVICE
-			for (auto iter : SpiceString_->getSplitVec(line, line_trans, "DEVICE"))
+			for (auto iter : SpiceString_->getSplitVec(line, "DEVICE", line_trans))
 			{
 				if (iter != " ")
 				{
-					scf_str.DEVICE = iter;
+					scf_str.DeviceName = iter;
 				}
 			}
 		}
@@ -60,11 +64,12 @@ void Input::ReadSCF()
 			// PARAMETERS_VALUE
 			if (line.find("=") != string::npos)
 			{
-				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=");
-				if (txt_result.size() == 2)
+				std::vector<std::string> split_result = SpiceString_->getSplitVec(line, "=");
+				if (split_result.size() == 2)
 				{
-					std::vector<std::string> split_result = SpiceString_->getSplitVec(txt_result[0], "\t");
-					scf_str.ParametersMap.insert({ split_result[split_result.size()-1], txt_result[1] });
+					string parameter_key = split_result[0];
+					split_result.erase(split_result.begin());
+					scf_str.ParametersMap.insert({ parameter_key, split_result });
 				}
 			}
 		}
@@ -83,7 +88,8 @@ void Input::ReadCMD()
 	string pwl_value;
 	string pwl_key;
 	InputCMDStr cmd_str;
-	cmd_str.IsPest = false;
+	cmd_str.IsPset = false;
+	vector<string> pwl_value_vec;
 
 	while (getline(in, line))
 	{
@@ -92,55 +98,64 @@ void Input::ReadCMD()
 			string line_trans = SpiceString_->TransformLow(line);
 			if (line_trans.find("_pset") != string::npos)
 			{
-				cmd_str.IsPest = true;
+				cmd_str.IsPset = true;
 			}
 			if (line_trans.find("(") != string::npos)
 			{
 				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, " ");
-				cmd_str.Class = SpiceString_->getSplitVec(txt_result[0],"\t")[0];
-				cmd_str.Example = txt_result[1];
+				cmd_str.DeviceType = txt_result[0];
+				cmd_str.Instance = txt_result[1];
 
 				string content_str = SpiceString_->getContent(line, "(", ")");
 				cmd_str.Port = SpiceString_->getSplitVec(content_str, " ");
+			}
+			if (line_trans.find("{") != string::npos && line_trans.find("}") != string::npos)
+			{
+				string content_str = SpiceString_->getContent(line, "{", "}");
+				for (auto iter : SpiceString_->getSplitVec(content_str, " "))
+				{
+					std::vector<std::string> split_result = SpiceString_->getSplitVec(iter, "=");
 
-				if (line_trans.find("{") != string::npos && line_trans.find("}") != string::npos)
-				{
-					content_str = SpiceString_->getContent(line, "{", "}");
-					for (auto iter : SpiceString_->getSplitVec(content_str, " "))
-					{
-						std::vector<std::string> split_result = SpiceString_->getSplitVec(iter, "=");
-						cmd_str.ParametersMap.insert({ split_result[0], split_result[1] });
-					}
-					InputCMDStrVec.push_back(cmd_str);
-					cmd_str = *(new InputCMDStr);
-					cmd_str.IsPest = false;
-					continue;
+					string parameter_key = split_result[0];
+					split_result.erase(split_result.begin());
+					cmd_str.ParametersMap.insert({ parameter_key, split_result });
 				}
-				if (line_trans.find("{") != string::npos && line_trans.find("}") == string::npos)
+				InputCMDStrVec.push_back(cmd_str);
+				cmd_str = *(new InputCMDStr);
+				cmd_str.IsPset = false;
+				continue;
+			}
+			//pwl
+			else if (line_trans.find("{") != string::npos && line_trans.find("}") == string::npos)
+			{
+				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=(","",true);
+				pwl_key = SpiceString_->getContent(line, "{", "=");
+				for (auto iter : SpiceString_->getSplitVec(txt_result[1], " "))
 				{
-					std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=(");
-					pwl_key = SpiceString_->getContent(line, "{", "=(");
-					pwl_value += txt_result[txt_result.size() - 1];
+					pwl_value_vec.push_back(iter);
+				}
+				
+				continue;
+			}
+			else if (line_trans.find("{") == string::npos && line_trans.find("}") == string::npos)
+			{
+				//pwl value
+				line = SpiceString_->RemoveChars(line, "\t");
+				for (auto iter : SpiceString_->getSplitVec(line, " "))
+				{
+					pwl_value_vec.push_back(iter);
 				}
 			}
 			else if (line_trans.find(")}") != string::npos)
 			{
 				//pwl END
-				cmd_str.ParametersMap.insert({ pwl_key, pwl_value });
+				cmd_str.ParametersMap.insert({ pwl_key, pwl_value_vec });
 				InputCMDStrVec.push_back(cmd_str);
+				
 				cmd_str = *(new InputCMDStr);
-				cmd_str.IsPest = false;
+				cmd_str.IsPset = false;
+				pwl_value_vec.clear();
 				continue;
-			}
-			else if (line_trans.find("}") != string::npos)
-			{
-				//END
-				continue;
-			}
-			else
-			{
-				//pwl value
-				pwl_value += line;
 			}
 		}
 	}
@@ -202,139 +217,50 @@ void Input::ReadCompareXML()
 			}
 			comparison_str.ParametersMap.insert({ parameter_name ,parameter_value_vec });
 		}
-		ComparisonStrVec.push_back(comparison_str);
+		DefaultParameterStrVec.push_back(comparison_str);
 	}
 }
 
-void Input::ReadTXT()
+void Input::SetParameter()
 {
-#if 0
-	// 获取当前路径
-	string path = _getcwd(NULL, 0);
-	string output_dir_Path = path + "/CircuitVarsData";
-	string outputPath = output_dir_Path + "/Input_Circuit_Diode_level1.txt";
+	map<string, vector<string>> user_cmd_scf_map;
+	UserParameterStrVec = DefaultParameterStrVec;
+	for (auto InputCMD_iter : InputCMDStrVec)
+	{
+		user_cmd_scf_map = InputCMD_iter.ParametersMap;
 
-	ifstream fin(outputPath);
-	string nowline;
-	stringstream sstr;
-	int last_sp;
-	int nodeMax = 0;
-	while (getline(fin, nowline)) {
-		int i = 0;
-		while (1) {
-			if (nowline[i] == 32)
-				break;
-			i++;
-		}//[i]为第一个空格
+		string name = InputCMD_iter.DeviceType;
 
-		int j;
-		for (j = nowline.size() - 1; j > i; j--) {
-			if (nowline[j] == 32) {
-				break;
-			}
-		}//[j]为最后一个空格
-		/*-------------------------------同时预填f,统计type-----------------------------------*/
-		vecTimeInvariantDeviceInfo[excitationDeviceCount].deviceType = nowline[0];
-		last_sp = i;
-		switch (nowline[0]) {
-		case 'R':
-			vecTimeInvariantDevice.push_back(new Resistor());
-			vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xCount = 2;
-			for (int h = i + 2; h < j + 1; h++) {
-				int portCount = 0;
-				if (nowline[h] == ' ') {
-					sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-					sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
-					if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
-						nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
-					last_sp = h;
-					portCount++;
+		if (InputCMD_iter.IsPset)
+		{
+			name = (SpiceString_->getSplitVec(name, "_pset"))[0];
+		}
+		else
+		{
+			auto InputSCF_iter = std::find_if(InputSCFStrVec.begin(), InputSCFStrVec.end(), [name](const InputSCFStr& comparison) {
+				return comparison.PsetName == name;
+			});
+			if (InputSCF_iter != InputSCFStrVec.end())
+			{
+				name = InputSCF_iter->DeviceName;
+				for (auto Parameters_iter = InputSCF_iter->ParametersMap.begin(); Parameters_iter != InputSCF_iter->ParametersMap.end(); ++Parameters_iter) {
+					{
+						user_cmd_scf_map.insert({ Parameters_iter->first,Parameters_iter->second });
+					}
 				}
 			}
-			vecTimeInvariantDevice[timeInvariantDeviceCount]->setConstValue(nowline[j + 1] - '0');
-			timeInvariantDeviceCount++;
-			break;
-		case 'C':
-			vecTimeInvariantDevice.push_back(new Capacitor());
-			vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xCount = 2;
-			for (int h = i + 2; h < j + 1; h++) {
-				int portCount = 0;
-				if (nowline[h] == ' ') {
-					sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-					sstr >> vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
-					if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
-						nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
-					last_sp = h;
-					portCount++;
+		}
+		auto UserParameter_iter = std::find_if(UserParameterStrVec.begin(), UserParameterStrVec.end(), [name](const ComparisonStr& comparison) {
+			return comparison.ClassName == name;
+		});
+		if (UserParameter_iter != UserParameterStrVec.end())
+		{
+			for (auto user_cmd_scf_iter = user_cmd_scf_map.begin(); user_cmd_scf_iter != user_cmd_scf_map.end(); ++user_cmd_scf_iter) {
+				{
+					UserParameter_iter->ParametersMap.insert({ user_cmd_scf_iter->first,user_cmd_scf_iter->second });
 				}
 			}
-			vecTimeInvariantDevice[timeInvariantDeviceCount]->setConstValue(nowline[j + 1] - '0');
-			timeInvariantDeviceCount++;
-			break;
-		case 'L':
-			vecTimeInvariantDevice.push_back(new Inductor());
-			timeInvariantDeviceCount++;
-			break;
-		case 'V':
-			vecExcitationDevice.push_back(new Vsource_DC());
-			vecExcitationDeviceInfo[excitationDeviceCount].xCount = 3;
-			vecExcitationDeviceInfo[excitationDeviceCount].additionalxCount = 1;
-			for (int h = i + 2; h < j + 1; h++) {
-				int portCount = 0;
-				if (nowline[h] == ' ') {
-					sstr << nowline.substr(last_sp + 1, h - last_sp - 1);
-					sstr >> vecExcitationDeviceInfo[excitationDeviceCount].xIndex[portCount];
-					if (vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount] > nodeMax)
-						nodeMax = vecTimeInvariantDeviceInfo[timeInvariantDeviceCount].xIndex[portCount];
-					last_sp = h;
-					portCount++;
-				}
-			}
-			excitationDeviceCount++;
-
-			break;
-			//case 'J':
-			//    vecExcitationDevice.push_back(new Jsource());
-			//    excitationDeviceCount++;
-			//    break;
-		case 'D':
-			vecTimeVariantDevice.push_back(new Diode());
-			timeVariantDeviceCount++;
-			break;
 		}
 	}
-
-	int sumAdditionalxCount = 0;
-	for (int i = 0; i < timeInvariantDeviceCount; i++) {
-		if (vecTimeInvariantDeviceInfo[i].additionalxCount) {
-			int vCount = vecTimeInvariantDeviceInfo[i].xCount - vecTimeInvariantDeviceInfo[i].additionalxCount;
-			for (int j = 0; j < vecTimeInvariantDeviceInfo[i].additionalxCount; j++) {
-				vecTimeInvariantDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
-			}
-			sumAdditionalxCount += vecTimeInvariantDeviceInfo[i].additionalxCount;
-		}
-	}
-	for (int i = 0; i < timeVariantDeviceCount; i++) {
-		if (vecTimeVariantDeviceInfo[i].additionalxCount) {
-			int vCount = vecTimeVariantDeviceInfo[i].xCount - vecTimeVariantDeviceInfo[i].additionalxCount;
-			for (int j = 0; j < vecTimeVariantDeviceInfo[i].additionalxCount; j++) {
-				vecTimeVariantDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
-			}
-			sumAdditionalxCount += vecTimeVariantDeviceInfo[i].additionalxCount;
-		}
-	}
-	for (int i = 0; i < excitationDeviceCount; i++) {
-		if (vecExcitationDeviceInfo[i].additionalxCount) {
-			int vCount = vecExcitationDeviceInfo[i].xCount - vecExcitationDeviceInfo[i].additionalxCount;
-			for (int j = 0; j < vecExcitationDeviceInfo[i].additionalxCount; j++) {
-				vecExcitationDeviceInfo[i].xIndex[vCount + j] = nodeMax + sumAdditionalxCount + j;
-			}
-			sumAdditionalxCount += vecExcitationDeviceInfo[i].additionalxCount;
-		}
-	}
-	nodeCount = nodeMax + 1;//认为0节点为地节点
-	matrixDimension = nodeCount + sumAdditionalxCount;
-
-#endif // 0
-
 }
+
