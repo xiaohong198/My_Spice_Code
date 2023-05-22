@@ -9,199 +9,219 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    <Filter Include="Header Files\Device">
+      <UniqueIdentifier>{47768161-02a3-417d-8896-91f20e4b2650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{62376107-198d-40cd-b7a7-65f0f53d3c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Newton">
+      <UniqueIdentifier>{83a84336-be9d-4199-b36d-6d9c4ffb9c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Solver">
+      <UniqueIdentifier>{caf03e70-3691-4923-bb05-f3fe72021c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Device">
+      <UniqueIdentifier>{b49e0521-05ab-4c43-97f3-cb3d6a761040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{349f200a-ee80-4846-af35-f198c1c5de8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Solver">
+      <UniqueIdentifier>{2b34d78b-862a-4d59-a92b-2c0b5caf523b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Newton">
+      <UniqueIdentifier>{48545e20-bb03-4c7c-90d0-7cef3f7c9a99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BasicNewton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Capacitor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Circuit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Configuration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Device.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Diode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ExcitationDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Inductor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Jsource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Jsource_AC.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Jsource_DC.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MOA.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Capacitor.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Newton.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Device.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\PWLVoltageSource.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Diode.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Resistor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\ExcitationDevice.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Simulator.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Inductor.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Jsource.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver_EulerBackward.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Jsource_AC.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver_SDC.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Jsource_DC.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver_TR.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\MOA.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpiceDevice.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\PWLVoltageSource.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpiceDiode.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Resistor.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpiceMosfet.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\SpiceDevice.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpiceMosLevel1Test.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\SpiceDiode.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SurgeArrester.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\SpiceMosfet.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\TabulatedIVCurveDevice.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\SpiceMosLevel1Test.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vsource_AC.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\SurgeArrester.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vsource_DC.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\TabulatedIVCurveDevice.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Vsource_AC.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpiceString.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Device\Vsource_DC.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Circuit.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Configuration.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\SpiceString.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Newton\BasicNewton.cpp">
+      <Filter>Source Files\Newton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Newton\Newton.cpp">
+      <Filter>Source Files\Newton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Solver\Simulator.cpp">
+      <Filter>Source Files\Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Solver\Solver.cpp">
+      <Filter>Source Files\Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Solver\Solver_EulerBackward.cpp">
+      <Filter>Source Files\Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Solver\Solver_SDC.cpp">
+      <Filter>Source Files\Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Solver\Solver_TR.cpp">
+      <Filter>Source Files\Solver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\BasicNewton.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Capacitor.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Capacitor.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Device.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuit.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Diode.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Configuration.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\ExcitationDevice.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Device.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Inductor.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Diode.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Jsource.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\ExcitationDevice.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Jsource_AC.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Inductor.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Jsource_DC.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Jsource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\MOA.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Jsource_AC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\PWLVoltageSource.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Jsource_DC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Resistor.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\MOA.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\SpiceDevice.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Newton.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\SpiceDiode.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\PWLVoltageSource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\SpiceMosfet.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resistor.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\SpiceMosLevel1Test.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Simulator.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\SurgeArrester.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\TabulatedIVCurveDevice.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver_EulerBackward.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Vsource_AC.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver_SDC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Device\Vsource_DC.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver_TR.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Input\Circuit.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpiceDevice.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Input\Configuration.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpiceDiode.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Input\Input.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpiceMosfet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Input\SpiceString.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpiceMosLevel1Test.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Newton\BasicNewton.h">
+      <Filter>Header Files\Newton</Filter>
     </ClInclude>
-    <ClInclude Include="src\SurgeArrester.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Newton\Newton.h">
+      <Filter>Header Files\Newton</Filter>
     </ClInclude>
-    <ClInclude Include="src\TabulatedIVCurveDevice.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Solver\Simulator.h">
+      <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vsource_AC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Solver\Solver.h">
+      <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vsource_DC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Solver\Solver_EulerBackward.h">
+      <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Solver\Solver_SDC.h">
+      <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpiceString.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Solver\Solver_TR.h">
+      <Filter>Header Files\Solver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

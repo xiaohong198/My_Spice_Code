@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)\src\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
@@ -110,7 +110,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)\src\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)\src\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)\src\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
@@ -167,69 +167,69 @@
     <None Include="src\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BasicNewton.cpp" />
-    <ClCompile Include="src\Capacitor.cpp" />
-    <ClCompile Include="src\Circuit.cpp" />
-    <ClCompile Include="src\Configuration.cpp" />
-    <ClCompile Include="src\Device.cpp" />
-    <ClCompile Include="src\Diode.cpp" />
-    <ClCompile Include="src\ExcitationDevice.cpp" />
-    <ClCompile Include="src\Inductor.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Jsource.cpp" />
-    <ClCompile Include="src\Jsource_AC.cpp" />
-    <ClCompile Include="src\Jsource_DC.cpp" />
+    <ClCompile Include="src\Device\Capacitor.cpp" />
+    <ClCompile Include="src\Device\Device.cpp" />
+    <ClCompile Include="src\Device\Diode.cpp" />
+    <ClCompile Include="src\Device\ExcitationDevice.cpp" />
+    <ClCompile Include="src\Device\Inductor.cpp" />
+    <ClCompile Include="src\Device\Jsource.cpp" />
+    <ClCompile Include="src\Device\Jsource_AC.cpp" />
+    <ClCompile Include="src\Device\Jsource_DC.cpp" />
+    <ClCompile Include="src\Device\MOA.cpp" />
+    <ClCompile Include="src\Device\PWLVoltageSource.cpp" />
+    <ClCompile Include="src\Device\Resistor.cpp" />
+    <ClCompile Include="src\Device\SpiceDevice.cpp" />
+    <ClCompile Include="src\Device\SpiceDiode.cpp" />
+    <ClCompile Include="src\Device\SpiceMosfet.cpp" />
+    <ClCompile Include="src\Device\SpiceMosLevel1Test.cpp" />
+    <ClCompile Include="src\Device\SurgeArrester.cpp" />
+    <ClCompile Include="src\Device\TabulatedIVCurveDevice.cpp" />
+    <ClCompile Include="src\Device\Vsource_AC.cpp" />
+    <ClCompile Include="src\Device\Vsource_DC.cpp" />
+    <ClCompile Include="src\Input\Circuit.cpp" />
+    <ClCompile Include="src\Input\Configuration.cpp" />
+    <ClCompile Include="src\Input\Input.cpp" />
+    <ClCompile Include="src\Input\SpiceString.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MOA.cpp" />
-    <ClCompile Include="src\Newton.cpp" />
-    <ClCompile Include="src\PWLVoltageSource.cpp" />
-    <ClCompile Include="src\Resistor.cpp" />
-    <ClCompile Include="src\Simulator.cpp" />
-    <ClCompile Include="src\Solver.cpp" />
-    <ClCompile Include="src\Solver_EulerBackward.cpp" />
-    <ClCompile Include="src\Solver_SDC.cpp" />
-    <ClCompile Include="src\Solver_TR.cpp" />
-    <ClCompile Include="src\SpiceDevice.cpp" />
-    <ClCompile Include="src\SpiceDiode.cpp" />
-    <ClCompile Include="src\SpiceMosfet.cpp" />
-    <ClCompile Include="src\SpiceMosLevel1Test.cpp" />
-    <ClCompile Include="src\SpiceString.cpp" />
-    <ClCompile Include="src\SurgeArrester.cpp" />
-    <ClCompile Include="src\TabulatedIVCurveDevice.cpp" />
-    <ClCompile Include="src\Vsource_AC.cpp" />
-    <ClCompile Include="src\Vsource_DC.cpp" />
+    <ClCompile Include="src\Newton\BasicNewton.cpp" />
+    <ClCompile Include="src\Newton\Newton.cpp" />
+    <ClCompile Include="src\Solver\Simulator.cpp" />
+    <ClCompile Include="src\Solver\Solver.cpp" />
+    <ClCompile Include="src\Solver\Solver_EulerBackward.cpp" />
+    <ClCompile Include="src\Solver\Solver_SDC.cpp" />
+    <ClCompile Include="src\Solver\Solver_TR.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\BasicNewton.h" />
-    <ClInclude Include="src\Capacitor.h" />
-    <ClInclude Include="src\Circuit.h" />
-    <ClInclude Include="src\Configuration.h" />
-    <ClInclude Include="src\Device.h" />
-    <ClInclude Include="src\Diode.h" />
-    <ClInclude Include="src\ExcitationDevice.h" />
-    <ClInclude Include="src\Inductor.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\Jsource.h" />
-    <ClInclude Include="src\Jsource_AC.h" />
-    <ClInclude Include="src\Jsource_DC.h" />
-    <ClInclude Include="src\MOA.h" />
-    <ClInclude Include="src\Newton.h" />
-    <ClInclude Include="src\PWLVoltageSource.h" />
-    <ClInclude Include="src\Resistor.h" />
-    <ClInclude Include="src\Simulator.h" />
-    <ClInclude Include="src\Solver.h" />
-    <ClInclude Include="src\Solver_EulerBackward.h" />
-    <ClInclude Include="src\Solver_SDC.h" />
-    <ClInclude Include="src\Solver_TR.h" />
-    <ClInclude Include="src\SpiceDevice.h" />
-    <ClInclude Include="src\SpiceDiode.h" />
-    <ClInclude Include="src\SpiceMosfet.h" />
-    <ClInclude Include="src\SpiceMosLevel1Test.h" />
-    <ClInclude Include="src\SpiceString.h" />
-    <ClInclude Include="src\SurgeArrester.h" />
-    <ClInclude Include="src\TabulatedIVCurveDevice.h" />
-    <ClInclude Include="src\Vsource_AC.h" />
-    <ClInclude Include="src\Vsource_DC.h" />
+    <ClInclude Include="src\Device\Capacitor.h" />
+    <ClInclude Include="src\Device\Device.h" />
+    <ClInclude Include="src\Device\Diode.h" />
+    <ClInclude Include="src\Device\ExcitationDevice.h" />
+    <ClInclude Include="src\Device\Inductor.h" />
+    <ClInclude Include="src\Device\Jsource.h" />
+    <ClInclude Include="src\Device\Jsource_AC.h" />
+    <ClInclude Include="src\Device\Jsource_DC.h" />
+    <ClInclude Include="src\Device\MOA.h" />
+    <ClInclude Include="src\Device\PWLVoltageSource.h" />
+    <ClInclude Include="src\Device\Resistor.h" />
+    <ClInclude Include="src\Device\SpiceDevice.h" />
+    <ClInclude Include="src\Device\SpiceDiode.h" />
+    <ClInclude Include="src\Device\SpiceMosfet.h" />
+    <ClInclude Include="src\Device\SpiceMosLevel1Test.h" />
+    <ClInclude Include="src\Device\SurgeArrester.h" />
+    <ClInclude Include="src\Device\TabulatedIVCurveDevice.h" />
+    <ClInclude Include="src\Device\Vsource_AC.h" />
+    <ClInclude Include="src\Device\Vsource_DC.h" />
+    <ClInclude Include="src\Input\Circuit.h" />
+    <ClInclude Include="src\Input\Configuration.h" />
+    <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Input\SpiceString.h" />
+    <ClInclude Include="src\Newton\BasicNewton.h" />
+    <ClInclude Include="src\Newton\Newton.h" />
+    <ClInclude Include="src\Solver\Simulator.h" />
+    <ClInclude Include="src\Solver\Solver.h" />
+    <ClInclude Include="src\Solver\Solver_EulerBackward.h" />
+    <ClInclude Include="src\Solver\Solver_SDC.h" />
+    <ClInclude Include="src\Solver\Solver_TR.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

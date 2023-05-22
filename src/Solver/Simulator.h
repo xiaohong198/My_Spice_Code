@@ -2,7 +2,7 @@
 #include "Solver_EulerBackward.h"
 #include "Solver_TR.h"
 #include "Solver_SDC.h"
-#include "BasicNewton.h"
+#include "Newton\BasicNewton.h"
 
 class Circuit;
 class Solver;

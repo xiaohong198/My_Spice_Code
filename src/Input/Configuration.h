@@ -1,6 +1,6 @@
 #pragma once
+#include "Solver\Solver.h"
 enum TimeDiscretization { EulerBackward, Trapezoidal, BDF_2, SDC };
-#include "Solver.h"
 class Configuration
 {
 	friend class Simulator;
