@@ -7,9 +7,9 @@
 #include <sstream>
 #include <stdlib.h>
 #include <stdio.h>
-#include "Input\Circuit.h"
-#include "Input\Configuration.h"
-#include "Newton\Newton.h"
+#include "Input/Circuit.h"
+#include "Input/Configuration.h"
+#include "Newton/Newton.h"
 
 using namespace std;
 

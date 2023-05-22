@@ -1,5 +1,5 @@
 #pragma once
-#include "Solver\Solver.h"
+#include "Solver/Solver.h"
 #include <cmath>
 class Configuration;
 class Circuit;

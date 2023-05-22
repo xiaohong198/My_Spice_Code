@@ -1,6 +1,6 @@
 #pragma once
-#include "Solver\Solver.h"
-#include "Device\Device.h"
+#include "Solver/Solver.h"
+#include "Device/Device.h"
 class Solver;
 class Inductor :public Device
 {

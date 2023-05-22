@@ -1,5 +1,5 @@
 #pragma once
-#include "Solver\Solver.h"
+#include "Solver/Solver.h"
 enum TimeDiscretization { EulerBackward, Trapezoidal, BDF_2, SDC };
 class Configuration
 {
