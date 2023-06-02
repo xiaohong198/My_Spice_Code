@@ -1,73 +1,68 @@
 #include "SpiceMosfet.h"
+REGISTER(SpiceMosfet);
 SpiceMosfet::SpiceMosfet() {
-	MTYPE = 1;
-	//Dimensions
-	AREA = 1;
-	SCALE = 42;
-	LENGTH = 1e-4;//channel length
-	WIDTH = 1e-4;//channel width
-	AD = 0;//Drain area
-	AS = 0;//Source area
-	PD = 0;//Drain perimeter
-	PS = 0;//Source perimeter
-	NRD = 1;//Number of drain diffusion resistance squares
-	NRS = 1;//Number of transistor source diffusion squares of resistance
-	RD = 0.0001;//Series resistance
-	RS = 0.00909126;//Series resistance
-	RSH = 0;//Per square resistance
+}
 
-	//DC Currents
-	VTO = 4.17022;//Threshold voltage
-	KP = 67.7358;//Transconductance
-	GAMMA = 0;// Bulk threshold
-	PHI = 0.6;// Surface potential
-	LAMBDA = 0.0567706; //Channel-length modulation
-	IS = 1e-32;//Bulk saturation current magnitude
-	N = 1;//Emission coefficient
+void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+{
+	InputData = _DataStr;
+
+	InstanceName = _DataStr.InstanceName;
+
+	MTYPE = stod(_DataStr.ParametersMap["MTYPE"][0]);
+	AREA = stod(_DataStr.ParametersMap["AREA"][0]);
+	SCALE = stod(_DataStr.ParametersMap["SCALE"][0]);
+	LENGTH = stod(_DataStr.ParametersMap["LENGTH"][0]);
+	WIDTH = stod(_DataStr.ParametersMap["WIDTH"][0]);
+	AD = stod(_DataStr.ParametersMap["AD"][0]);
+	AS = stod(_DataStr.ParametersMap["AS"][0]);
+	PD = stod(_DataStr.ParametersMap["PD"][0]);
+	PS = stod(_DataStr.ParametersMap["PS"][0]);
+	NRD = stod(_DataStr.ParametersMap["NRD"][0]);
+	NRS = stod(_DataStr.ParametersMap["NRS"][0]);
+	RD = stod(_DataStr.ParametersMap["RD"][0]);
+	RS = stod(_DataStr.ParametersMap["RS"][0]);
+	RSH = stod(_DataStr.ParametersMap["RSH"][0]);
+	VTO = stod(_DataStr.ParametersMap["VTO"][0]);
+	KP = stod(_DataStr.ParametersMap["KP"][0]);
+	GAMMA = stod(_DataStr.ParametersMap["GAMMA"][0]);
+	PHI = stod(_DataStr.ParametersMap["PHI"][0]);
+	LAMBDA = stod(_DataStr.ParametersMap["LAMBDA"][0]);
+	IS = stod(_DataStr.ParametersMap["IS"][0]);
+	N = stod(_DataStr.ParametersMap["N"][0]);
+	JS = stod(_DataStr.ParametersMap["JS"][0]);
+	IFModelGateCapacitance = stod(_DataStr.ParametersMap["IFModelGateCapacitance"][0]);
+	IFModelGateOverlapCapacitance = stod(_DataStr.ParametersMap["IFModelGateOverlapCapacitance"][0]);
+	CGSO = stod(_DataStr.ParametersMap["CGSO"][0]);
+	CGDO = stod(_DataStr.ParametersMap["CGDO"][0]);
+	CGBO = stod(_DataStr.ParametersMap["CGBO"][0]);
+	IFModelJunctionCapacitance = stod(_DataStr.ParametersMap["IFModelJunctionCapacitance"][0]);
+	CBD = stod(_DataStr.ParametersMap["CBD"][0]);
+	CBS = stod(_DataStr.ParametersMap["CBS"][0]);
+	PB = stod(_DataStr.ParametersMap["PB"][0]);
+	CJ = stod(_DataStr.ParametersMap["CJ"][0]);
+	MJ = stod(_DataStr.ParametersMap["MJ"][0]);
+	CJSW = stod(_DataStr.ParametersMap["CJSW"][0]);
+	MJSW = stod(_DataStr.ParametersMap["MJSW"][0]);
+	FC = stod(_DataStr.ParametersMap["FC"][0]);
+	IFSpecifyInitialCondition = stod(_DataStr.ParametersMap["IFSpecifyInitialCondition"][0]);
+	ICVDS = stod(_DataStr.ParametersMap["ICVDS"][0]);
+	ICVGS = stod(_DataStr.ParametersMap["ICVGS"][0]);
+	ICVBS = stod(_DataStr.ParametersMap["ICVBS"][0]);
+	TOX = stod(_DataStr.ParametersMap["TOX"][0]);
+	LD = stod(_DataStr.ParametersMap["LD"][0]);
+	U0 = stod(_DataStr.ParametersMap["U0"][0]);
+
+	if (_DataStr.ParametersMap["NUSB"][0] == "NAN")
+	{
+		NUSB = NAN;
+	}
+
+	TPG = stod(_DataStr.ParametersMap["TPG"][0]);
+	NSS = stod(_DataStr.ParametersMap["NSS"][0]);
+
+
 	Vtn = N * k * T / q;//Thermal Voltage
-	JS = 0;//Bulk junction saturation current density
-	/*--------------Level 3 参数------------*/
-	//DELTA = 0;//Width factor,Level 3 参数
-	//VMAX = 0;//Maximum drift velocity，Level 3 参数
-	//NFS = 0;//Fast surface state density，Level 3 参数
-	//ETA = 0;//Drain-source voltage threshold，Level 3 参数
-	//THETA = 0;//Mobility dependence coefficient，Level 3 参数
-	//KAPPA = 0.2;//Mobility modulation coefficient，Level 3 参数
-	/*-------------------------------------*/
-	//C-V
-	IFModelGateCapacitance = 0;// 0 for No intrinsic capacitance; 1 for Meyer; 2 for Charge Conversation
-
-	IFModelGateOverlapCapacitance = 0;//No — Do not include gate overlap capacitance in the model. Yes — Specify the gate-source, gate-drain, and gate-bulk capacitances.
-	CGSO = 1.82225e-05;//Gate-source overlap capacitance
-	CGDO = 1e-11;//Gate-drain overlap capacitance
-	CGBO = 0;//Gate-bulk overlap capacitance
-
-	IFModelJunctionCapacitance = 0;//No — Do not include junction capacitance in the model.  Yes — Specify zero-bias junction capacitance, junction potential, grading coefficient, forward-bias depletion and capacitance coefficient.
-	CBD = 0;//Zero-bias BD capacitance
-	CBS = 0;//Zero-bias BS capacitance
-
-	PB = 0.8;//Bulk junction potential
-	CJ = 0;//Zero-bias bulk junction bottom capacitance per junction area
-	MJ = 0.5;//Bottom grading coefficient
-	CJSW = 0;//Zero-bias bulk junction sidewall capacitance per junction perimeter
-	MJSW = 0.5;//Sidewall grading coefficient
-	FC = 0.5;//Capacitance coefficient
-
-	IFSpecifyInitialCondition = 0;
-	ICVDS = 0;//Initial Voltage for Vds
-	ICVGS = 0;
-	ICVBS = 0;
-
-	//Process
-	TOX = 1e-7;//Gate oxide thickness
-	LD = 0;//Length of lateral diffusion
-	U0 = 0;//Zero-bias surface mobility coefficient
-	NUSB = NAN;//Substrate doping
-	TPG = 0;//Gate type: Opposite of substrate (1) (default) | Same as substrate (-1) | Aluminum (0)
-	NSS = 0;//Surface state density
-//	XJ = 0;//Junction depth，Level 3
-
-	//Geometry-Adjusted Variables
 	KPd = KP * AREA * SCALE;
 	ISd = IS * AREA * SCALE;
 	JSd = JS * AREA * SCALE;
@@ -81,10 +76,9 @@ SpiceMosfet::SpiceMosfet() {
 	RDd = RD / (AREA * SCALE);
 	RSd = RS / (AREA * SCALE);
 	RSHd = RSH / (AREA * SCALE);
-
 	//一些中间常量
 	BETA = KPd * WIDTH / (LENGTH - 2 * LD);
-	EGTmeas = 1.16 - (7.02 - 4 * pow(Tmeas,2)) / (Tmeas + 1108);
+	EGTmeas = 1.16 - (7.02 - 4 * pow(Tmeas, 2)) / (Tmeas + 1108);
 	EGT = 1.16 - (7.02 - 4 * pow(T, 2)) / (T + 1108);
 	VBI = VTO + MTYPE * (-GAMMA * sqrt(PHI)) + (EGTmeas - EGT) / 2;
 	CgsOverlap = CGSOd * WIDTH;
@@ -109,6 +103,72 @@ SpiceMosfet::SpiceMosfet() {
 	Vbd = 0;
 	Vgb = 0;
 	Von = MTYPE * VBI;
+
+	//端口号
+	int max_port = 0;
+	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
+	{
+		max_port < iter_map->second ? max_port = iter_map->second : max_port;
+	}
+	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
+	{
+		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
+		{
+			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
+			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
+			// 未完成
+		}
+		else
+		{
+			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
+			{
+				continue;
+			}
+			else
+			{
+				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+			}
+		}
+	}
+	_PortMap.insert({ "- MaxPortIndex -",max_port });
+	_PortMap["- MaxPortIndex -"] = max_port;
+}
+
+void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
+{
+	//端口号应用
+	int _max_port_index = _PortMap["- MaxPortIndex -"];
+	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
+	{
+		string port_name = InputData.Port[index_port];
+
+		switch (index_port)
+		{
+		case 0:
+			//D
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[0]]);
+			//Dp
+			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			break;
+		case 1:
+			//G
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[1]]);
+			break;
+		case 2:
+			//B
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[3]]);
+			break;
+		case 3:
+			//S
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[2]]);
+			//Sp
+			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			break;
+		default:
+			break;
+		}
+	}
+	_PortMap["- MaxPortIndex -"] = _max_port_index;
 }
 
 SpiceMosfet::~SpiceMosfet() {
@@ -425,12 +485,12 @@ int SpiceMosfet::getReturnPrime()
 	return PrimeA + PrimeB + PrimeP + PrimeQ + PrimeC;
 }
 
-void SpiceMosfet::setDeviceInfo_(vector<int> _index)
-{
-	DeviceInfo_.xIndex = _index;
-}
-
-DeviceInfoStr SpiceMosfet::getDeviceInfo_()
+DeviceInfoStr SpiceMosfet::getDeviceInfo()
 {
 	return DeviceInfo_;
+}
+
+string SpiceMosfet::getInstanceName()
+{
+	return InstanceName;
 }

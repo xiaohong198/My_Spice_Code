@@ -1,5 +1,6 @@
 #pragma once
 #include "Device.h"
+#include <regex>
 
 class Vsource_DC:public Device
 {
@@ -7,12 +8,12 @@ private:
 	double V_DC;
 private:
 	DeviceInfoStr DeviceInfo_;
+	string InstanceName;
+	InputStr InputData;
 
 public:
 	Vsource_DC();
 	~Vsource_DC();
-	void setConstValue(double);
-
 	double eFunction(double);
 	//void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double);
 	double setIntegration(double*);
@@ -20,7 +21,9 @@ public:
 	void getSubA(Eigen::MatrixXd& subA);
 	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 	int getReturnPrime();
-	void setDeviceInfo_(vector<int>);
-	DeviceInfoStr getDeviceInfo_();
+	void setDeviceInfo(map<string, int> &_PortMap);
+	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
+	DeviceInfoStr getDeviceInfo();
+	string getInstanceName();
 };
 

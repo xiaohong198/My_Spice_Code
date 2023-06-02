@@ -8,7 +8,7 @@ public:
 	Jsource_DC();
 	~Jsource_DC();
 
-	void setConstValue(double);
+	//void setConstValue(double);
 
 	double eFunction(double);
 	//void getExcitationSubMatrix(Eigen::VectorXd& subE, double t);

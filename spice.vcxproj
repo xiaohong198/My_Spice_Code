@@ -184,13 +184,13 @@
     <ClCompile Include="src\Device\SpiceDevice.cpp" />
     <ClCompile Include="src\Device\SpiceDiode.cpp" />
     <ClCompile Include="src\Device\SpiceMosfet.cpp" />
-    <ClCompile Include="src\Device\SpiceMosLevel1Test.cpp" />
     <ClCompile Include="src\Device\SurgeArrester.cpp" />
     <ClCompile Include="src\Device\TabulatedIVCurveDevice.cpp" />
     <ClCompile Include="src\Device\Vsource_AC.cpp" />
     <ClCompile Include="src\Device\Vsource_DC.cpp" />
     <ClCompile Include="src\Input\Circuit.cpp" />
     <ClCompile Include="src\Input\Configuration.cpp" />
+    <ClCompile Include="src\Input\Factory.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Input\SpiceString.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -199,7 +199,6 @@
     <ClCompile Include="src\Solver\Simulator.cpp" />
     <ClCompile Include="src\Solver\Solver.cpp" />
     <ClCompile Include="src\Solver\Solver_EulerBackward.cpp" />
-    <ClCompile Include="src\Solver\Solver_SDC.cpp" />
     <ClCompile Include="src\Solver\Solver_TR.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,13 +215,13 @@
     <ClInclude Include="src\Device\SpiceDevice.h" />
     <ClInclude Include="src\Device\SpiceDiode.h" />
     <ClInclude Include="src\Device\SpiceMosfet.h" />
-    <ClInclude Include="src\Device\SpiceMosLevel1Test.h" />
     <ClInclude Include="src\Device\SurgeArrester.h" />
     <ClInclude Include="src\Device\TabulatedIVCurveDevice.h" />
     <ClInclude Include="src\Device\Vsource_AC.h" />
     <ClInclude Include="src\Device\Vsource_DC.h" />
     <ClInclude Include="src\Input\Circuit.h" />
     <ClInclude Include="src\Input\Configuration.h" />
+    <ClInclude Include="src\Input\Factory.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Input\SpiceString.h" />
     <ClInclude Include="src\Newton\BasicNewton.h" />
@@ -230,7 +229,6 @@
     <ClInclude Include="src\Solver\Simulator.h" />
     <ClInclude Include="src\Solver\Solver.h" />
     <ClInclude Include="src\Solver\Solver_EulerBackward.h" />
-    <ClInclude Include="src\Solver\Solver_SDC.h" />
     <ClInclude Include="src\Solver\Solver_TR.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

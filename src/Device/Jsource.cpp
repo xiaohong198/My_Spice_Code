@@ -7,9 +7,9 @@ Jsource::~Jsource() {
 
 }
 
-void Jsource::setConstValue(double jdc) {
-    J_DC = jdc;
-}
+//void Jsource::setConstValue(double jdc) {
+//    J_DC = jdc;
+//}
 
 void Jsource::getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t) {
     subA.setZero();

@@ -1,5 +1,5 @@
 #pragma once
-#pragma execution_character_set("utf-8")
+//#pragma execution_character_set("utf-8")
 #include <iostream>
 #include <cmath>
 #include "Solver/Simulator.h"

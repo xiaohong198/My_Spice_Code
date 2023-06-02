@@ -11,4 +11,7 @@ System {
 	Resistor_pset RL2 (n7 n0) {resistance=1.5e-3}
 	Inductor_pset L4 (n5 n7) {Inductance=1.0e-9}
 
+	set(n0=0)
+	hint(n0=0 n1=20 n3=20 n4=20 n5=20 n7=0 n8=20)
+	
 	}

@@ -4,6 +4,8 @@ using namespace std;
 Configuration::Configuration() {
 	dt = 0.01;
 	t_end = 1;
+	//dt = 0.000000005;
+	//t_end = 0.000005;
 	dt_method = EulerBackward;
 }
 void Configuration::Set_Configuration() {

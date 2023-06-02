@@ -8,7 +8,7 @@ public:
 	Jsource();
 	~Jsource();
 
-	void setConstValue(double);
+	//void setConstValue(double);
 	void getExcitationSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subE, double t);
 };
 

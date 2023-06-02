@@ -50,9 +50,6 @@
     <ClCompile Include="src\Device\Diode.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\ExcitationDevice.cpp">
-      <Filter>Source Files\Device</Filter>
-    </ClCompile>
     <ClCompile Include="src\Device\Inductor.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
@@ -78,9 +75,6 @@
       <Filter>Source Files\Device</Filter>
     </ClCompile>
     <ClCompile Include="src\Device\SpiceMosfet.cpp">
-      <Filter>Source Files\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Device\SpiceMosLevel1Test.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
     <ClCompile Include="src\Device\SurgeArrester.cpp">
@@ -122,11 +116,14 @@
     <ClCompile Include="src\Solver\Solver_EulerBackward.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver\Solver_SDC.cpp">
-      <Filter>Source Files\Solver</Filter>
-    </ClCompile>
     <ClCompile Include="src\Solver\Solver_TR.cpp">
       <Filter>Source Files\Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Factory.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Device\ExcitationDevice.cpp">
+      <Filter>Source Files\Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +134,6 @@
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\Diode.h">
-      <Filter>Header Files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Device\ExcitationDevice.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\Inductor.h">
@@ -167,9 +161,6 @@
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\SpiceMosfet.h">
-      <Filter>Header Files\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Device\SpiceMosLevel1Test.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\SurgeArrester.h">
@@ -211,11 +202,14 @@
     <ClInclude Include="src\Solver\Solver_EulerBackward.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver\Solver_SDC.h">
-      <Filter>Header Files\Solver</Filter>
-    </ClInclude>
     <ClInclude Include="src\Solver\Solver_TR.h">
       <Filter>Header Files\Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Factory.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Device\ExcitationDevice.h">
+      <Filter>Header Files\Device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

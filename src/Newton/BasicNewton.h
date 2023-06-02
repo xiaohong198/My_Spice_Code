@@ -2,7 +2,6 @@
 #include "Newton.h"
 #include <cmath>
 
-
 class BasicNewton :public Newton
 {
 

@@ -4,9 +4,9 @@ Capacitor::Capacitor() {
     capacitance = 1;
 }
 
-void Capacitor::setConstValue(double c) {
-    capacitance = c;
-}
+//void Capacitor::setConstValue(double c) {
+//    capacitance = c;
+//}
 
 void Capacitor::getSubB(Eigen::MatrixXd& subB) {
     //subA.setZero();

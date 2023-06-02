@@ -8,8 +8,8 @@ Device::Device() {
 Device::~Device() {
 }
 
-void Device::setConstValue(double value) {
-}
+//void Device::setConstValue(double value) {
+//}
 
 void Device::getSubA(Eigen::MatrixXd& subA) {
 }
@@ -34,13 +34,24 @@ int Device::getReturnPrime()
 	return 0;
 }
 
-void Device::setDeviceInfo_(vector<int> _index)
+void Device::setDeviceInfo(map<string, int> &_PortMap)
 {
 
 }
 
-DeviceInfoStr Device::getDeviceInfo_()
+void Device::setInputData(InputStr _DataStr, map<string, int>& _PortData)
+{
+
+}
+
+
+DeviceInfoStr Device::getDeviceInfo()
 {
 	DeviceInfoStr str_null;
 	return str_null;
+}
+
+string Device::getInstanceName()
+{
+	return InstanceName;
 }

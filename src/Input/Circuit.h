@@ -16,10 +16,9 @@
 #include "Device/SpiceDiode.h" 
 #include "Input.h"
 
+
 using namespace std;
 
-class Device;
-class structDeviceInfo;
 class Circuit
 {
 	friend class Solver;
@@ -44,13 +43,15 @@ protected:
 private:
 	Input* Input_;
 	Device* Device_;
-	DeviceInfoStr DeviceInfo_;
+	map<string, InputStr> UserParameter_;
+	map<string, int> PortCompareMap;
+	map<string, int> HintCompareMap;
 
 
 public:
 	Circuit();
 	~Circuit();
 	void SetClassVec();
+	void SetPortCompare();
 
 };
-

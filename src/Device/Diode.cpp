@@ -11,10 +11,10 @@ Diode::~Diode() {
 
 }
 
-void Diode::setConstValue(double ron, double vf) {
-	Ron = ron;
-	Vf = vf;
-}
+//void Diode::setConstValue(double ron, double vf) {
+//	Ron = ron;
+//	Vf = vf;
+//}
 
 double Diode::f(double Vd) {
 	if (Vd > Vf)

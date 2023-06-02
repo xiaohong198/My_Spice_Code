@@ -2,18 +2,20 @@
 //#include "Solver.h"
 #include <Eigen/Dense>
 #include "Struct.h"
+#include "Input/Factory.h"
+
 const double PI = 3.14159265358979323846;
 class Device
 {
-    friend class structDeviceInfo;
 private:
 	DeviceInfoStr DeviceInfo_;
+	string InstanceName;
 
 public:
     Device();
     ~Device();
 
-    virtual void setConstValue(double);
+    //virtual void setConstValue(double);
     virtual void getSubA(Eigen::MatrixXd& subA);
     virtual void getSubB(Eigen::MatrixXd& SubB);
     virtual void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);//传入[t1]或者[t1,t2]
@@ -21,7 +23,9 @@ public:
     virtual void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
     virtual void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);//Meyer电容
 	virtual int getReturnPrime();//获取子类类型
-	virtual void setDeviceInfo_(vector<int>);
-	virtual DeviceInfoStr getDeviceInfo_();
+	virtual void setDeviceInfo(map<string, int> &_PortMap);
+	virtual void setInputData(InputStr _DataStr, map<string, int>& _PortData);
+	virtual DeviceInfoStr getDeviceInfo();
+	virtual string getInstanceName();
 };
 

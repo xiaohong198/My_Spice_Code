@@ -1,5 +1,7 @@
 #pragma once
 #include "Device.h"
+#include <regex>
+
 class PWLVoltageSource:public Device
 {
 protected:
@@ -8,6 +10,9 @@ protected:
 	double* vList;//默认按照从小到大输入
 private:
 	DeviceInfoStr DeviceInfo_;
+	string InstanceName;
+	InputStr InputData;
+
 public:
 	PWLVoltageSource();
 	~PWLVoltageSource();
@@ -19,7 +24,9 @@ public:
 	void getSubA(Eigen::MatrixXd& subA);
 	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 	int getReturnPrime();
-	void setDeviceInfo_(vector<int>);
-	DeviceInfoStr getDeviceInfo_();
+	void setDeviceInfo(map<string, int> &_PortMap);
+	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
+	DeviceInfoStr getDeviceInfo();
+	string getInstanceName();
 };
 

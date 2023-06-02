@@ -15,7 +15,7 @@ public:
 	double f(double);
 	double G(double);
 
-	void setConstValue(double, double);
+	//void setConstValue(double, double);
 	void getsubP(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
 };
 

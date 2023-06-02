@@ -7,9 +7,9 @@ Jsource_DC::~Jsource_DC() {
 
 }
 
-void Jsource_DC::setConstValue(double jdc) {
-    J_DC = jdc;
-}
+//void Jsource_DC::setConstValue(double jdc) {
+//    J_DC = jdc;
+//}
 
 double Jsource_DC::eFunction(double t) {
     return J_DC;

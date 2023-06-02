@@ -1,5 +1,7 @@
 #pragma once
 #include "SpiceDevice.h"
+#include <regex>
+
 class SpiceMosfet : public SpiceDevice
 {
 protected:
@@ -113,6 +115,9 @@ protected:
 	double Von;
 private:
 	DeviceInfoStr DeviceInfo_;
+	string InstanceName;
+	InputStr InputData;
+
 public:
 	SpiceMosfet();
 	~SpiceMosfet();
@@ -129,7 +134,9 @@ public:
 	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
 	void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);
 	int getReturnPrime();
-	void setDeviceInfo_(vector<int>);
-	DeviceInfoStr getDeviceInfo_();
+	void setDeviceInfo(map<string, int> &_PortMap);
+	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
+	DeviceInfoStr getDeviceInfo();
+	string getInstanceName();
 };
 

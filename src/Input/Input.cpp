@@ -1,8 +1,10 @@
 #include "Input.h"
+
 Input::Input()
 	:SpiceString_(nullptr) 
 {
 	SpiceString_ = new SpiceString();
+
 	ReadCompareXML();
 	ReadCMD();
 	ReadSCF();
@@ -22,13 +24,13 @@ void Input::ReadSCF()
 
 	ifstream in(outputPath);
 	string line;
-	InputSCFStr scf_str;
+	InputStr scf_str;
 	while (getline(in, line))
 	{
 		string line_trans = SpiceString_->TransformUp(line);
 		if (line.find("END PSET") != string::npos)
 		{
-			InputSCFStrVec.push_back(scf_str);
+			SCFParameterStrMap.insert({ scf_str.PsetName, scf_str });
 			scf_str.ParametersMap.clear();
 			//END
 		}
@@ -51,7 +53,7 @@ void Input::ReadSCF()
 			{
 				if (iter != " ")
 				{
-					scf_str.DeviceName = iter;
+					scf_str.ClassName = iter;
 				}
 			}
 		}
@@ -85,10 +87,8 @@ void Input::ReadCMD()
 
 	ifstream in(outputPath);
 	string line;
-	string pwl_value;
 	string pwl_key;
-	InputCMDStr cmd_str;
-	cmd_str.IsPset = false;
+	InputStr cmd_str;
 	vector<string> pwl_value_vec;
 
 	while (getline(in, line))
@@ -96,18 +96,20 @@ void Input::ReadCMD()
 		if (line.find("\t") != string::npos)
 		{
 			string line_trans = SpiceString_->TransformLow(line);
-			if (line_trans.find("_pset") != string::npos)
-			{
-				cmd_str.IsPset = true;
-			}
-			if (line_trans.find("(") != string::npos)
-			{
-				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, " ");
-				cmd_str.DeviceType = txt_result[0];
-				cmd_str.Instance = txt_result[1];
 
+			if (line_trans.find("(") != string::npos && line_trans.find("{") != string::npos)
+			{
 				string content_str = SpiceString_->getContent(line, "(", ")");
 				cmd_str.Port = SpiceString_->getSplitVec(content_str, " ");
+
+				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, " ");
+				cmd_str.PsetName = txt_result[0];
+				if (line_trans.find("_pset") != string::npos)
+				{
+					std::vector<std::string> name_result = SpiceString_->getSplitVec(txt_result[0], "_pset");
+					cmd_str.ClassName = name_result[0];
+				}
+				cmd_str.InstanceName = txt_result[1];
 			}
 			if (line_trans.find("{") != string::npos && line_trans.find("}") != string::npos)
 			{
@@ -120,13 +122,12 @@ void Input::ReadCMD()
 					split_result.erase(split_result.begin());
 					cmd_str.ParametersMap.insert({ parameter_key, split_result });
 				}
-				InputCMDStrVec.push_back(cmd_str);
-				cmd_str = *(new InputCMDStr);
-				cmd_str.IsPset = false;
+				CMDParameterStrMap.insert({ cmd_str.InstanceName, cmd_str });
+				cmd_str = *(new InputStr);
 				continue;
 			}
 			//pwl
-			else if (line_trans.find("{") != string::npos && line_trans.find("}") == string::npos)
+			else if (line_trans.find("(") != string::npos && line_trans.find("{") != string::npos && line_trans.find("}") == string::npos)
 			{
 				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=(","",true);
 				pwl_key = SpiceString_->getContent(line, "{", "=");
@@ -137,25 +138,49 @@ void Input::ReadCMD()
 				
 				continue;
 			}
-			else if (line_trans.find("{") == string::npos && line_trans.find("}") == string::npos)
+			else if (line_trans.find("(") == string::npos && line_trans.find("{") == string::npos && line_trans.find("}") == string::npos)
 			{
+				if (line == "")
+				{
+					continue;
+				}
 				//pwl value
 				line = SpiceString_->RemoveChars(line, "\t");
 				for (auto iter : SpiceString_->getSplitVec(line, " "))
 				{
 					pwl_value_vec.push_back(iter);
 				}
+				continue;
 			}
 			else if (line_trans.find(")}") != string::npos)
 			{
 				//pwl END
 				cmd_str.ParametersMap.insert({ pwl_key, pwl_value_vec });
-				InputCMDStrVec.push_back(cmd_str);
-				
-				cmd_str = *(new InputCMDStr);
-				cmd_str.IsPset = false;
+				CMDParameterStrMap.insert({ cmd_str.InstanceName, cmd_str });
+
+				cmd_str = *(new InputStr);
 				pwl_value_vec.clear();
 				continue;
+			}
+			if (line_trans.find("set(") != string::npos)
+			{
+				string content_str = SpiceString_->getContent(line, "(", ")");
+				std::vector<std::string> txt_result = SpiceString_->getSplitVec(content_str, " ");
+				for (auto iter : txt_result)
+				{
+					std::vector<std::string> split_result = SpiceString_->getSplitVec(iter, "=");
+					PortCompareMap.insert({ split_result[0] ,stoi(split_result[1]) });
+				}
+			}
+			if (line_trans.find("hint(") != string::npos)
+			{
+				string content_str = SpiceString_->getContent(line, "(", ")");
+				std::vector<std::string> txt_result = SpiceString_->getSplitVec(content_str, " ");
+				for (auto iter: txt_result)
+				{
+					std::vector<std::string> split_result = SpiceString_->getSplitVec(iter, "=");
+					HintCompareMap.insert({ split_result[0] ,stoi(split_result[1]) });
+				}
 			}
 		}
 	}
@@ -184,7 +209,7 @@ void Input::ReadCompareXML()
 		Class;
 		Class = Class->NextSibling("Class"))
 	{
-		ComparisonStr comparison_str;
+		InputStr comparison_str;
 		TiXmlNode*  ClassName = Class->FirstChild("ClassName");
 		const char* name = ClassName->ToElement()->GetText();
 		if (!name)
@@ -217,50 +242,53 @@ void Input::ReadCompareXML()
 			}
 			comparison_str.ParametersMap.insert({ parameter_name ,parameter_value_vec });
 		}
-		DefaultParameterStrVec.push_back(comparison_str);
+		XMLParameterStrMap.insert({ comparison_str.ClassName, comparison_str });
 	}
 }
 
 void Input::SetParameter()
 {
-	map<string, vector<string>> user_cmd_scf_map;
-	UserParameterStrVec = DefaultParameterStrVec;
-	for (auto InputCMD_iter : InputCMDStrVec)
+	for (auto InputCMD_iter = CMDParameterStrMap.begin(); InputCMD_iter != CMDParameterStrMap.end(); InputCMD_iter++)
 	{
-		user_cmd_scf_map = InputCMD_iter.ParametersMap;
-
-		string name = InputCMD_iter.DeviceType;
-
-		if (InputCMD_iter.IsPset)
+		InputStr user_str = (InputCMD_iter->second);
+		string class_name = user_str.ClassName;
+		string pset_name = user_str.PsetName;
+		
+		// ÈÚºÏscf
+		if (class_name == "")
 		{
-			name = (SpiceString_->getSplitVec(name, "_pset"))[0];
-		}
-		else
-		{
-			auto InputSCF_iter = std::find_if(InputSCFStrVec.begin(), InputSCFStrVec.end(), [name](const InputSCFStr& comparison) {
-				return comparison.PsetName == name;
-			});
-			if (InputSCF_iter != InputSCFStrVec.end())
+			InputStr scf_str = SCFParameterStrMap[pset_name];
+			for (auto parameter_iter = scf_str.ParametersMap.begin(); parameter_iter != scf_str.ParametersMap.end(); parameter_iter++)
 			{
-				name = InputSCF_iter->DeviceName;
-				for (auto Parameters_iter = InputSCF_iter->ParametersMap.begin(); Parameters_iter != InputSCF_iter->ParametersMap.end(); ++Parameters_iter) {
-					{
-						user_cmd_scf_map.insert({ Parameters_iter->first,Parameters_iter->second });
-					}
-				}
+				user_str.ParametersMap.insert({ parameter_iter->first,parameter_iter->second });
+				user_str.ParametersMap[parameter_iter->first] = parameter_iter->second;
 			}
+			class_name = scf_str.ClassName;
+			user_str.ClassName = scf_str.ClassName;
 		}
-		auto UserParameter_iter = std::find_if(UserParameterStrVec.begin(), UserParameterStrVec.end(), [name](const ComparisonStr& comparison) {
-			return comparison.ClassName == name;
-		});
-		if (UserParameter_iter != UserParameterStrVec.end())
+		// ÈÚºÏxml
+		InputStr xml_str = XMLParameterStrMap[class_name];
+		for (auto parameter_iter = user_str.ParametersMap.begin(); parameter_iter != user_str.ParametersMap.end(); parameter_iter++)
 		{
-			for (auto user_cmd_scf_iter = user_cmd_scf_map.begin(); user_cmd_scf_iter != user_cmd_scf_map.end(); ++user_cmd_scf_iter) {
-				{
-					UserParameter_iter->ParametersMap.insert({ user_cmd_scf_iter->first,user_cmd_scf_iter->second });
-				}
-			}
+			xml_str.ParametersMap.insert({ parameter_iter->first,parameter_iter->second });
+			xml_str.ParametersMap[parameter_iter->first] = parameter_iter->second;
 		}
+		user_str.ParametersMap = xml_str.ParametersMap;
+		UserParameterStrMap.insert({ user_str.InstanceName,user_str });
 	}
 }
 
+map<string, InputStr> Input::GetParameter()
+{
+	return UserParameterStrMap;
+}
+
+map<string, int> Input::GetPortCompare()
+{
+	return PortCompareMap;
+}
+
+map<string, int> Input::GetHintCompare()
+{
+	return HintCompareMap;
+}

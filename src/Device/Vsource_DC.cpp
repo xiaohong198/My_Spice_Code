@@ -1,11 +1,58 @@
 #include "Vsource_DC.h"
+REGISTER(Vsource_DC);
 
 Vsource_DC::Vsource_DC() {
-    V_DC = 20;
 }
 
-void Vsource_DC::setConstValue(double vdc) {
-    V_DC = vdc;
+void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+{
+	InputData = _DataStr;
+	InstanceName = _DataStr.InstanceName;
+
+	V_DC = stod(_DataStr.ParametersMap["V_DC"][0]);
+
+	//端口号
+	int max_port = 0;
+	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
+	{
+		max_port < iter_map->second ? max_port = iter_map->second : max_port;
+	}
+	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
+	{
+		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
+		{
+			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
+			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
+			// 未完成
+		}
+		else
+		{
+			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
+			{
+				continue;
+			}
+			else
+			{
+				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+			}
+		}
+	}
+	_PortMap.insert({ "- MaxPortIndex -",max_port });
+	_PortMap["- MaxPortIndex -"] = max_port;
+}
+
+void Vsource_DC::setDeviceInfo(map<string, int> &_PortMap)
+{
+	//端口号应用
+	int _max_port_index = _PortMap["- MaxPortIndex -"];
+	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
+	{
+		string port_name = InputData.Port[index_port];
+		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+	}
+	DeviceInfo_.xIndex.push_back(++_max_port_index);
+	_PortMap["- MaxPortIndex -"] = _max_port_index;
+
 }
 
 double Vsource_DC::eFunction(double t) {
@@ -37,12 +84,12 @@ int Vsource_DC::getReturnPrime()
 	return PrimeA + PrimeE;
 }
 
-void Vsource_DC::setDeviceInfo_(vector<int> _index)
-{
-	DeviceInfo_.xIndex = _index;
-}
-
-DeviceInfoStr Vsource_DC::getDeviceInfo_()
+DeviceInfoStr Vsource_DC::getDeviceInfo()
 {
 	return DeviceInfo_;
+}
+
+string Vsource_DC::getInstanceName()
+{
+	return InstanceName;
 }

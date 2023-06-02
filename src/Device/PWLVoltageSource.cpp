@@ -4,22 +4,88 @@
 #include <vector>
 #include <map>  
 using namespace std;
+REGISTER(PWLVoltageSource);
 PWLVoltageSource::PWLVoltageSource() {
-	tCount = 5;
-	tList = new double[tCount];
-	vList = new double[tCount];
+}
 
-	vList[0] = 0;
-	vList[1] = 0;
-	vList[2] = 5;
-	vList[3] = 5;
-	vList[4] = 0;
+void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+{
+	InputData = _DataStr;
+	InstanceName = _DataStr.InstanceName;
 
-	tList[0] = 0;
-	tList[1] = 0.9e-6;
-	tList[2] = 1.0e-6;
-	tList[3] = 3.0e-6;
-	tList[4] = 3.1e-6;
+	if (_DataStr.ParametersMap.find("pwl") != _DataStr.ParametersMap.end())
+	{
+		vector<string> pwl_vec = _DataStr.ParametersMap["pwl"];
+		tCount = pwl_vec.size() / 2;
+		tList = new double[tCount];
+		vList = new double[tCount];
+
+		for (int i = 0; i < tCount; i++)
+		{
+			tList[i] = stod(pwl_vec[i * 2]);
+			vList[i] = stod(pwl_vec[(i * 2) + 1]);
+		}
+	}
+	else
+	{
+		tCount = stod(_DataStr.ParametersMap["tCount"][0]);
+		vector<string> tList_vec = _DataStr.ParametersMap["tList"];
+		vector<string> vList_vec = _DataStr.ParametersMap["vList"];
+		tList = new double[tCount];
+		vList = new double[tCount];
+
+		for (int i = 0; i < tCount; i++)
+		{
+			tList[i] = stod(tList_vec[i]);
+		}
+		for (int i = 0; i < tCount; i++)
+		{
+			vList[i] = stod(vList_vec[i]);
+		}
+	}
+
+	//端口号
+	int max_port = 0;
+	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
+	{
+		max_port < iter_map->second ? max_port = iter_map->second : max_port;
+	}
+	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
+	{
+		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
+		{
+			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
+			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
+			// 未完成
+		}
+		else
+		{
+			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
+			{
+				continue;
+			}
+			else
+			{
+				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+			}
+		}
+	}
+	_PortMap.insert({ "- MaxPortIndex -",max_port });
+	_PortMap["- MaxPortIndex -"] = max_port;
+}
+
+void PWLVoltageSource::setDeviceInfo(map<string, int> &_PortMap)
+{
+	//端口号应用
+	int _max_port_index = _PortMap["- MaxPortIndex -"];
+	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
+	{
+		string port_name = InputData.Port[index_port];
+		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+	}
+	DeviceInfo_.xIndex.push_back(++_max_port_index);
+	_PortMap["- MaxPortIndex -"] = _max_port_index;
+
 }
 
 PWLVoltageSource::~PWLVoltageSource() {
@@ -96,12 +162,12 @@ int PWLVoltageSource::getReturnPrime()
 	return PrimeA + PrimeE;
 }
 
-void PWLVoltageSource::setDeviceInfo_(vector<int> _index)
-{
-	DeviceInfo_.xIndex = _index;
-}
-
-DeviceInfoStr PWLVoltageSource::getDeviceInfo_()
+DeviceInfoStr PWLVoltageSource::getDeviceInfo()
 {
 	return DeviceInfo_;
+}
+
+string PWLVoltageSource::getInstanceName()
+{
+	return InstanceName;
 }

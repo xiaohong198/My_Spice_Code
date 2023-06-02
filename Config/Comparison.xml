@@ -136,7 +136,7 @@
         </Parameter>
         <Parameter>
             <ParameterName>IFModelJunctionCapacitance</ParameterName>
-            <ParameterValue>false</ParameterValue>
+            <ParameterValue>0</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>CJO</ParameterName>
@@ -152,7 +152,7 @@
         </Parameter>
         <Parameter>
             <ParameterName>IFSpecifyInitialCondition</ParameterName>
-            <ParameterValue>false</ParameterValue>
+            <ParameterValue>0</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>V0</ParameterName>
@@ -160,7 +160,7 @@
         </Parameter>
         <Parameter>
             <ParameterName>IFModelReverseBreakdown</ParameterName>
-            <ParameterValue>false</ParameterValue>
+            <ParameterValue>0</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>BV</ParameterName>
@@ -285,7 +285,7 @@
             <ParameterName>IFModelGateCapacitance</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>IFModelGateOverlapCapacitance</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
@@ -301,7 +301,7 @@
             <ParameterName>CGBO</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>IFModelJunctionCapacitance</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
@@ -317,7 +317,7 @@
             <ParameterName>PB</ParameterName>
             <ParameterValue>0.8</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>CJ</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
@@ -333,7 +333,7 @@
             <ParameterName>MJSW</ParameterName>
             <ParameterValue>0.5</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>FC</ParameterName>
             <ParameterValue>0.5</ParameterValue>
         </Parameter>
@@ -349,7 +349,7 @@
             <ParameterName>ICVGS</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>ICVBS</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
@@ -365,7 +365,7 @@
             <ParameterName>U0</ParameterName>
             <ParameterValue>0</ParameterValue>
         </Parameter>
-          <Parameter>
+        <Parameter>
             <ParameterName>NUSB</ParameterName>
             <ParameterValue>NAN</ParameterValue>
         </Parameter>

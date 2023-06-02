@@ -11,26 +11,13 @@ struct DeviceInfoStr
 	int  additionalxCount;//额外变量的个数
 };
 
-struct ComparisonStr
+struct InputStr
 {
-	string ClassName;
-	map<string, vector<string>> ParametersMap;
-};
-
-struct InputSCFStr
-{
-	string PsetName;
-	string DeviceName;
+	string ClassName;//.cmd/.scf/.xml(Vsource_DC)
+	string PsetName;//.cmd/.scf(IRFR3505/Vsource_DC_pset)
+	string InstanceName;//.cmd(Mos1)
+	vector<string> Port;//.cmd(n1 n3 n5 n4)
 	map<string, vector<string>> ParametersMap;//参数名称及数值
-};
-
-struct InputCMDStr
-{
-	string DeviceType;
-	string Instance;
-	vector<string> Port;
-	map<string, vector<string>> ParametersMap;//参数名称及数值
-	bool IsPset;
 };
 
 // 位运算
