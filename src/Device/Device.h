@@ -10,6 +10,10 @@ class Device
 private:
 	DeviceInfoStr DeviceInfo_;
 	string InstanceName;
+public:
+	vector <int> VoltageXIndex;
+	vector <int> CurrentXIndex;
+	int matrixDimension;
 
 public:
     Device();

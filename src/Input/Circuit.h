@@ -12,32 +12,23 @@
 #include "Device/TabulatedIVCurveDevice.h"
 #include "Device/SurgeArrester.h"
 #include "Device/SpiceMosfet.h"
-#include "Device/SpiceMosLevel1Test.h"
 #include "Device/SpiceDiode.h" 
 #include "Input.h"
-
-
 using namespace std;
 
 class Circuit
 {
-	friend class Solver;
-	friend class Solver_EulerBackward;
-	friend class Solver_TR;
-protected:
 
-	int nodeCount;
-	int AdditaionalxCount;//未知量x中有多少个除节点电压以外的变量
+public:
 	int matrixDimension;
-
-
+	vector <int> VoltageXIndex;
+	vector <int> CurrentXIndex;
 	vector <Device*> vecDeviceForMatrixA;
 	vector <Device*> vecDeviceForMatrixB;
 	vector <Device*> vecDeviceForMatrixP;
 	vector <Device*> vecDeviceForMatrixQ;
 	vector <Device*> vecDeviceForMatrixC;
 	vector <Device*> vecDeviceForVectorE;
-	vector <Device*> vecDevice;
 
 
 private:
@@ -51,7 +42,6 @@ private:
 public:
 	Circuit();
 	~Circuit();
-	void SetClassVec();
 	void SetPortCompare();
 
 };

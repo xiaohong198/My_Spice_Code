@@ -36,17 +36,8 @@ void Resistor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 			}
 			else
 			{
-				switch (index_port)
-				{
-				case 0:
-					_PortMap.insert({ _DataStr.Port[0] , ++max_port });
-					break;
-				case 1:
-					_PortMap.insert({ _DataStr.Port[1] , ++max_port });
-					break;
-				default:
-					break;
-				}
+				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
 			}
 		}
 	}
@@ -56,11 +47,28 @@ void Resistor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 void Resistor::setDeviceInfo(map<string, int>& _PortMap)
 {
+	//if (resistance == 223.8e-2)
+	//{
+	//	DeviceInfo_.xIndex.push_back(3);
+	//	DeviceInfo_.xIndex.push_back(8);
+	//	return;
+	//}
+	//else if(resistance == 1.5e-3)
+	//{
+	//	DeviceInfo_.xIndex.push_back(7);
+	//	DeviceInfo_.xIndex.push_back(0);
+	//	return;
+	//}
+
 	//¶Ë¿ÚºÅÓ¦ÓÃ
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];
 		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
 	}
 }
 

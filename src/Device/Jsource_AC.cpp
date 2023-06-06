@@ -1,6 +1,8 @@
 #include "Jsource_AC.h"
 Jsource_AC::Jsource_AC() {
-
+    PeakAmplitude = 10;
+    Frequency = 50;
+    PhaseShift = 0;
 }
 
 Jsource_AC::~Jsource_AC() {
@@ -8,14 +10,11 @@ Jsource_AC::~Jsource_AC() {
 }
 
 double Jsource_AC::eFunction(double t) {
-    return 10 * sin(100 * PI * t);
-    //    return 100 * t;
+    return PeakAmplitude * sin(2 * Frequency * PI * t + PhaseShift);
 }
 
 double Jsource_AC::setIntegration(double* tList) {
-    double t1 = tList[0];
-    double t2 = tList[1];
-    return 10 * (-cos(100 * PI * t2) / (100 * PI) + cos(100 * PI * t1) / (100 * PI));
+    return PeakAmplitude * (-cos(2 * Frequency * PI * tList[1] + PhaseShift) / (2 * Frequency * PI) + cos(2 * Frequency * PI * tList[0] + PhaseShift) / (2 * Frequency * PI));
     //    return 50 * (pow(t2, 2) - pow(t1, 2));
 }
 

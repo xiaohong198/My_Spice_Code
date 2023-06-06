@@ -7,12 +7,10 @@ using namespace std;
 REGISTER(PWLVoltageSource);
 PWLVoltageSource::PWLVoltageSource() {
 }
-
 void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 {
 	InputData = _DataStr;
 	InstanceName = _DataStr.InstanceName;
-
 	if (_DataStr.ParametersMap.find("pwl") != _DataStr.ParametersMap.end())
 	{
 		vector<string> pwl_vec = _DataStr.ParametersMap["pwl"];
@@ -67,6 +65,7 @@ void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMa
 			else
 			{
 				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
 			}
 		}
 	}
@@ -76,16 +75,24 @@ void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMa
 
 void PWLVoltageSource::setDeviceInfo(map<string, int> &_PortMap)
 {
+	//DeviceInfo_.xIndex.push_back(8);
+	//DeviceInfo_.xIndex.push_back(5);
+	//DeviceInfo_.xIndex.push_back(10);
+	//return;
 	//¶Ë¿ÚºÅÓ¦ÓÃ
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];
 		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
 	}
 	DeviceInfo_.xIndex.push_back(++_max_port_index);
 	_PortMap["- MaxPortIndex -"] = _max_port_index;
-
+	CurrentXIndex.push_back(_max_port_index);
 }
 
 PWLVoltageSource::~PWLVoltageSource() {
@@ -94,6 +101,7 @@ PWLVoltageSource::~PWLVoltageSource() {
 }
 
 double PWLVoltageSource::eFunction(double t) {
+
 	if (t < tList[0]) {
 		return vList[0];
 	}
@@ -144,6 +152,7 @@ double PWLVoltageSource::setIntegration(double* tList) {
 	return PSLIntegral;
 }
 
+
 void PWLVoltageSource::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
 	subA(0, 2) = 1;
@@ -157,17 +166,22 @@ void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tL
 	subEIntegral(2) = (eFunction(tList[0]) + eFunction(tList[1])) / 2 * (tList[1] - tList[0]);
 }
 
+
 int PWLVoltageSource::getReturnPrime()
 {
 	return PrimeA + PrimeE;
 }
 
+
 DeviceInfoStr PWLVoltageSource::getDeviceInfo()
 {
+
 	return DeviceInfo_;
 }
 
+
 string PWLVoltageSource::getInstanceName()
 {
+
 	return InstanceName;
 }

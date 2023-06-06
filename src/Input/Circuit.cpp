@@ -1,8 +1,12 @@
 #include "Circuit.h"
+
 Circuit::Circuit()
 	: Input_(nullptr)
 	, Device_(nullptr)
 {
+	const int primes[] = { PrimeA, PrimeB, PrimeP, PrimeQ, PrimeC, PrimeE };
+	vector<Device*>* matrixes[] = { &vecDeviceForMatrixA, &vecDeviceForMatrixB, &vecDeviceForMatrixP, &vecDeviceForMatrixQ, &vecDeviceForMatrixC, &vecDeviceForVectorE };
+	vector <Device*> vecDevice;
 	Input_ = new Input();
 	UserParameter_ = Input_->GetParameter();
 	PortCompareMap = Input_->GetPortCompare();
@@ -10,7 +14,6 @@ Circuit::Circuit()
 
 	for (auto user_iter = UserParameter_.begin(); user_iter != UserParameter_.end(); user_iter++)
 	{
-		string instance_name = user_iter->first;
 		InputStr user_str = user_iter->second;		
 		// 初始化器件类
 		Device_ = (Device*)ClassFactory::getInstance().getClassByName(user_str.ClassName);
@@ -20,33 +23,24 @@ Circuit::Circuit()
 
 	for (auto iter_device: vecDevice)
 	{
+		iter_device->VoltageXIndex = VoltageXIndex;
+		iter_device->CurrentXIndex = CurrentXIndex;
 		iter_device->setDeviceInfo(PortCompareMap);
-		DeviceInfoStr info = iter_device->getDeviceInfo();
-	}
-	SetClassVec();
-	nodeCount = 9;
-	AdditaionalxCount = 3;
-	matrixDimension = nodeCount + AdditaionalxCount;
-}
+		VoltageXIndex = iter_device->VoltageXIndex;
+		CurrentXIndex = iter_device->CurrentXIndex;
 
-Circuit::~Circuit() {
-
-}
-
-void Circuit::SetClassVec()
-{
-	const int primes[] = { PrimeA, PrimeB, PrimeP, PrimeQ, PrimeC, PrimeE };
-	vector<Device*>* matrixes[] = { &vecDeviceForMatrixA, &vecDeviceForMatrixB, &vecDeviceForMatrixP, &vecDeviceForMatrixQ, &vecDeviceForMatrixC, &vecDeviceForVectorE };
-
-	for (auto iter : vecDevice)
-	{
-		int re_prime = iter->getReturnPrime();
+		int re_prime = iter_device->getReturnPrime();
 		for (int i = 0; i < sizeof(primes) / sizeof(int); i++)
 		{
 			if ((re_prime & primes[i]) == primes[i])
 			{
-				matrixes[i]->push_back(iter);
+				matrixes[i]->push_back(iter_device);
 			}
 		}
 	}
+	matrixDimension = VoltageXIndex.size() + CurrentXIndex.size();
+}
+
+Circuit::~Circuit() {
+
 }

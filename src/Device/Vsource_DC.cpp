@@ -34,6 +34,7 @@ void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 			else
 			{
 				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
 			}
 		}
 	}
@@ -43,16 +44,24 @@ void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 void Vsource_DC::setDeviceInfo(map<string, int> &_PortMap)
 {
+	//DeviceInfo_.xIndex.push_back(1);
+	//DeviceInfo_.xIndex.push_back(0);
+	//DeviceInfo_.xIndex.push_back(9);
+	//return;
 	//¶Ë¿ÚºÅÓ¦ÓÃ
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];
 		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
 	}
 	DeviceInfo_.xIndex.push_back(++_max_port_index);
 	_PortMap["- MaxPortIndex -"] = _max_port_index;
-
+	CurrentXIndex.push_back(_max_port_index);
 }
 
 double Vsource_DC::eFunction(double t) {

@@ -37,11 +37,11 @@ void TestPWLSource() {
 	double VInteg[1000] = { 0 };
 	PWLVoltageSource MyPWL;
 	for (int i = 0; i < 1000; i++) {
-		double tList[2] = { i * dt ,(i + 1) * dt };
+		double tVec[2] = { i * dt ,(i + 1) * dt };
 		//t = i * dt;
 		//tplus = (i + 1) * dt;
 		Vout[i] = MyPWL.eFunction(t);
-		VInteg[i] = MyPWL.setIntegration(tList);
+		VInteg[i] = MyPWL.setIntegration(tVec);
 	}
 	std::ofstream Vout_vars("../spice0/CircuitVarsData/TestPWLVout.txt", std::ios::trunc | std::ios::out);
 	std::ofstream VInteg_vars("../spice0/CircuitVarsData/TestPWLVinteg.txt", std::ios::trunc | std::ios::out);

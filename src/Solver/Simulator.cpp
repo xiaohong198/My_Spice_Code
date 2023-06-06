@@ -18,13 +18,16 @@ Simulator::Simulator() {
 		break;
 	}
 	MyNewton = new BasicNewton(MySolver);
+	//MyNewton = new BankRoseDampingNewton(MySolver);
 	MySolver->MyNewton_ = MyNewton;
 }
 
 void Simulator::Run() {
 	MySolver->solve();
 
-	MySolver->saveCircuitVars();
+	MySolver->SaveCircuitVars();
+
+	MyNewton->NewtonSave();
 }
 
 Simulator::~Simulator() {

@@ -29,25 +29,21 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -194,11 +190,14 @@
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Input\SpiceString.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Newton\BankRoseDampingNewton.cpp" />
     <ClCompile Include="src\Newton\BasicNewton.cpp" />
     <ClCompile Include="src\Newton\Newton.cpp" />
+    <ClCompile Include="src\Output\Output.cpp" />
     <ClCompile Include="src\Solver\Simulator.cpp" />
     <ClCompile Include="src\Solver\Solver.cpp" />
     <ClCompile Include="src\Solver\Solver_EulerBackward.cpp" />
+    <ClCompile Include="src\Solver\Solver_SDC.cpp" />
     <ClCompile Include="src\Solver\Solver_TR.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -224,11 +223,14 @@
     <ClInclude Include="src\Input\Factory.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Input\SpiceString.h" />
+    <ClInclude Include="src\Newton\BankRoseDampingNewton.h" />
     <ClInclude Include="src\Newton\BasicNewton.h" />
     <ClInclude Include="src\Newton\Newton.h" />
+    <ClInclude Include="src\Output\Output.h" />
     <ClInclude Include="src\Solver\Simulator.h" />
     <ClInclude Include="src\Solver\Solver.h" />
     <ClInclude Include="src\Solver\Solver_EulerBackward.h" />
+    <ClInclude Include="src\Solver\Solver_SDC.h" />
     <ClInclude Include="src\Solver\Solver_TR.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

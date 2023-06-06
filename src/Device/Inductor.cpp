@@ -34,23 +34,34 @@ void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 			else
 			{
 				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
 			}
 		}
 	}
 	_PortMap.insert({"- MaxPortIndex -",max_port });
-	_PortMap["- MaxPortIndex -"] = max_port;}
+	_PortMap["- MaxPortIndex -"] = max_port;
+}
 
 void Inductor::setDeviceInfo(map<string, int>&_PortMap)
 {
+	//DeviceInfo_.xIndex.push_back(5);
+	//DeviceInfo_.xIndex.push_back(7);
+	//DeviceInfo_.xIndex.push_back(11);
+	//return;
 	//¶Ë¿ÚºÅÓ¦ÓÃ
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];
 		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
 	}
 	DeviceInfo_.xIndex.push_back(++_max_port_index);
 	_PortMap["- MaxPortIndex -"] = _max_port_index;
+	CurrentXIndex.push_back(_max_port_index);
 }
 
 Inductor::~Inductor() {

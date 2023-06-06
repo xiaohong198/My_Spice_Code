@@ -11,6 +11,6 @@ void Solver_TR::processJacobianAndF() {
 	processQ();
 	processC();
     processGroundedNodeEqu();//接地点对矩阵的影响
-	F_x0 = (A * x_Newton + P) * dt_ + (B + C) * (x_Newton - x) + (Q - Q_last) - E_Integral;
-    Jacobian = (A + P_Jacobian) * dt_ + B + C + Q_Jacobian;
+	F_x0 = (A * (x_Newton + x) / 2 + (P + P_last) / 2) * dt_ + (B + (C + C_last) / 2) * (x_Newton - x) + (Q - Q_last) - E_Integral;
+	Jacobian = (A + P_Jacobian) / 2 * dt_ + B + C / 2 + Q_Jacobian;
 }

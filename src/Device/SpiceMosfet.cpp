@@ -1,8 +1,10 @@
 #include "SpiceMosfet.h"
 REGISTER(SpiceMosfet);
 SpiceMosfet::SpiceMosfet() {
+	
 }
 
+	
 void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 {
 	InputData = _DataStr;
@@ -60,7 +62,6 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 	TPG = stod(_DataStr.ParametersMap["TPG"][0]);
 	NSS = stod(_DataStr.ParametersMap["NSS"][0]);
-
 
 	Vtn = N * k * T / q;//Thermal Voltage
 	KPd = KP * AREA * SCALE;
@@ -127,6 +128,7 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 			else
 			{
 				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
 			}
 		}
 	}
@@ -136,11 +138,22 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
 {
+	//DeviceInfo_.xIndex.push_back(1);
+	//DeviceInfo_.xIndex.push_back(2);
+	//DeviceInfo_.xIndex.push_back(3);
+	//DeviceInfo_.xIndex.push_back(4);
+	//DeviceInfo_.xIndex.push_back(5);
+	//DeviceInfo_.xIndex.push_back(6);
+	//return;
 	//¶Ë¿ÚºÅÓ¦ÓÃ
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
 
 		switch (index_port)
 		{
@@ -149,6 +162,7 @@ void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
 			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[0]]);
 			//Dp
 			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			VoltageXIndex.push_back(_max_port_index);
 			break;
 		case 1:
 			//G
@@ -163,6 +177,7 @@ void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
 			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[2]]);
 			//Sp
 			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			VoltageXIndex.push_back(_max_port_index);
 			break;
 		default:
 			break;
@@ -175,9 +190,11 @@ SpiceMosfet::~SpiceMosfet() {
 
 }
 
+
 void SpiceMosfet::GetJunctionCapacitance() {
 
 }
+
 
 void SpiceMosfet::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();

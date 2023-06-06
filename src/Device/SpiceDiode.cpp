@@ -94,7 +94,7 @@ void SpiceDiode::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen
 		DIrevDVd = DIrevhDVd + DIrevlDVd;
 	}
 
-	double Id = AREA * (Ifwd - Irevl);
+	double Id = AREA * (Ifwd - Irev);
 	subP(1) += Id;
 	subP(2) += -Id;
 
