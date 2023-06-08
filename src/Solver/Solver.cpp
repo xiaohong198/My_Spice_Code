@@ -6,7 +6,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	size = MyCircuit_->matrixDimension;
 	VoltageXIndex = MyCircuit_->VoltageXIndex;
 	CurrentXIndex = MyCircuit_->CurrentXIndex;
-	/*---------------------¾ØÕó³õÊ¼»¯---------------------*/
+	/*---------------------çŸ©é˜µåˆå§‹åŒ–---------------------*/
 	A = Eigen::MatrixXd::Zero(size, size);
 
 	B = Eigen::MatrixXd::Zero(size, size);
@@ -41,7 +41,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	t_end_ = MyConfig_->Get_t_end();
 
 	/*--------------------------------------------------*/
-	/*-----xµÄ³õÖµ-----*/
+	/*-----xçš„åˆå€¼-----*/
 	//x(0) = 0;
 	//x(1) = 20;//19.4736
 	//x(2) = 0;
@@ -59,9 +59,9 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	x_Newton = x;
 	Solver::x_result_vec_.push_back(Solver::x);
 
-	processA();//A¡¢BÖ»ÌîÒ»´Î¾Í²»¶¯ÁË
+	processA();//Aã€Båªå¡«ä¸€æ¬¡å°±ä¸åŠ¨äº†
 
-	processB();//A¡¢BÖ»ÌîÒ»´Î¾Í²»¶¯ÁË
+	processB();//Aã€Båªå¡«ä¸€æ¬¡å°±ä¸åŠ¨äº†
 
 }
 void Solver::Process(vector<int> _process)
@@ -112,7 +112,7 @@ void Solver::Process(vector<int> _process)
 	}
 }
 
-void Solver::processA() {//É¨ÃèËùÓĞÆ÷¼ş
+void Solver::processA() {//æ‰«ææ‰€æœ‰å™¨ä»¶
 	for (auto iter : MyCircuit_->vecDeviceForMatrixA) {
 
 		DeviceInfoStr current_info = iter->getDeviceInfo();
@@ -243,7 +243,7 @@ void Solver::processC() {
     }
 }
 
-void Solver::processGroundedNodeEqu() {//ºÃÏñ»¹¿ÉÒÔ¾«¼ò£¿°ÑA B EÕª³öÈ¥£¿
+void Solver::processGroundedNodeEqu() {//å¥½åƒè¿˜å¯ä»¥ç²¾ç®€ï¼ŸæŠŠA B Eæ‘˜å‡ºå»ï¼Ÿ
     A.row(0).setZero();
     A(0, 0) = 1;
     B.row(0).setZero();
@@ -274,7 +274,7 @@ void Solver::solve()
     for (int i = 0; i < num_t; i++) {
         double tList[2] = { i * dt_,(i + 1) * dt_ };
         E_Integral.setZero();
-        processEIntegral(tList);//ÌîE_Integral£¬Ã¿¸öÊ±¼äÑ­»·ÌîÒ»´Î£¬²»²ÎÓëNewtonµÄÑ­»·
+        processEIntegral(tList);//å¡«E_Integralï¼Œæ¯ä¸ªæ—¶é—´å¾ªç¯å¡«ä¸€æ¬¡ï¼Œä¸å‚ä¸Newtonçš„å¾ªç¯
 
 		MyNewton_->Perform_Newton();
 		x = x_Newton;
@@ -287,7 +287,7 @@ void Solver::solve()
 
 void Solver::SaveCircuitVars() 
 {
-	// »ñÈ¡µ±Ç°Â·¾¶
+	// è·å–å½“å‰è·¯å¾„
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/CircuitVars.txt";

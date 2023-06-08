@@ -1,7 +1,7 @@
 #include "BankRoseDampingNewton.h"
 BankRoseDampingNewton::BankRoseDampingNewton(Solver* MySolver): Newton(MySolver) {
 	epsino = 1e-9;
-	omega = 0.1;//(0,1)区间
+	omega = 0.1;//(0,1)鍖洪棿
 }
 
 void BankRoseDampingNewton::Perform_Newton() {
@@ -48,7 +48,7 @@ void BankRoseDampingNewton::Perform_Newton() {
 
 void BankRoseDampingNewton::NewtonSave()
 {
-	// 获取当前路径
+	// 鑾峰彇褰撳墠璺緞
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/BankRoseDampingNewton.txt";

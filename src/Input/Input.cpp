@@ -17,7 +17,7 @@ Input::~Input() {
 
 void Input::ReadSCF()
 {
-	// 获取当前路径
+	// 鑾峰彇褰撳墠璺緞
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
 	string outputPath = output_dir_Path + "/scf.txt";
@@ -80,7 +80,7 @@ void Input::ReadSCF()
 
 void Input::ReadCMD()
 {
-	// 获取当前路径
+	// 鑾峰彇褰撳墠璺緞
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
 	string outputPath = output_dir_Path + "/cmd.txt";
@@ -188,7 +188,7 @@ void Input::ReadCMD()
 
 void Input::ReadCompareXML()
 {
-	// 获取当前路径
+	// 鑾峰彇褰撳墠璺緞
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/Config";
 	string outputPath = output_dir_Path + "/Comparison.xml";
@@ -196,13 +196,11 @@ void Input::ReadCompareXML()
 	TiXmlDocument doc(outputPath.c_str());
 	bool loadOkay = doc.LoadFile();
 	if (!loadOkay) {
-		printf("Could not load test file %s. Error='%s'. Exiting.\n", outputPath, doc.ErrorDesc());
 		return;
 	}
 	TiXmlElement* root = doc.RootElement();
 	if (!root)
 	{
-		printf("Path is falth");
 		return;
 	}
 	for (TiXmlNode* Class = root->FirstChild("Class");
@@ -254,7 +252,7 @@ void Input::SetParameter()
 		string class_name = user_str.ClassName;
 		string pset_name = user_str.PsetName;
 		
-		// 融合scf
+		// 铻嶅悎scf
 		if (class_name == "")
 		{
 			InputStr scf_str = SCFParameterStrMap[pset_name];
@@ -266,7 +264,7 @@ void Input::SetParameter()
 			class_name = scf_str.ClassName;
 			user_str.ClassName = scf_str.ClassName;
 		}
-		// 融合xml
+		// 铻嶅悎xml
 		InputStr xml_str = XMLParameterStrMap[class_name];
 		for (auto parameter_iter = user_str.ParametersMap.begin(); parameter_iter != user_str.ParametersMap.end(); parameter_iter++)
 		{

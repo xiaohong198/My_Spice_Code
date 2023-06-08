@@ -11,7 +11,7 @@ void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 	V_DC = stod(_DataStr.ParametersMap["V_DC"][0]);
 
-	//¶Ë¿ÚºÅ
+	//ç«¯å£å·
 	int max_port = 0;
 	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
 	{
@@ -23,7 +23,7 @@ void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 		{
 			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
 			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// Î´Íê³É
+			// æœªå®Œæˆ
 		}
 		else
 		{
@@ -48,7 +48,7 @@ void Vsource_DC::setDeviceInfo(map<string, int> &_PortMap)
 	//DeviceInfo_.xIndex.push_back(0);
 	//DeviceInfo_.xIndex.push_back(9);
 	//return;
-	//¶Ë¿ÚºÅÓ¦ÓÃ
+	//ç«¯å£å·åº”ç”¨
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{

@@ -7,7 +7,7 @@
 
 using namespace std;
 int main() {
-	/*-------------PWL µçÔ´µÄ²âÊÔ-----------*/
+	/*-------------PWL ç”µæºçš„æµ‹è¯•-----------*/
 	//TestPWLSource();
 	/*----------------------------------------*/
 	Simulator MySimulator;
@@ -20,7 +20,7 @@ int main() {
 
 	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	
-	cout << "³ÌĞòÓÃÊ±:" << time.count() / 1000 << "ºÁÃë" << endl;
+	cout << "ç¨‹åºç”¨æ—¶:" << time.count() / 1000 << "æ¯«ç§’" << endl;
 	
 	system("pause");
 

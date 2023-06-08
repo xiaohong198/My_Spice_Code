@@ -8,7 +8,7 @@ protected:
 	double MTYPE;
 	//Dimensions
 	double AREA;//Device area
-	double SCALE;//²¢ÁªµÄÆ÷¼şÊı
+	double SCALE;//å¹¶è”çš„å™¨ä»¶æ•°
 	double LENGTH;//channel length
 	double WIDTH;//channel width
 	double AD;//Drain area
@@ -41,12 +41,12 @@ protected:
 	//C-V
 	int IFModelGateCapacitance;// 0 for No intrinsic capacitance; 1 for Meyer; 2 for Charge Conversation
 
-	bool IFModelGateOverlapCapacitance;//No ¡ª Do not include gate overlap capacitance in the model. Yes ¡ª Specify the gate-source, gate-drain, and gate-bulk capacitances.
+	bool IFModelGateOverlapCapacitance;//No â€” Do not include gate overlap capacitance in the model. Yes â€” Specify the gate-source, gate-drain, and gate-bulk capacitances.
 	double CGSO;//Gate-source overlap capacitance
 	double CGDO;//Gate-drain overlap capacitance
 	double CGBO;//Gate-bulk overlap capacitance
 
-	bool IFModelJunctionCapacitance;//No ¡ª Do not include junction capacitance in the model.  Yes ¡ª Specify zero-bias junction capacitance, junction potential, grading coefficient, forward-bias depletion and capacitance coefficient.
+	bool IFModelJunctionCapacitance;//No â€” Do not include junction capacitance in the model.  Yes â€” Specify zero-bias junction capacitance, junction potential, grading coefficient, forward-bias depletion and capacitance coefficient.
 	double CBD;//Zero-bias BD capacitance
 	double CBS;//Zero-bias BS capacitance
 
@@ -86,7 +86,7 @@ protected:
 	double RSd;
 	double RSHd;
 
-	//ÖĞ¼ä³£Á¿
+	//ä¸­é—´å¸¸é‡
 	double BETA;
 	double EGTmeas;
 	double EGT;
@@ -122,10 +122,10 @@ public:
 	SpiceMosfet();
 	~SpiceMosfet();
 
-	//·ÅÔÚ¸÷ÖÖLevelµÄMosfetµÄ¹¹Ôìº¯ÊıÀï
+	//æ”¾åœ¨å„ç§Levelçš„Mosfetçš„æ„é€ å‡½æ•°é‡Œ
 	void GetGateCapacitance();
 	void GetJunctionCapacitance();
-	void SpecifyInitialCondition();//ºÍSolverÀïµÄ³õÖµ¹ØÁªÉÏ
+	void SpecifyInitialCondition();//å’ŒSolveré‡Œçš„åˆå€¼å…³è”ä¸Š
 
 	//void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
 	void getSubA(Eigen::MatrixXd& subA);

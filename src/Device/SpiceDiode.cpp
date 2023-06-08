@@ -37,7 +37,7 @@ SpiceDiode::SpiceDiode() {
 	//Thermal Voltage
 	Vt = N * k * T / q;
 
-	//中间常量
+	//涓棿甯搁噺
 	F1 = VJ * (1 - pow(1 - FC, 1 - M)) / (1 - M);
 	F2 = pow(1 - FC, 1 + M);
 	F3 = 1 - FC * (1 + M);

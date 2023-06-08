@@ -77,7 +77,7 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 	RDd = RD / (AREA * SCALE);
 	RSd = RS / (AREA * SCALE);
 	RSHd = RSH / (AREA * SCALE);
-	//Ò»Ğ©ÖĞ¼ä³£Á¿
+	//ä¸€äº›ä¸­é—´å¸¸é‡
 	BETA = KPd * WIDTH / (LENGTH - 2 * LD);
 	EGTmeas = 1.16 - (7.02 - 4 * pow(Tmeas, 2)) / (Tmeas + 1108);
 	EGT = 1.16 - (7.02 - 4 * pow(T, 2)) / (T + 1108);
@@ -105,7 +105,7 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 	Vgb = 0;
 	Von = MTYPE * VBI;
 
-	//¶Ë¿ÚºÅ
+	//ç«¯å£å·
 	int max_port = 0;
 	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
 	{
@@ -117,7 +117,7 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 		{
 			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
 			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// Î´Íê³É
+			// æœªå®Œæˆ
 		}
 		else
 		{
@@ -145,7 +145,7 @@ void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
 	//DeviceInfo_.xIndex.push_back(5);
 	//DeviceInfo_.xIndex.push_back(6);
 	//return;
-	//¶Ë¿ÚºÅÓ¦ÓÃ
+	//ç«¯å£å·åº”ç”¨
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
@@ -198,7 +198,7 @@ void SpiceMosfet::GetJunctionCapacitance() {
 
 void SpiceMosfet::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
-	// D Dp G B S Sp £º 0 1 2 3 4 5 
+	// D Dp G B S Sp ï¼š 0 1 2 3 4 5 
 	subA(0, 0) += 1 / RDd;
 	subA(1, 0) += -1 / RDd;
 	subA(0, 1) += -1 / RDd;
@@ -228,12 +228,12 @@ void SpiceMosfet::getSubB(Eigen::MatrixXd& subB) {
 void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian) {
 	subP.setZero();
 	subPJacobian.setZero();
-	Vgd = nodeValue(2) - nodeValue(1);//gºÍDpµÄµçÑ¹²î
-	Vgs = nodeValue(2) - nodeValue(5);//gºÍSp
-	Vds = nodeValue(1) - nodeValue(5);//DpºÍSp
-	Vbs = nodeValue(3) - nodeValue(5);//BºÍSp
-	Vbd = nodeValue(3) - nodeValue(1);//BºÍDp
-	Vgb = nodeValue(2) - nodeValue(3);//GºÍB
+	Vgd = nodeValue(2) - nodeValue(1);//gå’ŒDpçš„ç”µå‹å·®
+	Vgs = nodeValue(2) - nodeValue(5);//gå’ŒSp
+	Vds = nodeValue(1) - nodeValue(5);//Dpå’ŒSp
+	Vbs = nodeValue(3) - nodeValue(5);//Bå’ŒSp
+	Vbd = nodeValue(3) - nodeValue(1);//Bå’ŒDp
+	Vgb = nodeValue(2) - nodeValue(3);//Gå’ŒB
 
 	//Bulk Source Diode Model
 	double ISbs = 0;
@@ -286,7 +286,7 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	subP(1) += -Ibd;
 
 	//Level1 Drain Current Model
-	Von = MTYPE * VBI;//Threshold Voltage,ºÍVbsÓĞ¹Ø£¬ÓÃÉÏÒ»²½Å£¶Ùµü´úµÄ½á¹û¹ÀËãVonµÄÇø¼ä
+	Von = MTYPE * VBI;//Threshold Voltage,å’ŒVbsæœ‰å…³ï¼Œç”¨ä¸Šä¸€æ­¥ç‰›é¡¿è¿­ä»£çš„ç»“æœä¼°ç®—Vonçš„åŒºé—´
 	double DVonDVbs = 0;
 	double Ids = 0;
 	double DIdsDVgs = 0;
@@ -316,7 +316,7 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	}
 	else {  // Vgs>Von
 		if (Vds < 0) {
-			//·´Ïò»Ö¸´ÌØĞÔ
+			//åå‘æ¢å¤ç‰¹æ€§
 		}
 		else { // Vds >=0
 			if (Vds < Vgs - Von) {
@@ -334,16 +334,16 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 		}
 
 	}
-	//Ids³öÏÖÔÚDpºÍSpµÄKCL·½³ÌÀï
-	subPJacobian(1, 2) += DIdsDVgs;//DpµãµÄKCL£ºIds¶ÔVgµÄÆ«µ¼
-	subPJacobian(1, 5) += -DIdsDVgs - DIdsDVds - DIdsDVon * DVonDVbs;//DpµãµÄKCL: Ids¶ÔVSpµÄÆ«µ¼
-	subPJacobian(1, 1) += DIdsDVds;//Ids¶ÔVDpµÄÆ«µ¼
-	subPJacobian(1, 3) += DIdsDVon * DVonDVbs;//Ids¶ÔVbµÄÆ«µ¼
+	//Idså‡ºç°åœ¨Dpå’ŒSpçš„KCLæ–¹ç¨‹é‡Œ
+	subPJacobian(1, 2) += DIdsDVgs;//Dpç‚¹çš„KCLï¼šIdså¯¹Vgçš„åå¯¼
+	subPJacobian(1, 5) += -DIdsDVgs - DIdsDVds - DIdsDVon * DVonDVbs;//Dpç‚¹çš„KCL: Idså¯¹VSpçš„åå¯¼
+	subPJacobian(1, 1) += DIdsDVds;//Idså¯¹VDpçš„åå¯¼
+	subPJacobian(1, 3) += DIdsDVon * DVonDVbs;//Idså¯¹Vbçš„åå¯¼
 
-	subPJacobian(5, 2) += -DIdsDVgs;//SpµãµÄKCL£º-Ids¶ÔVgµÄÆ«µ¼
-	subPJacobian(5, 5) += DIdsDVgs + DIdsDVds + DIdsDVon * DVonDVbs;//SpµãµÄKCL: -Ids¶ÔVSpµÄÆ«µ¼
-	subPJacobian(5, 1) += -DIdsDVds;//-Ids¶ÔVDpµÄÆ«µ¼
-	subPJacobian(5, 3) += -DIdsDVon * DVonDVbs;//-Ids¶ÔVbµÄÆ«µ¼
+	subPJacobian(5, 2) += -DIdsDVgs;//Spç‚¹çš„KCLï¼š-Idså¯¹Vgçš„åå¯¼
+	subPJacobian(5, 5) += DIdsDVgs + DIdsDVds + DIdsDVon * DVonDVbs;//Spç‚¹çš„KCL: -Idså¯¹VSpçš„åå¯¼
+	subPJacobian(5, 1) += -DIdsDVds;//-Idså¯¹VDpçš„åå¯¼
+	subPJacobian(5, 3) += -DIdsDVon * DVonDVbs;//-Idså¯¹Vbçš„åå¯¼
 
 	subP(1) += Ids;
 	subP(5) += -Ids;
@@ -353,9 +353,9 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
 	subQ.setZero();
 	subQJacobian.setZero();
-	/*Junction Charge Model£ºÒÔÏÂÁ½²¿·Ö×é³É
-* Overlap Capacitance: CGSO¡¢CGDO¡¢CGBO (ÒÑÔÚ¹¹Ôìº¯ÊıÀï¼ÆËã)
-* Bulk Junction: Bottom + SideWall £ºCBD¡¢CBS
+	/*Junction Charge Modelï¼šä»¥ä¸‹ä¸¤éƒ¨åˆ†ç»„æˆ
+* Overlap Capacitance: CGSOã€CGDOã€CGBO (å·²åœ¨æ„é€ å‡½æ•°é‡Œè®¡ç®—)
+* Bulk Junction: Bottom + SideWall ï¼šCBDã€CBS
 */
 //B-Dp Bottom
 	double QbdBottom = 0;
@@ -426,8 +426,8 @@ void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	}
 
 	subQJacobian(1, 1) += (DQbdBDVbd + DQbdSDVbd);
-	subQJacobian(3, 3) += (DQbdBDVbd + DQbdSDVbd) + (DQbsBDVbs + DQbsSDVbs);//B ×ÔµçÈİ 3¸ö
-	subQJacobian(5, 5) += (DQbsBDVbs + DQbsSDVbs);//Sp ×ÔµçÈİ 2¸ö
+	subQJacobian(3, 3) += (DQbdBDVbd + DQbdSDVbd) + (DQbsBDVbs + DQbsSDVbs);//B è‡ªç”µå®¹ 3ä¸ª
+	subQJacobian(5, 5) += (DQbsBDVbs + DQbsSDVbs);//Sp è‡ªç”µå®¹ 2ä¸ª
 	subQJacobian(3, 1) += -(DQbdBDVbd + DQbdSDVbd);//B-Dp
 	subQJacobian(1, 3) += -(DQbdBDVbd + DQbdSDVbd);
 
@@ -440,7 +440,7 @@ void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 }
 
 void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC) {
-	//Capacitance Model: Ä¿Ç°Ö»ÒıÈëÁËMeyer Gate Capacitance ModelÄ£ĞÍ£¬Charge Conversation Capacitance Model´ı¿ª·¢
+	//Capacitance Model: ç›®å‰åªå¼•å…¥äº†Meyer Gate Capacitance Modelæ¨¡å‹ï¼ŒCharge Conversation Capacitance Modelå¾…å¼€å‘
 	double Vth = Von;
 	double CgbMeyer = 0;
 	double CgdMeyer = 0;
@@ -465,8 +465,8 @@ void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& sub
 		CgbMeyer = 0;
 		CgdMeyer = 2.0 / 3 * (Coxt - CgbMeyer) * (1 - pow(Vsatmin, 2) / pow(2 * Vsatmin - Vds, 2));
 		CgsMeyer = 2.0 / 3 * (Coxt - CgbMeyer) * (1 - pow(Vsatmin - Vds, 2) / pow(2 * Vsatmin - Vds, 2));
-		//QgdMeyer = CgdMeyer * Vgd;//CgdËäÈ»·ÇÏßĞÔ£¬µ«ÊÇºÍVgdÎŞ¹Ø
-		//QgsMeyer = CgsMeyer * Vgs;//CgsËäÈ»·ÇÏßĞÔ£¬µ«ÊÇºÍVgsÎŞ¹Ø
+		//QgdMeyer = CgdMeyer * Vgd;//Cgdè™½ç„¶éçº¿æ€§ï¼Œä½†æ˜¯å’ŒVgdæ— å…³
+		//QgsMeyer = CgsMeyer * Vgs;//Cgsè™½ç„¶éçº¿æ€§ï¼Œä½†æ˜¯å’ŒVgsæ— å…³
 	}
 	else if (Vgs - Vth < Vds && Vds >= Vsatmin) {
 		CgbMeyer = 0;

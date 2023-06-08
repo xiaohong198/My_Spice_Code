@@ -6,11 +6,11 @@ Solver_TR::~Solver_TR() {
 }
 
 void Solver_TR::processJacobianAndF() {
-    processSetZero();//Ã¿¸öÅ£¶Ùµü´úÖ®Ç°ÏÈ°ÑP¡¢Q¡¢P_Jacobian¡¢Q_Jacobian¡¢C¾ØÕóÇåÁã
+    processSetZero();//æ¯ä¸ªç‰›é¡¿è¿­ä»£ä¹‹å‰å…ˆæŠŠPã€Qã€P_Jacobianã€Q_Jacobianã€CçŸ©é˜µæ¸…é›¶
 	processP();
 	processQ();
 	processC();
-    processGroundedNodeEqu();//½ÓµØµã¶Ô¾ØÕóµÄÓ°Ïì
+    processGroundedNodeEqu();//æ¥åœ°ç‚¹å¯¹çŸ©é˜µçš„å½±å“
 	F_x0 = (A * (x_Newton + x) / 2 + (P + P_last) / 2) * dt_ + (B + (C + C_last) / 2) * (x_Newton - x) + (Q - Q_last) - E_Integral;
 	Jacobian = (A + P_Jacobian) / 2 * dt_ + B + C / 2 + Q_Jacobian;
 }

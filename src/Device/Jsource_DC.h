@@ -17,3 +17,4 @@ public:
 	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 };
 
+	

@@ -10,24 +10,24 @@ Output::~Output() {
 
 void Output::SaveTxt(string _path, std::vector<var_t> _data)
 {
-	// 获取当前路径
+	// 鑾峰彇褰撳墠璺緞
 	string output_dir_Path = _path + "/../";
 
 	int re = _access(output_dir_Path.c_str(), 0);
 	switch (re)
 	{
 	case -1:
-		_mkdir(output_dir_Path.c_str());				//创建目录
+		_mkdir(output_dir_Path.c_str());				//鍒涘缓鐩綍
 		break;
 	default:
-		remove(_path.c_str());//删除文件
-		//_rmdir(output_dir_Path.c_str());//删除目录
-		_mkdir(output_dir_Path.c_str());				//创建目录
+		remove(_path.c_str());//鍒犻櫎鏂囦欢
+		//_rmdir(output_dir_Path.c_str());//鍒犻櫎鐩綍
+		_mkdir(output_dir_Path.c_str());				//鍒涘缓鐩綍
 		break;
 	}
 
 	std::stringstream ss;
-	//循环
+	//寰幆
 	for (auto& iter : _data)
 	{
 		if (std::holds_alternative<std::string>(iter))

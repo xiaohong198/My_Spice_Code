@@ -11,15 +11,15 @@ class SpiceString
 public:
 	SpiceString();
 	~SpiceString();
-	// ×Ö·û´®·Ö¸îµ«ÊÇÊÇÍ¨¹ı´óĞ¡Ğ´À´¸ÄÔ­À´µÄ(str ×Ö·û´® delimiter ·Ö¸î×Ö·û str_trans ´óĞ¡Ğ´×ª»»ºóµÄ is_remove ÊÇ·ñ±£Áô¿Õ¸ñ)
+	// å­—ç¬¦ä¸²åˆ†å‰²ä½†æ˜¯æ˜¯é€šè¿‡å¤§å°å†™æ¥æ”¹åŸæ¥çš„(str å­—ç¬¦ä¸² delimiter åˆ†å‰²å­—ç¬¦ str_trans å¤§å°å†™è½¬æ¢åçš„ is_remove æ˜¯å¦ä¿ç•™ç©ºæ ¼)
 	std::vector<std::string> getSplitVec(string str, string delimiter, string str_trans = "", bool is_remove = false);
-	// ×Ö·û´®´óĞ´
+	// å­—ç¬¦ä¸²å¤§å†™
 	string TransformUp(string _str);
-	// ×Ö·û´®Ğ¡Ğ´
+	// å­—ç¬¦ä¸²å°å†™
 	string TransformLow(string _str);
-	// »ñÈ¡×Ö·ûÖ®¼äµÄÄÚÈİ
+	// è·å–å­—ç¬¦ä¹‹é—´çš„å†…å®¹
 	string getContent(string _str, string begin_symbol, string end_symbol);
-	// É¾³ı×Ö·û´®ÖĞ×Ö·û
+	// åˆ é™¤å­—ç¬¦ä¸²ä¸­å­—ç¬¦
 	string RemoveChars(string _str, string _chars);
 
 };

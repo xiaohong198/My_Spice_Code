@@ -14,7 +14,7 @@ void Resistor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 
 	resistance = stod(_DataStr.ParametersMap["resistance"][0]);
 
-	//¶Ë¿ÚºÅ
+	//ç«¯å£å·
 	int max_port = 0;
 	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
 	{
@@ -26,7 +26,7 @@ void Resistor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 		{
 			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
 			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// Î´Íê³É
+			// æœªå®Œæˆ
 		}
 		else
 		{
@@ -60,7 +60,7 @@ void Resistor::setDeviceInfo(map<string, int>& _PortMap)
 	//	return;
 	//}
 
-	//¶Ë¿ÚºÅÓ¦ÓÃ
+	//ç«¯å£å·åº”ç”¨
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
 		string port_name = InputData.Port[index_port];

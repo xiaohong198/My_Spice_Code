@@ -3,15 +3,15 @@
 #include <cmath>
 class SpiceDevice: public Device
 {
-protected://³£Êı²ÎÊıµ¥¶À·ÅÒ»¸öÎÄ¼ş±È½ÏºÃ£¿
+protected://å¸¸æ•°å‚æ•°å•ç‹¬æ”¾ä¸€ä¸ªæ–‡ä»¶æ¯”è¾ƒå¥½ï¼Ÿ
 	double q;//elementary charge on an electron
 	double k;//Boltzmann constant
 	double ni;//cm^(-3)
 	double epsilon0;// F/m
 	double epsilonOX;//permittivity of SiO2
 
-	double Tmeas;//²ÎÊıÌáÈ¡µÄÎÂ¶È£¬Ò²×÷Tnom
-	double T;//Êµ¼ÊÎÂ¶È
+	double Tmeas;//å‚æ•°æå–çš„æ¸©åº¦ï¼Œä¹Ÿä½œTnom
+	double T;//å®é™…æ¸©åº¦
 	double Gmin;
 
 public:

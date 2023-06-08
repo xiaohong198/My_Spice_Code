@@ -4,8 +4,8 @@
 #include "Solver_SDC.h"
 #include "Newton/BasicNewton.h"
 
-/* 类Simulator负责整个电路求解. Simulator通过内部的Solver指针，调用实际的Solver类型去完成时间离散和求解工作.
- 由于Solver类的Run函数是虚函数，真正的时间离散格式会去实现生成雅可比的工作.
+/* 绫籗imulator璐熻矗鏁翠釜鐢佃矾姹傝В. Simulator閫氳繃鍐呴儴鐨凷olver鎸囬拡锛岃皟鐢ㄥ疄闄呯殑Solver绫诲瀷鍘诲畬鎴愭椂闂寸鏁ｅ拰姹傝В宸ヤ綔.
+ 鐢变簬Solver绫荤殑Run鍑芥暟鏄櫄鍑芥暟锛岀湡姝ｇ殑鏃堕棿绂绘暎鏍煎紡浼氬幓瀹炵幇鐢熸垚闆呭彲姣旂殑宸ヤ綔.
 */
 class Simulator
 {

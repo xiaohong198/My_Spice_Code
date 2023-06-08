@@ -2,11 +2,11 @@
 Solver_EulerBackward::Solver_EulerBackward(Configuration* MyConfig, Circuit* MyCircuit) :Solver(MyConfig, MyCircuit) {
 }
 void Solver_EulerBackward::processJacobianAndF() {
-    processSetZero();//Ã¿¸öÅ£¶Ùµü´úÖ®Ç°ÏÈ°ÑP¡¢Q¡¢P_Jacobian¡¢Q_Jacobian¡¢C¾ØÕóÇåÁã
+    processSetZero();//æ¯ä¸ªç‰›é¡¿è¿­ä»£ä¹‹å‰å…ˆæŠŠPã€Qã€P_Jacobianã€Q_Jacobianã€CçŸ©é˜µæ¸…é›¶
     processP();
 	processQ();
 	processC();
-    processGroundedNodeEqu();//½ÓµØµã¶Ô¾ØÕóµÄÓ°Ïì
+    processGroundedNodeEqu();//æ¥åœ°ç‚¹å¯¹çŸ©é˜µçš„å½±å“
 	F_x0 = (A * x_Newton + P) * dt_ + (B + C) * (x_Newton - x) + (Q - Q_last) - E_Integral;
     Jacobian = (A + P_Jacobian) * dt_ + B + C + Q_Jacobian;
 }

@@ -20,7 +20,7 @@ void TabulatedIVCurveDevice::fitting(int IVCount, double* IList, double* VList, 
 
 	Eigen::MatrixXd mat(IVCount, IVCount);
 	Eigen::VectorXd rhs(IVCount);
-	Eigen::VectorXd sol(IVCount);//mÏòÁ¿
+	Eigen::VectorXd sol(IVCount);//må‘é‡
 	for (int i = 0; i < IVCount; i++) {
 		for (int j = 0; j < IVCount; j++) {
 			mat(i, j) = 0;
@@ -42,13 +42,13 @@ void TabulatedIVCurveDevice::fitting(int IVCount, double* IList, double* VList, 
 	for (int i = 1; i < IVCount - 1; i++) {
 		rhs(i) = 6 *(  *(IDifference + i)/ *(VDifference+i) - *(IDifference+i-1) / *(VDifference+i-1)  );
 	}
-	sol = mat.lu().solve(rhs);//Çó³ömÏòÁ¿
+	sol = mat.lu().solve(rhs);//æ±‚å‡ºmå‘é‡
 	for (int i = 0; i < IVCount - 1; i++) {
 		*(Coeff0 + i) = *(IList + i);
 		*(Coeff1 + i) = *(IDifference+i) / *(VDifference+i) - *(VDifference+i) * sol(i) / 2 - *(VDifference+i) * (sol(i + 1) - sol(i)) / 6;
 		*(Coeff2 + i) = sol(i) / 2;
 		*(Coeff3 + i) = (sol(i + 1) - sol(i)) / (6 * *(VDifference+i));
-	}//¸øÈı´Î¶àÏîÊ½ÏµÊı¸³Öµ
+	}//ç»™ä¸‰æ¬¡å¤šé¡¹å¼ç³»æ•°èµ‹å€¼
 }
 double TabulatedIVCurveDevice::f(double V) {
 	if (V < this->VList[0]) {

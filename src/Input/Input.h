@@ -16,10 +16,10 @@ private:
 	SpiceString * SpiceString_;
 
 public:
-	map<string, InputStr> XMLParameterStrMap;// key ÀàÃû£¨SpiceMosfet£© value ÀàÊı¾İ½á¹¹Ìå
-	map<string, InputStr> SCFParameterStrMap;// key PSETÃû£¨3505£© value ÀàÊı¾İ½á¹¹Ìå
-	map<string, InputStr> CMDParameterStrMap;// key ÊµÀıÃû£¨Mos1£© value ÀàÊı¾İ½á¹¹Ìå
-	map<string, InputStr> UserParameterStrMap;// ½»¸øÆ÷¼şÀàµÄkey Æ÷¼şÃû³Æ£¨3505£© value ÀàÊı¾İ½á¹¹Ìå
+	map<string, InputStr> XMLParameterStrMap;// key ç±»åï¼ˆSpiceMosfetï¼‰ value ç±»æ•°æ®ç»“æ„ä½“
+	map<string, InputStr> SCFParameterStrMap;// key PSETåï¼ˆ3505ï¼‰ value ç±»æ•°æ®ç»“æ„ä½“
+	map<string, InputStr> CMDParameterStrMap;// key å®ä¾‹åï¼ˆMos1ï¼‰ value ç±»æ•°æ®ç»“æ„ä½“
+	map<string, InputStr> UserParameterStrMap;// äº¤ç»™å™¨ä»¶ç±»çš„key å™¨ä»¶åç§°ï¼ˆ3505ï¼‰ value ç±»æ•°æ®ç»“æ„ä½“
 	map<string, int> PortCompareMap;
 	map<string, int> HintCompareMap;
 public:

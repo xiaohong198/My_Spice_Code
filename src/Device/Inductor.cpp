@@ -7,11 +7,11 @@ Inductor::Inductor() {
 void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 {
 	InputData = _DataStr;
-	//Æ÷¼şÊµÀıÃû³Æ
+	//å™¨ä»¶å®ä¾‹åç§°
 	InstanceName = _DataStr.InstanceName;
-	//²ÎÊı
+	//å‚æ•°
 	Inductance = stod(_DataStr.ParametersMap["Inductance"][0]);
-	//¶Ë¿ÚºÅ
+	//ç«¯å£å·
 	int max_port = 0;
 	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
 	{
@@ -23,7 +23,7 @@ void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 		{
 			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
 			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// Î´Íê³É
+			// æœªå®Œæˆ
 		}
 		else
 		{
@@ -48,7 +48,7 @@ void Inductor::setDeviceInfo(map<string, int>&_PortMap)
 	//DeviceInfo_.xIndex.push_back(7);
 	//DeviceInfo_.xIndex.push_back(11);
 	//return;
-	//¶Ë¿ÚºÅÓ¦ÓÃ
+	//ç«¯å£å·åº”ç”¨
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{

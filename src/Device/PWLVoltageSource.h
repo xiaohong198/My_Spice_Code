@@ -7,7 +7,7 @@ class PWLVoltageSource:public Device
 protected:
 	int tCount;
 	double* tList;
-	double* vList;//默认按照从小到大输入
+	double* vList;//榛樿鎸夌収浠庡皬鍒板ぇ杈撳叆
 private:
 	DeviceInfoStr DeviceInfo_;
 	string InstanceName;

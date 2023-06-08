@@ -42,7 +42,7 @@ void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMa
 		}
 	}
 
-	//¶Ë¿ÚºÅ
+	//ç«¯å£å·
 	int max_port = 0;
 	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
 	{
@@ -54,7 +54,7 @@ void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMa
 		{
 			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
 			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// Î´Íê³É
+			// æœªå®Œæˆ
 		}
 		else
 		{
@@ -79,7 +79,7 @@ void PWLVoltageSource::setDeviceInfo(map<string, int> &_PortMap)
 	//DeviceInfo_.xIndex.push_back(5);
 	//DeviceInfo_.xIndex.push_back(10);
 	//return;
-	//¶Ë¿ÚºÅÓ¦ÓÃ
+	//ç«¯å£å·åº”ç”¨
 	int _max_port_index = _PortMap["- MaxPortIndex -"];
 	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
 	{
@@ -115,7 +115,7 @@ double PWLVoltageSource::eFunction(double t) {
 			}
 		}
 	}
-
+	return 0;
 }
 
 double PWLVoltageSource::setIntegration(double* tList) {
@@ -124,16 +124,16 @@ double PWLVoltageSource::setIntegration(double* tList) {
 	double PSLIntegral = 0;
 	double vt1 = eFunction(t1);
 	double vt2 = eFunction(t2);
-	//Ä¬ÈÏt1<t2;
+	//é»˜è®¤t1<t2;
 	int Locationt1 = tCount;
 	int Locationt2 = tCount;
-	for (int i = 0; i < tCount; i++) {//¶¨Î»t1
+	for (int i = 0; i < tCount; i++) {//å®šä½t1
 		if (t1 < tList[i]) {
 			Locationt1 = i;
 			break;
 		}
 	}
-	for (int i = 0; i < tCount; i++) {//¶¨Î»t2
+	for (int i = 0; i < tCount; i++) {//å®šä½t2
 		if (t2 < tList[i]) {
 			Locationt2 = i;
 			break;
@@ -145,7 +145,7 @@ double PWLVoltageSource::setIntegration(double* tList) {
 	else {
 		PSLIntegral += (vt1 + vList[Locationt1]) * (tList[Locationt1] - t1) * 0.5;
 		PSLIntegral += (vt2 + vList[Locationt2 - 1]) * (t2 - tList[Locationt2 - 1]) * 0.5;
-		for (int i = Locationt1; i < Locationt2-1; i++) {//Èç¹ût1ºÍt2ÔÚÏàÁÚÇø¼ä£¬Õâ¸öÑ­»·²»»áÔËĞĞ
+		for (int i = Locationt1; i < Locationt2-1; i++) {//å¦‚æœt1å’Œt2åœ¨ç›¸é‚»åŒºé—´ï¼Œè¿™ä¸ªå¾ªç¯ä¸ä¼šè¿è¡Œ
 			PSLIntegral += (vList[i] + vList[i + 1]) * (tList[i + 1] - tList[i]) * 0.5;
 		}
 	}

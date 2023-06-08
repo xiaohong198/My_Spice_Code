@@ -46,7 +46,7 @@ protected:
 	//Thermal Voltage
 	double Vt;
 	
-	//中间常量
+	//涓棿甯搁噺
 	double F1;
 	double F2;
 	double F3;

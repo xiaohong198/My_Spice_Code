@@ -6,13 +6,13 @@ class TabulatedIVCurveDevice :public Device
 protected:
 	int IVCount;
 	double* IList;
-	double* VList;//Ä¬ÈÏ°´ÕÕ´ÓĞ¡µ½´óÊäÈë
-	double* IDifference;//ÏàÁÚÁ½µãµçÁ÷²î
-	double* VDifference;//ÏàÁÚÁ½µãµçÑ¹²î
-	double* Coeff3;//Èı´ÎÏîÏµÊı
-	double* Coeff2;//¶ş´ÎÏîÏµÊı
-	double* Coeff1;//Ò»´ÎÏîÏµÊı
-	double* Coeff0;//³£ÊıÏîÏµÊı
+	double* VList;//é»˜è®¤æŒ‰ç…§ä»å°åˆ°å¤§è¾“å…¥
+	double* IDifference;//ç›¸é‚»ä¸¤ç‚¹ç”µæµå·®
+	double* VDifference;//ç›¸é‚»ä¸¤ç‚¹ç”µå‹å·®
+	double* Coeff3;//ä¸‰æ¬¡é¡¹ç³»æ•°
+	double* Coeff2;//äºŒæ¬¡é¡¹ç³»æ•°
+	double* Coeff1;//ä¸€æ¬¡é¡¹ç³»æ•°
+	double* Coeff0;//å¸¸æ•°é¡¹ç³»æ•°
 public:
 	TabulatedIVCurveDevice();
 	~TabulatedIVCurveDevice();

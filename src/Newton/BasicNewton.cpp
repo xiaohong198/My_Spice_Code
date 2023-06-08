@@ -1,8 +1,8 @@
 #include "BasicNewton.h"
 BasicNewton::BasicNewton(Solver* MySolver): Newton(MySolver) {
 	//Convergence_limit = 1.0e-9;//1.0e-4
-	RELTOL = 1e-3;//ngspiceÄ¬ÈÏÈ¡1e-3
-	VNTOL = 1e-6;//ngspiceÄ¬ÈÏÈ¡1e-6
+	RELTOL = 1e-3;//ngspiceé»˜è®¤å–1e-3
+	VNTOL = 1e-6;//ngspiceé»˜è®¤å–1e-6
 	ABSTOL = 1.0e-12;
 }
 
@@ -35,7 +35,7 @@ void BasicNewton::Perform_Newton()
 
 void BasicNewton::NewtonSave()
 {	
-	// »ñÈ¡µ±Ç°Â·¾¶
+	// è·å–å½“å‰è·¯å¾„
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/BasicNewton.txt";
