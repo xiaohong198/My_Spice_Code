@@ -38,11 +38,11 @@ void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 			}
 		}
 	}
-	_PortMap.insert({"- MaxPortIndex -",max_port });
+	_PortMap.insert({ "- MaxPortIndex -",max_port });
 	_PortMap["- MaxPortIndex -"] = max_port;
 }
 
-void Inductor::setDeviceInfo(map<string, int>&_PortMap)
+void Inductor::setDeviceInfo(map<string, int>& _PortMap)
 {
 	//DeviceInfo_.xIndex.push_back(5);
 	//DeviceInfo_.xIndex.push_back(7);
@@ -68,15 +68,15 @@ Inductor::~Inductor() {
 }
 
 void Inductor::getSubA(Eigen::MatrixXd& subA) {
-    subA(0, 2) = 1;
-    subA(1, 2) = -1;
-    subA(2, 0) = -1;
-    subA(2, 1) = 1;
+	subA(0, 2) = 1;
+	subA(1, 2) = -1;
+	subA(2, 0) = -1;
+	subA(2, 1) = 1;
 }
 
 void Inductor::getSubB(Eigen::MatrixXd& subB) {
-    subB.setZero();
-    subB(2, 2) = Inductance;
+	subB.setZero();
+	subB(2, 2) = Inductance;
 }
 
 int Inductor::getReturnPrime()
@@ -84,12 +84,10 @@ int Inductor::getReturnPrime()
 	return PrimeA + PrimeB;
 }
 
-
 DeviceInfoStr Inductor::getDeviceInfo()
 {
 	return DeviceInfo_;
 }
-
 
 string Inductor::getInstanceName()
 {

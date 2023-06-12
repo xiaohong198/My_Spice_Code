@@ -3,7 +3,7 @@
 #include "SpiceString.h"
 #include <fstream>
 #include <tinyxml.h>
-#include <direct.h> 
+#include <direct.h>
 #include <io.h>
 #include <sstream>
 #define byte my_byte
@@ -13,7 +13,7 @@ using namespace std;
 class Input
 {
 private:
-	SpiceString * SpiceString_;
+	SpiceString* SpiceString_;
 
 public:
 	map<string, InputStr> XMLParameterStrMap;// key 类名（SpiceMosfet） value 类数据结构体
@@ -33,4 +33,3 @@ public:
 	map<string, int> GetPortCompare();
 	map<string, int> GetHintCompare();
 };
-

@@ -19,9 +19,9 @@ int main() {
 	auto end = std::chrono::steady_clock::now();
 
 	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	
+
 	cout << "程序用时:" << time.count() / 1000 << "毫秒" << endl;
-	
+
 	system("pause");
 
 	return 0;

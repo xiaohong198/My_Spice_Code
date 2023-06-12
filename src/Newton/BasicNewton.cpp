@@ -1,5 +1,5 @@
 #include "BasicNewton.h"
-BasicNewton::BasicNewton(Solver* MySolver): Newton(MySolver) {
+BasicNewton::BasicNewton(Solver* MySolver) : Newton(MySolver) {
 	//Convergence_limit = 1.0e-9;//1.0e-4
 	RELTOL = 1e-3;//ngspice默认取1e-3
 	VNTOL = 1e-6;//ngspice默认取1e-6
@@ -7,7 +7,6 @@ BasicNewton::BasicNewton(Solver* MySolver): Newton(MySolver) {
 }
 
 bool BasicNewton::CheckConvergence() {
-
 	Eigen::MatrixXd xCompare(MySolver_->size, 2);
 	xCompare << MySolver_->x_Newton_pr, MySolver_->x_Newton;
 	Eigen::MatrixXd VoltageCompare = xCompare(MySolver_->VoltageXIndex, Eigen::all);
@@ -25,7 +24,6 @@ void BasicNewton::Perform_Newton()
 		MySolver_->x_Newton_pr = MySolver_->x_Newton;
 		MySolver_->processJacobianAndF();
 		MySolver_->x_Newton = MySolver_->x_Newton - MySolver_->Jacobian.inverse() * MySolver_->F_x0;
-		 
 		if (CheckConvergence()) {
 			break;
 		}
@@ -34,16 +32,15 @@ void BasicNewton::Perform_Newton()
 }
 
 void BasicNewton::NewtonSave()
-{	
+{
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
 	string output_dir_Path = path + "/CircuitVarsData";
 	string outputPath = output_dir_Path + "/BasicNewton.txt";
 
-	Output_= new Output();
+	Output_ = new Output();
 	Output_->SaveTxt(outputPath, _out_put_vec);
 }
 
 BasicNewton::~BasicNewton() {
-
 }

@@ -42,7 +42,7 @@ void Vsource_DC::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 	_PortMap["- MaxPortIndex -"] = max_port;
 }
 
-void Vsource_DC::setDeviceInfo(map<string, int> &_PortMap)
+void Vsource_DC::setDeviceInfo(map<string, int>& _PortMap)
 {
 	//DeviceInfo_.xIndex.push_back(1);
 	//DeviceInfo_.xIndex.push_back(0);
@@ -65,27 +65,27 @@ void Vsource_DC::setDeviceInfo(map<string, int> &_PortMap)
 }
 
 double Vsource_DC::eFunction(double t) {
-    return V_DC;
+	return V_DC;
 }
 
 double Vsource_DC::setIntegration(double* tList) {
-    return V_DC * (tList[1] - tList[0]);
+	return V_DC * (tList[1] - tList[0]);
 }
 
 Vsource_DC::~Vsource_DC() {
 }
 
 void Vsource_DC::getSubA(Eigen::MatrixXd& subA) {
-    subA.setZero();
-    subA(0, 2) = 1;
-    subA(1, 2) = -1;
-    subA(2, 0) = 1;
-    subA(2, 1) = -1;
+	subA.setZero();
+	subA(0, 2) = 1;
+	subA(1, 2) = -1;
+	subA(2, 0) = 1;
+	subA(2, 1) = -1;
 }
 
 void Vsource_DC::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
-    subEIntegral.setZero();
-    subEIntegral(2) = setIntegration(tList);
+	subEIntegral.setZero();
+	subEIntegral(2) = setIntegration(tList);
 }
 
 int Vsource_DC::getReturnPrime()

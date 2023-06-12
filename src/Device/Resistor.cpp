@@ -73,10 +73,10 @@ void Resistor::setDeviceInfo(map<string, int>& _PortMap)
 }
 
 void Resistor::getSubA(Eigen::MatrixXd& subA) {
-    subA(0, 0) = 1 / resistance;
-    subA(0, 1) = -1 / resistance;
-    subA(1, 0) = -1 / resistance;
-    subA(1, 1) = 1 / resistance;
+	subA(0, 0) = 1 / resistance;
+	subA(0, 1) = -1 / resistance;
+	subA(1, 0) = -1 / resistance;
+	subA(1, 1) = 1 / resistance;
 }
 
 int Resistor::getReturnPrime()
@@ -90,7 +90,6 @@ DeviceInfoStr Resistor::getDeviceInfo()
 }
 
 Resistor::~Resistor() {
-
 }
 
 string Resistor::getInstanceName()

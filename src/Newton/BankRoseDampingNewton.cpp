@@ -1,5 +1,5 @@
 #include "BankRoseDampingNewton.h"
-BankRoseDampingNewton::BankRoseDampingNewton(Solver* MySolver): Newton(MySolver) {
+BankRoseDampingNewton::BankRoseDampingNewton(Solver* MySolver) : Newton(MySolver) {
 	epsino = 1e-9;
 	omega = 0.1;//(0,1)区间
 }
@@ -40,7 +40,6 @@ void BankRoseDampingNewton::Perform_Newton() {
 				K = K / 10;
 			}
 		}
-
 	}
 	//cout << "Iteration_times =" << Iteration_times << endl;
 	_out_put_vec.push_back(Iteration_times);
@@ -58,5 +57,4 @@ void BankRoseDampingNewton::NewtonSave()
 }
 
 BankRoseDampingNewton::~BankRoseDampingNewton() {
-
 }

@@ -1,7 +1,7 @@
 #include "Input.h"
 
 Input::Input()
-	:SpiceString_(nullptr) 
+	:SpiceString_(nullptr)
 {
 	SpiceString_ = new SpiceString();
 
@@ -12,7 +12,6 @@ Input::Input()
 }
 
 Input::~Input() {
-
 }
 
 void Input::ReadSCF()
@@ -129,13 +128,13 @@ void Input::ReadCMD()
 			//pwl
 			else if (line_trans.find("(") != string::npos && line_trans.find("{") != string::npos && line_trans.find("}") == string::npos)
 			{
-				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=(","",true);
+				std::vector<std::string> txt_result = SpiceString_->getSplitVec(line, "=(", "", true);
 				pwl_key = SpiceString_->getContent(line, "{", "=");
 				for (auto iter : SpiceString_->getSplitVec(txt_result[1], " "))
 				{
 					pwl_value_vec.push_back(iter);
 				}
-				
+
 				continue;
 			}
 			else if (line_trans.find("(") == string::npos && line_trans.find("{") == string::npos && line_trans.find("}") == string::npos)
@@ -176,7 +175,7 @@ void Input::ReadCMD()
 			{
 				string content_str = SpiceString_->getContent(line, "(", ")");
 				std::vector<std::string> txt_result = SpiceString_->getSplitVec(content_str, " ");
-				for (auto iter: txt_result)
+				for (auto iter : txt_result)
 				{
 					std::vector<std::string> split_result = SpiceString_->getSplitVec(iter, "=");
 					HintCompareMap.insert({ split_result[0] ,stoi(split_result[1]) });
@@ -208,19 +207,19 @@ void Input::ReadCompareXML()
 		Class = Class->NextSibling("Class"))
 	{
 		InputStr comparison_str;
-		TiXmlNode*  ClassName = Class->FirstChild("ClassName");
+		TiXmlNode* ClassName = Class->FirstChild("ClassName");
 		const char* name = ClassName->ToElement()->GetText();
 		if (!name)
 		{
 			continue;
 		}
 		comparison_str.ClassName = name;
-		
+
 		for (TiXmlNode* Parameter = Class->FirstChild("Parameter");
 			Parameter;
 			Parameter = Parameter->NextSibling("Parameter"))
 		{
-			TiXmlNode*  ParameterName = Parameter->FirstChild("ParameterName");
+			TiXmlNode* ParameterName = Parameter->FirstChild("ParameterName");
 			const char* parameter_name = ParameterName->ToElement()->GetText();
 			if (!parameter_name)
 			{
@@ -251,7 +250,7 @@ void Input::SetParameter()
 		InputStr user_str = (InputCMD_iter->second);
 		string class_name = user_str.ClassName;
 		string pset_name = user_str.PsetName;
-		
+
 		// 融合scf
 		if (class_name == "")
 		{

@@ -2,7 +2,7 @@
 #include "Device.h"
 #include <regex>
 
-class PWLVoltageSource:public Device
+class PWLVoltageSource :public Device
 {
 protected:
 	int tCount;
@@ -24,9 +24,8 @@ public:
 	void getSubA(Eigen::MatrixXd& subA);
 	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 	int getReturnPrime();
-	void setDeviceInfo(map<string, int> &_PortMap);
+	void setDeviceInfo(map<string, int>& _PortMap);
 	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
 	DeviceInfoStr getDeviceInfo();
 	string getInstanceName();
 };
-

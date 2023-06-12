@@ -8,9 +8,8 @@ private:
 	//Eigen::VectorXd P_last;
 	//Eigen::VectorXd C_last;
 public:
-	Solver_TR(Configuration*, Circuit* );
+	Solver_TR(Configuration*, Circuit*);
 	~Solver_TR();
 
 	void processJacobianAndF();
-
 };

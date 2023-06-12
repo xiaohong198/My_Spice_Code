@@ -20,4 +20,3 @@ public:
 private:
 	void Set_Configuration();
 };
-

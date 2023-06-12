@@ -44,7 +44,6 @@ SpiceDiode::SpiceDiode() {
 }
 
 SpiceDiode::~SpiceDiode() {
-
 }
 
 void SpiceDiode::getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {

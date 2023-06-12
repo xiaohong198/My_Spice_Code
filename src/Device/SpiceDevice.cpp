@@ -14,5 +14,4 @@ SpiceDevice::SpiceDevice() {
 }
 
 SpiceDevice::~SpiceDevice() {
-
 }

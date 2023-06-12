@@ -11,7 +11,6 @@
     RegisterAction g_creatorRegister##className(                        \
 		#className,(CreateObject)objectCreator##className)
 
-
 using namespace std;
 
 typedef void* (*CreateObject)(void);

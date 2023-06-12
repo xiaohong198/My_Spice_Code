@@ -14,14 +14,14 @@ Circuit::Circuit()
 
 	for (auto user_iter = UserParameter_.begin(); user_iter != UserParameter_.end(); user_iter++)
 	{
-		InputStr user_str = user_iter->second;		
+		InputStr user_str = user_iter->second;
 		// 初始化器件类
 		Device_ = (Device*)ClassFactory::getInstance().getClassByName(user_str.ClassName);
 		Device_->setInputData(user_str, PortCompareMap);
 		vecDevice.push_back(Device_);
 	}
 
-	for (auto iter_device: vecDevice)
+	for (auto iter_device : vecDevice)
 	{
 		iter_device->VoltageXIndex = VoltageXIndex;
 		iter_device->CurrentXIndex = CurrentXIndex;
@@ -42,5 +42,4 @@ Circuit::Circuit()
 }
 
 Circuit::~Circuit() {
-
 }

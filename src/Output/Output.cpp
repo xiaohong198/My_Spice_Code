@@ -5,7 +5,6 @@ Output::Output()
 }
 
 Output::~Output() {
-
 }
 
 void Output::SaveTxt(string _path, std::vector<var_t> _data)

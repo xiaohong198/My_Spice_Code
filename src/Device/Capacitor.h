@@ -13,4 +13,3 @@ public:
 	//void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
 	void getSubB(Eigen::MatrixXd& SubB);
 };
-

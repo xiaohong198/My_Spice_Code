@@ -17,5 +17,5 @@ public:
 private:
 	int PeakAmplitude;
 	int Frequency;
-	int PhaseShift;};
-
+	int PhaseShift;
+};

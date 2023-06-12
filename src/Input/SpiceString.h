@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <filesystem> 
+#include <filesystem>
 using namespace std;
 
 class SpiceString
@@ -21,6 +21,4 @@ public:
 	string getContent(string _str, string begin_symbol, string end_symbol);
 	// 删除字符串中字符
 	string RemoveChars(string _str, string _chars);
-
 };
-

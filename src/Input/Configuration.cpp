@@ -4,15 +4,15 @@ using namespace std;
 Configuration::Configuration() {
 	dt = 0.01;
 	t_end = 1;
-	//dt = 0.000000005;
-	//t_end = 0.000005;
+	dt = 0.000000005;
+	t_end = 0.000005;
 	dt_method = EulerBackward;
 }
 void Configuration::Set_Configuration() {
-	cout << "Input dt = " << endl;
-	cin >> dt;
-	cout << "Input T_end = " << endl;
-	cin >> t_end;
+	//cout << "Input dt = " << endl;
+	////cin >> dt;
+	//cout << "Input T_end = " << endl;
+	////cin >> t_end;
 	cout << "Choose time discretization method: " << endl;
 	cout << "'1' for EulerBackward" << endl;
 	cout << "'2' for TrapezoidalIntegration" << endl;
@@ -52,5 +52,4 @@ TimeDiscretization Configuration::Get_TimeDiscretization() {
 }
 
 Configuration::~Configuration() {
-
 }

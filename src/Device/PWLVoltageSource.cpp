@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include <map>  
+#include <map>
 using namespace std;
 REGISTER(PWLVoltageSource);
 PWLVoltageSource::PWLVoltageSource() {
@@ -73,7 +73,7 @@ void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMa
 	_PortMap["- MaxPortIndex -"] = max_port;
 }
 
-void PWLVoltageSource::setDeviceInfo(map<string, int> &_PortMap)
+void PWLVoltageSource::setDeviceInfo(map<string, int>& _PortMap)
 {
 	//DeviceInfo_.xIndex.push_back(8);
 	//DeviceInfo_.xIndex.push_back(5);
@@ -101,12 +101,11 @@ PWLVoltageSource::~PWLVoltageSource() {
 }
 
 double PWLVoltageSource::eFunction(double t) {
-
 	if (t < tList[0]) {
 		return vList[0];
 	}
-	else if (t >= tList[tCount-1]) {
-		return vList[tCount-1];
+	else if (t >= tList[tCount - 1]) {
+		return vList[tCount - 1];
 	}
 	else {
 		for (int i = 1; i < tCount; i++) {
@@ -145,13 +144,12 @@ double PWLVoltageSource::setIntegration(double* tList) {
 	else {
 		PSLIntegral += (vt1 + vList[Locationt1]) * (tList[Locationt1] - t1) * 0.5;
 		PSLIntegral += (vt2 + vList[Locationt2 - 1]) * (t2 - tList[Locationt2 - 1]) * 0.5;
-		for (int i = Locationt1; i < Locationt2-1; i++) {//如果t1和t2在相邻区间，这个循环不会运行
+		for (int i = Locationt1; i < Locationt2 - 1; i++) {//如果t1和t2在相邻区间，这个循环不会运行
 			PSLIntegral += (vList[i] + vList[i + 1]) * (tList[i + 1] - tList[i]) * 0.5;
 		}
 	}
 	return PSLIntegral;
 }
-
 
 void PWLVoltageSource::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
@@ -166,22 +164,17 @@ void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tL
 	subEIntegral(2) = (eFunction(tList[0]) + eFunction(tList[1])) / 2 * (tList[1] - tList[0]);
 }
 
-
 int PWLVoltageSource::getReturnPrime()
 {
 	return PrimeA + PrimeE;
 }
 
-
 DeviceInfoStr PWLVoltageSource::getDeviceInfo()
 {
-
 	return DeviceInfo_;
 }
 
-
 string PWLVoltageSource::getInstanceName()
 {
-
 	return InstanceName;
 }

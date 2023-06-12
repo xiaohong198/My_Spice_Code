@@ -8,7 +8,6 @@ Diode::Diode() {
 }
 
 Diode::~Diode() {
-
 }
 
 //void Diode::setConstValue(double ron, double vf) {

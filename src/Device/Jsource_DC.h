@@ -1,6 +1,6 @@
 #pragma once
 #include "Device.h"
-class Jsource_DC:public Device
+class Jsource_DC :public Device
 {
 private:
 	double J_DC;
@@ -16,5 +16,3 @@ public:
 	//void getExcitationIntegralSubMatrix(Eigen::VectorXd& subEIntegral, double, double);
 	void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);
 };
-
-	

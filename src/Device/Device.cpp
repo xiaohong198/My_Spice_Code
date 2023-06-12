@@ -34,16 +34,13 @@ int Device::getReturnPrime()
 	return 0;
 }
 
-void Device::setDeviceInfo(map<string, int> &_PortMap)
+void Device::setDeviceInfo(map<string, int>& _PortMap)
 {
-
 }
 
 void Device::setInputData(InputStr _DataStr, map<string, int>& _PortData)
 {
-
 }
-
 
 DeviceInfoStr Device::getDeviceInfo()
 {

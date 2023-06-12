@@ -33,7 +33,7 @@ protected:
 	double IBVL;
 	double NBV;
 	double NBVL;
-	
+
 	//Temperature
 	double EG;//Activation energy;
 
@@ -45,7 +45,7 @@ protected:
 
 	//Thermal Voltage
 	double Vt;
-	
+
 	//中间常量
 	double F1;
 	double F2;
@@ -56,6 +56,4 @@ public:
 	~SpiceDiode();
 
 	void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-
-
 };

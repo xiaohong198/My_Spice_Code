@@ -1,10 +1,8 @@
 #include "SpiceMosfet.h"
 REGISTER(SpiceMosfet);
 SpiceMosfet::SpiceMosfet() {
-	
 }
 
-	
 void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 {
 	InputData = _DataStr;
@@ -136,7 +134,7 @@ void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
 	_PortMap["- MaxPortIndex -"] = max_port;
 }
 
-void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
+void SpiceMosfet::setDeviceInfo(map<string, int>& _PortMap)
 {
 	//DeviceInfo_.xIndex.push_back(1);
 	//DeviceInfo_.xIndex.push_back(2);
@@ -187,18 +185,14 @@ void SpiceMosfet::setDeviceInfo(map<string, int> &_PortMap)
 }
 
 SpiceMosfet::~SpiceMosfet() {
-
 }
-
 
 void SpiceMosfet::GetJunctionCapacitance() {
-
 }
-
 
 void SpiceMosfet::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
-	// D Dp G B S Sp ： 0 1 2 3 4 5 
+	// D Dp G B S Sp ： 0 1 2 3 4 5
 	subA(0, 0) += 1 / RDd;
 	subA(1, 0) += -1 / RDd;
 	subA(0, 1) += -1 / RDd;
@@ -332,7 +326,6 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 				DIdsDVon = -2 * BETA * (Vgs - Von) * (1 + LAMBDA * Vds) / 2;
 			}
 		}
-
 	}
 	//Ids出现在Dp和Sp的KCL方程里
 	subPJacobian(1, 2) += DIdsDVgs;//Dp点的KCL：Ids对Vg的偏导
@@ -347,7 +340,6 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 
 	subP(1) += Ids;
 	subP(5) += -Ids;
-
 }
 
 void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian) {
@@ -489,10 +481,10 @@ void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& sub
 	subC(5, 5) += CgsMeyer;
 	subC(2, 1) += -CgdMeyer;
 	subC(1, 2) += -CgdMeyer;
-	   
+
 	subC(2, 5) += -CgsMeyer;
 	subC(5, 2) += -CgsMeyer;
-	   
+
 	subC(2, 3) += -CgbMeyer;
 	subC(3, 2) += -CgbMeyer;
 }

@@ -17,8 +17,8 @@ Simulator::Simulator() {
 	default:
 		break;
 	}
-	MyNewton = new BasicNewton(MySolver);
-	//MyNewton = new BankRoseDampingNewton(MySolver);
+	//MyNewton = new BasicNewton(MySolver);
+	MyNewton = new BankRoseDampingNewton(MySolver);
 	MySolver->MyNewton_ = MyNewton;
 }
 

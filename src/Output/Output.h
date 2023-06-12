@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <chrono>
-#include <direct.h> 
-#include <filesystem> 
+#include <direct.h>
+#include <filesystem>
 #include <io.h>
 #include <typeinfo>
-#include <variant> 
+#include <variant>
 #include <string>
 
 using namespace std;
@@ -22,7 +22,6 @@ using var_t = std::variant<std::string, int, double, Eigen::VectorXd>;
 
 class Output
 {
-
 public:
 	int _VectorXd_size;
 public:
@@ -30,4 +29,3 @@ public:
 	~Output();
 	void SaveTxt(string _path, std::vector<var_t> _data);
 };
-

@@ -5,5 +5,4 @@ Newton::Newton(Solver* MySolver) {
 }
 
 Newton::~Newton() {
-
 }

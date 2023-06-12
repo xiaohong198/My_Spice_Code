@@ -12,13 +12,12 @@
 #include "Device/TabulatedIVCurveDevice.h"
 #include "Device/SurgeArrester.h"
 #include "Device/SpiceMosfet.h"
-#include "Device/SpiceDiode.h" 
+#include "Device/SpiceDiode.h"
 #include "Input.h"
 using namespace std;
 
 class Circuit
 {
-
 public:
 	int matrixDimension;
 	vector <int> VoltageXIndex;
@@ -30,7 +29,6 @@ public:
 	vector <Device*> vecDeviceForMatrixC;
 	vector <Device*> vecDeviceForVectorE;
 
-
 private:
 	Input* Input_;
 	Device* Device_;
@@ -38,10 +36,7 @@ private:
 	map<string, int> PortCompareMap;
 	map<string, int> HintCompareMap;
 
-
 public:
 	Circuit();
 	~Circuit();
-	void SetPortCompare();
-
 };

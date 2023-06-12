@@ -1,7 +1,7 @@
 #pragma once
 #include "Newton\Newton.h"
 #include <cmath>
-class BankRoseDampingNewton:public Newton
+class BankRoseDampingNewton :public Newton
 {
 private:
 	double epsino;
@@ -13,4 +13,3 @@ public:
 	void Perform_Newton();
 	void NewtonSave();
 };
-

@@ -5,28 +5,27 @@ Vsource_AC::Vsource_AC() {
 	PhaseShift = 0;
 }
 Vsource_AC::~Vsource_AC() {
-
 }
 
 double Vsource_AC::eFunction(double t) {
-    return PeakAmplitude * sin(2 * Frequency * PI * t + PhaseShift);
-//    return 100 * t;
+	return PeakAmplitude * sin(2 * Frequency * PI * t + PhaseShift);
+	//    return 100 * t;
 }
 
 double Vsource_AC::setIntegration(double* tList) {
-    return PeakAmplitude * (-cos(2 * Frequency  * PI * tList[1]+ PhaseShift) / (2 * Frequency * PI) + cos(2 * Frequency * PI * tList[0] + PhaseShift) / (2 * Frequency * PI));
-//    return 50 * (pow(t2, 2) - pow(t1, 2));
+	return PeakAmplitude * (-cos(2 * Frequency * PI * tList[1] + PhaseShift) / (2 * Frequency * PI) + cos(2 * Frequency * PI * tList[0] + PhaseShift) / (2 * Frequency * PI));
+	//    return 50 * (pow(t2, 2) - pow(t1, 2));
 }
 
 void Vsource_AC::getSubA(Eigen::MatrixXd& subA) {
-    subA.setZero();
-    subA(0, 2) = 1;
-    subA(1, 2) = -1;
-    subA(2, 0) = 1;
-    subA(2, 1) = -1;
+	subA.setZero();
+	subA(0, 2) = 1;
+	subA(1, 2) = -1;
+	subA(2, 0) = 1;
+	subA(2, 1) = -1;
 }
 
 void Vsource_AC::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
-    subEIntegral.setZero();
-    subEIntegral(2) = setIntegration(tList);
+	subEIntegral.setZero();
+	subEIntegral(2) = setIntegration(tList);
 }

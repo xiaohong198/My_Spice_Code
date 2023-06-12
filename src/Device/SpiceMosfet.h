@@ -134,9 +134,8 @@ public:
 	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
 	void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);
 	int getReturnPrime();
-	void setDeviceInfo(map<string, int> &_PortMap);
+	void setDeviceInfo(map<string, int>& _PortMap);
 	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
 	DeviceInfoStr getDeviceInfo();
 	string getInstanceName();
 };
-

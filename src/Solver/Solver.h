@@ -5,8 +5,8 @@
 #include <fstream>
 #include <string>
 #include <chrono>
-#include <direct.h> 
-#include <filesystem> 
+#include <direct.h>
+#include <filesystem>
 #include <io.h>
 #include <typeinfo>
 #include <sstream>
@@ -20,39 +20,31 @@ using namespace std;
 class Newton;
 class Solver
 {
-	
 protected:
-	
+
 	Eigen::MatrixXd A;
 	Eigen::MatrixXd B;
 
 	Eigen::MatrixXd P_Jacobian;//时变电容电感
 	Eigen::MatrixXd Q_Jacobian;
 
-
 	Eigen::VectorXd P;
 	Eigen::VectorXd P_last;
 
-
 	Eigen::VectorXd Q;
 	Eigen::VectorXd Q_last;
-
 
 	//Eigen::VectorXd E;
 	Eigen::VectorXd E_Integral;
 	Eigen::MatrixXd C;
 	Eigen::MatrixXd C_last;
 
-
 	Eigen::VectorXd x;
-	
-
 
 	double dt_;
 	double t_end_;
 	Configuration* MyConfig_;
-	Circuit*  MyCircuit_;
-
+	Circuit* MyCircuit_;
 
 public:
 	int size;//矩阵维度
@@ -71,9 +63,6 @@ public:
 
 	Solver(Configuration*, Circuit*);
 	~Solver();
-
-	virtual void Process(vector<int> _process);
-
 	virtual void processA();
 	virtual void processB();
 	virtual void processP();
@@ -91,7 +80,4 @@ public:
 	virtual void SaveCircuitVars();
 
 	virtual int getSize();
-
-
 };
-

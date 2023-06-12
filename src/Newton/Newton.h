@@ -21,4 +21,3 @@ public:
 	virtual void Perform_Newton() = 0;
 	virtual void NewtonSave() = 0;
 };
-

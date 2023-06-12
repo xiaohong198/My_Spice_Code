@@ -1,10 +1,8 @@
 #include "SpiceString.h"
 SpiceString::SpiceString() {
-
 }
 
 SpiceString::~SpiceString() {
-
 }
 
 std::vector<std::string> SpiceString::getSplitVec(string str, string delimiter, string str_trans, bool is_remove)

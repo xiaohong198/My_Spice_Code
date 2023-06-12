@@ -21,4 +21,3 @@ public:
 	DeviceInfoStr getDeviceInfo();
 	string getInstanceName();
 };
-

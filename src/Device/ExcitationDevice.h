@@ -1,7 +1,7 @@
 #pragma once
 #include "Device.h"
 
-class ExcitationDevice:public Device
+class ExcitationDevice :public Device
 {
 public:
 	ExcitationDevice();
@@ -12,4 +12,3 @@ public:
 	virtual double setIntegration(double, double) = 0;
 	virtual void getExcitationIntegralSubMatrix(Eigen::MatrixXd& subA, Eigen::VectorXd& subEIntegral, double, double) = 0;
 };
-
