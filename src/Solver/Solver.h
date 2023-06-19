@@ -16,6 +16,7 @@
 #include "Input/Configuration.h"
 #include "Newton/Newton.h"
 #include "Output/Output.h"
+#include "FastPow.h"
 using namespace std;
 class Newton;
 class Solver

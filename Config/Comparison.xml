@@ -17,6 +17,10 @@
             <ParameterName>Vf</ParameterName>
             <ParameterValue>0.8</ParameterValue>
         </Parameter>
+        <Parameter>
+            <ParameterName>Goff</ParameterName>
+            <ParameterValue>1e-8</ParameterValue>
+        </Parameter>
     </Class>
     <Class>
         <ClassName>Inductor</ClassName>

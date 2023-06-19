@@ -8,6 +8,7 @@ private:
 	double Vt;
 	double Ron;
 	double Vf;
+	double Goff;
 public:
 	Diode();
 	~Diode();

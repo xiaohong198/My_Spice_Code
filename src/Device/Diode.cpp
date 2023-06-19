@@ -5,6 +5,7 @@ using namespace std;
 Diode::Diode() {
 	Ron = 0.001;
 	Vf = 0.8;
+	Goff = 1e-8;
 }
 
 Diode::~Diode() {
