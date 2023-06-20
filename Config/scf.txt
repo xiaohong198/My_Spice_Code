@@ -10,10 +10,3 @@ PSET IRFR3505
         	RD = 0.0001
         	RS = 0.00909126
 END PSET
-
-PSET frd
-   DEVICE SpiceDiode
-   PARAMETERS
-   	tt=50n
-    	bv=20k
-END PSET
