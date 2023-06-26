@@ -69,21 +69,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\mid\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\mid\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\mid\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\mid\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\mid\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -161,7 +161,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\ADOL-C-2.7.2\ADOL-C\include;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\;$(SolutionDir)\include\spice;$(SolutionDir)\include\tinyxml;$(SolutionDir)\include\boost;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
@@ -174,8 +174,8 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib\boost;$(SolutionDir)\lib\tinyxml</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;msvcrt.lib;legacy_stdio_definitions.lib;adolc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib\boost;$(SolutionDir)\lib\tinyxml;$(SolutionDir)\lib\adolc</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:libc.lib /NODEFAULTLIB:libcmt.lib /NODEFAULTLIB:libcd.lib /NODEFAULTLIB:libcmtd.lib /NODEFAULTLIB:msvcrtd.lib %(AdditionalOptions)</AdditionalOptions>
       <ShowProgress>LinkVerbose</ShowProgress>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>

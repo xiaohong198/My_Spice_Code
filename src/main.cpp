@@ -6,7 +6,7 @@
 using namespace std;
 #include "FastPow.h"
 
-#if 1
+#if 0
 int main()
 {
 	/*-------------PWL 电源的测试-----------*/
@@ -31,18 +31,128 @@ int main()
 #endif // 0
 
 #if 0
+#include <stdio.h>
+#include <math.h>
+
+double my_sqrt(double x) {
+	/* Newton's method for a square root. */
+	int i = 0;
+	double res = 1.0;
+
+	if (x > 0) {
+		for (i = 0; i < 10; i++) {
+			res = 0.5 * (res + x / res);
+		}
+	}
+	else {
+		res = 0.0;
+	}
+
+	return res;
+}
+
+double my_152232(double x) {
+	/* cubic spline interpolation for x ** 1.52232. */
+	int i = 0;
+	double res = 0.0;
+	/* coefs[i] will give the cubic polynomial coefficients between x =
+	   i and x = i+1. out of laziness, the below numbers give only a
+	   linear interpolation.  you'll need to do some work and research
+	   to get the spline coefficients. */
+
+	double coefs[3][4] = { {0.0, 1.0, 0.0, 0.0},
+			  {-0.872526, 1.872526, 0.0, 0.0},
+			  {-2.032706, 2.452616, 0.0, 0.0} };
+
+	if ((x >= 0) && (x < 3.0)) {
+		i = (int)x;
+		/* horner's method cubic. */
+		res = (((coefs[i][3] * x + coefs[i][2]) * x) + coefs[i][1] * x)
+			+ coefs[i][0];
+	}
+	else if (x >= 3.0) {
+		/* scaled x ** 1.5 once you go off the spline. */
+		res = 1.024824 * my_sqrt(x * x * x);
+	}
+
+	return res;
+}
+
+//double my_152232(double x) {
+//	double part_050000 = my_sqrt(x);
+//	double part_102232 = 1.02232 * x + 0.0114091 * x * x - 3.718147e-3 * x * x * x;
+//
+//	return part_102232 * part_050000;
+//}
+double my_019029(double x) {
+	return my_sqrt(my_sqrt(my_sqrt(my_152232(x))));
+}
+
+//int main() {
+//	int i;
+//	double x = 0.0;
+//
+//	for (i = 0; i < 1000; i++) {
+//		x = 1e-2 * i;
+//		printf("%f %f %f \n", x, my_019029(x), pow(x, 0.19029));
+//	}
+//	system("pause");
+//
+//	return 0;
+//}
+
+double power(double x, double y)
+{
+	double result = 1.0;
+	while (y > 0)
+	{
+		if (fmod(y, 2) == 1)
+			result *= x;
+		x *= x;
+		y /= 2;
+	}
+	return result;
+}
+typedef long long ll;
+ll quick_pow(ll x, ll n, ll m) {
+	ll res = 1;
+	while (n > 0) {
+		if (n & 1)	res = res * x % m;
+		x = x * x % m;
+		n >>= 1;//相当于n=n/2.详情请参考位移运算符。
+	}
+	return res;
+}
+
+ll q_pow(ll x, ll n, ll m) {
+	if (n == 0)	return 1;
+	ll res = q_pow(x * x % m, n / 2, m);
+	if (n & 1)	res = res * x % m;
+	return res;
+}
+#include <cmath>
+ll fq_pow(ll x, double n, ll m) {
+	int p = floor(n);
+	ll res = fq_pow(x, p, m);
+	double np = n - p;
+	res = res * fq_pow(x, np * m, m) % m;
+	return res;
+}
+
 int main()
 {
 	/*待求解的数*/
-	double x = 2.343242;
+	double x = 2.232;
 
 	/*求x的n次幂*/
-	int n = 3;
+	double n = 0.2122;
+	int index = 999999;
+
 	auto start = std::chrono::steady_clock::now();
 	double result1;
-	for (int i = 0; i < 9999999; i++)
+	for (int i = 0; i < index; i++)
 	{
-		result1 = std::pow(x, n);
+		result1 = pow(x, n);
 	}
 	auto end = std::chrono::steady_clock::now();
 	auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -50,15 +160,15 @@ int main()
 
 	auto start1 = std::chrono::steady_clock::now();
 	double result2;
-	for (int i = 0; i < 9999999; i++)
+	for (int i = 0; i < index; i++)
 	{
-		result2 = FASTPOW(x, n);
+		result2 = fq_pow(x, n, 37);
 	}
 	auto end1 = std::chrono::steady_clock::now();
 	auto time1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1);
 	cout << "程序用时:" << time1.count() / 1000 << "毫秒" << endl;
 
-	std::cout << "std::pow : " << result1 << std::endl;
+	std::cout << "pow : " << result1 << std::endl;
 	std::cout << "FastPow : " << result2 << std::endl;//目前最好的
 
 	system("pause");
@@ -109,4 +219,107 @@ int main() {
 	system("pause");
 	return 0;
 }
+#endif // 1
+
+#if 1
+#include <adolc/adouble.h>          // use of active doubles
+#include <adolc/interfaces.h>       // use of basic forward/reverse
+// interfaces of ADOL-C
+#include <adolc/taping.h>           // use of taping
+
+#include <iostream>
+using namespace std;
+
+/****************************************************************************/
+/*                                                          ADOUBLE ROUTINE */
+int n;
+adouble** A;                        // A is an n x n matrix
+adouble zero = 0;
+
+adouble det(int k, int m)           // k <= n is the order of the submatrix
+{
+	if (m == 0)                       // its column indices
+		return 1.0;
+	else                              // are encoded in m
+	{
+		adouble* pt = A[k - 1];
+		adouble   t = zero;
+		int p = 1;
+		int s;
+		if (k % 2)
+			s = 1;
+		else
+			s = -1;
+		for (int i = 0; i < n; i++) {
+			int p1 = 2 * p;
+			if (m % p1 >= p) {
+				if (m == p) {
+					if (s > 0)
+						t += *pt;
+					else
+						t -= *pt;
+				}
+				else {
+					if (s > 0)
+						t += *pt * det(k - 1, m - p); // recursive call to det
+					else
+						t -= *pt * det(k - 1, m - p); // recursive call to det
+				}
+				s = -s;
+			}
+			++pt;
+			p = p1;
+		}
+		return t;
+	}
+}
+
+/****************************************************************************/
+/*                                                             MAIN PROGRAM */
+int main() {
+	int i, j, m = 1;
+	int tag = 1;
+	int keep = 1;
+
+	cout << "COMPUTATION OF DETERMINANTS (ADOL-C Documented Example)\n\n";
+	cout << "order of matrix = ? \n"; // select matrix size
+	cin >> n;
+
+	A = new adouble * [n];
+	adouble ad;
+
+	trace_on(tag, keep);               // tag=1=keep
+	double detout = 0.0, diag = 1.0;// here keep the intermediates for
+	for (i = 0; i < n; i++)             // the subsequent call to reverse
+	{
+		m *= 2;
+		A[i] = new adouble[n];
+		for (j = 0; j < n; j++)
+			A[i][j] <<= j / (1.0 + i);      // make all elements of A independent
+		diag += A[i][i].value();       // value(adouble) converts to double
+		A[i][i] += 1.0;
+	}
+	ad = det(n, m - 1);                // actual function call.
+	ad >>= detout;
+	printf("\n %f - %f = %f  (should be 0)\n", detout, diag, detout - diag);
+	trace_off();
+
+	double u[1];
+	u[0] = 1.0;
+	double* B = new double[n * n];
+
+	reverse(tag, 1, n * n, 0, u, B);         // call reverse to calculate the gradient
+
+	cout << " \n first base? : ";
+	for (i = 0; i < n; i++) {
+		adouble sum = 0;
+		for (j = 0; j < n; j++)             // the matrix A times the first n
+			sum += A[i][j] * B[j];          // components of the gradient B
+		cout << sum.value() << " ";      // must be a Cartesian basis vector
+	}
+	cout << "\n";
+	system("pause");
+	return 1;
+}
+
 #endif // 1

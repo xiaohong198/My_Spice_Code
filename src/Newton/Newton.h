@@ -2,7 +2,7 @@
 #include "Solver/Solver.h"
 #include <cmath>
 #include <Eigen/Dense>
-#include <Output/Output.h>
+#include "Output/Output.h"
 class Configuration;
 class Circuit;
 class Solver;

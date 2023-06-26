@@ -3,7 +3,7 @@
 
 /*快速幂函数模板*/
 template <typename T>
-T FastPow(T x, int n)
+T FastPow(T x, double n)
 {
 	T result = 1;
 
