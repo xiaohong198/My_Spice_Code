@@ -30,6 +30,7 @@ int main()
 }
 #endif // 0
 
+//文章方法
 #if 0
 #include <stdio.h>
 #include <math.h>
@@ -176,6 +177,7 @@ int main()
 }
 #endif // 0
 
+//autodiff
 #if 0
 #include <autodiff/forward/dual.hpp>
 
@@ -197,6 +199,7 @@ int main()
 }
 #endif // 0
 
+//boost自动微分
 #if 0
 #include <boost/math/differentiation/autodiff.hpp>
 #include <iostream>
@@ -221,7 +224,8 @@ int main() {
 }
 #endif // 1
 
-#if 1
+//ADOL-C测试程序
+#if 0
 #include <adolc/adouble.h>          // use of active doubles
 #include <adolc/interfaces.h>       // use of basic forward/reverse
 // interfaces of ADOL-C
@@ -322,4 +326,270 @@ int main() {
 	return 1;
 }
 
-#endif // 1
+#endif //
+
+//连续查找表
+#if 0
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+// 查找表的范围和步长
+const double MIN_BASE = 0.0;
+const double MAX_BASE = 10.0;
+const double STEP = 0.001;
+
+// 查找表
+vector<double> pow_table;
+
+// 初始化查找表
+void init_pow_table() {
+	pow_table.resize((MAX_BASE - MIN_BASE) / STEP + 1);
+	for (int i = 0; i < pow_table.size(); i++) {
+		double base = MIN_BASE + i * STEP;
+		pow_table[i] = pow(base, 2.0);
+	}
+}
+
+// 二分查找最接近底数的查找表索引
+int find_index(double base) {
+	int left = 0, right = pow_table.size() - 1;
+	while (left < right) {
+		int mid = (left + right) / 2;
+		if (pow_table[mid] < base) {
+			left = mid + 1;
+		}
+		else {
+			right = mid;
+		}
+	}
+	return left;
+}
+
+// 线性插值计算幂次结果
+double pow_interpolate(double base, double exponent) {
+	int index = find_index(base);
+	double x1 = MIN_BASE + index * STEP;
+	double x2 = MIN_BASE + (index + 1) * STEP;
+	double y1 = pow_table[index];
+	double y2 = pow_table[index + 1];
+	double slope = (y2 - y1) / (x2 - x1);
+	double y = slope * (base - x1) + y1;
+	return pow(y, exponent);
+}
+
+int main() {
+	init_pow_table();
+	double base = 3.14;
+	double exponent = 2.0;
+	double result = pow_interpolate(base, exponent);
+	cout << "pow(" << base << ", " << exponent << ") = " << result << endl;
+	return 0;
+}
+
+#endif // 0
+
+//指数查找表
+#if 0
+#include <iostream>
+#include <cmath>
+
+const int TABLE_SIZE = 10000;
+
+void createExponentTable(float base, float* table)
+{
+	for (int i = 0; i < TABLE_SIZE; ++i)
+	{
+		table[i] = std::pow(base, static_cast<float>(i) / TABLE_SIZE);
+	}
+}
+
+float powerWithExponentTable(float base, float exponent, const float* table)
+{
+	exponent = std::fmin(std::fmax(exponent, 0.0f), 1.0f) * TABLE_SIZE;
+
+	int index = static_cast<int>(exponent);
+	float fraction = exponent - index;
+
+	float result = table[index];
+
+	if (index < TABLE_SIZE - 1)
+	{
+		float nextValue = table[index + 1];
+		result = result + (nextValue - result) * fraction;
+	}
+
+	return std::pow(base, result);
+}
+
+float quadraticInterpolation(float x0, float x1, float x2, float y0, float y1, float y2, float x)
+{
+	float l0 = ((x - x1) * (x - x2)) / ((x0 - x1) * (x0 - x2));
+	float l1 = ((x - x0) * (x - x2)) / ((x1 - x0) * (x1 - x2));
+	float l2 = ((x - x0) * (x - x1)) / ((x2 - x0) * (x2 - x1));
+
+	return y0 * l0 + y1 * l1 + y2 * l2;
+}
+
+float powerWithQuadraticInterpolation(float base, float exponent, const float* table)
+{
+	exponent = std::fmin(std::fmax(exponent, 0.0f), 1.0f) * TABLE_SIZE;
+
+	int index = static_cast<int>(exponent);
+	float fraction = exponent - index;
+
+	float x0 = static_cast<float>(index - 1);
+	float x1 = static_cast<float>(index);
+	float x2 = static_cast<float>(index + 1);
+
+	float y0 = table[index - 1];
+	float y1 = table[index];
+	float y2 = table[index + 1];
+
+	return std::pow(base, quadraticInterpolation(x0, x1, x2, y0, y1, y2, exponent));
+}
+
+int main()
+{
+	float base = 2.0f;
+	float table[TABLE_SIZE];
+
+	createExponentTable(base, table);
+
+	float exponent = 0.75f;
+
+	// 使用改进后的查找表方法进行幂运算
+	float resultTable = powerWithExponentTable(base, exponent, table);
+
+	// 使用pow函数进行幂运算
+	float resultPow = std::pow(base, exponent);
+
+	std::cout << "Lookup Table Result: " << resultTable << std::endl;
+	std::cout << "pow() Result: " << resultPow << std::endl;
+
+	return 0;
+}
+
+#endif // 0
+
+//指数查找表
+#if 0
+#include <iostream>
+#include <cmath>
+
+// 定义查找表的大小
+const int TABLE_SIZE = 1000;
+
+// 创建指数查找表
+void createExponentTable(float base, float* table)
+{
+	for (int i = 0; i < TABLE_SIZE; ++i)
+	{
+		table[i] = std::pow(base, static_cast<float>(i) / TABLE_SIZE);
+	}
+}
+
+// 使用指数查找表进行幂运算
+float powerWithExponentTable(float base, float exponent, const float* table)
+{
+	// 将指数限制在查找表的范围内
+	exponent = std::fmin(std::fmax(exponent, 0.0f), 1.0f) * TABLE_SIZE;
+
+	// 查找表的索引为整数部分
+	int index = static_cast<int>(exponent);
+
+	// 使用线性插值计算小数部分
+	float fraction = exponent - index;
+
+	// 根据索引查找查找表中的近似值
+	float result = table[index];
+
+	// 线性插值计算最终结果
+	if (index < TABLE_SIZE - 1)
+	{
+		float nextValue = table[index + 1];
+		result = result + (nextValue - result) * fraction;
+	}
+
+	return std::pow(base, result);
+}
+
+int main()
+{
+	float base = 2.0f;
+	float table[TABLE_SIZE];
+
+	// 创建指数查找表
+	createExponentTable(base, table);
+
+	// 测试幂运算
+	float exponent = 0.75f;
+	float result = powerWithExponentTable(base, exponent, table);
+
+	std::cout << base << " ^ " << exponent << " = " << result << std::endl;
+
+	return 0;
+}
+
+#endif // 0
+
+//连续查找表
+#if 0
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+const double MIN_BASE = 0.0; // 查找表的最小底数
+const double MAX_BASE = 1.0; // 查找表的最大底数
+const double STEP = 0.01; // 查找表的步长
+const int TABLE_SIZE = (MAX_BASE - MIN_BASE) / STEP + 1; // 查找表的大小
+
+double pow_table[TABLE_SIZE]; // 存储幂次结果的查找表
+
+// 初始化查找表
+void init_pow_table() {
+	for (int i = 0; i < TABLE_SIZE; i++) {
+		double base = MIN_BASE + i * STEP;
+		pow_table[i] = pow(base, 2.0); // 计算底数的2次幂
+	}
+}
+
+// 查找最接近底数的查找表索引
+int find_index(double base) {
+	int index = (base - MIN_BASE) / STEP;
+	if (index < 0) {
+		return 0;
+	}
+	else if (index >= TABLE_SIZE) {
+		return TABLE_SIZE - 1;
+	}
+	else {
+		return index;
+	}
+}
+
+// 线性插值计算幂次结果
+double pow_interpolate(double base, double exponent) {
+	int index = find_index(base);
+	double x1 = MIN_BASE + index * STEP;
+	double x2 = MIN_BASE + (index + 1) * STEP;
+	double y1 = pow_table[index];
+	double y2 = pow_table[index + 1];
+	double slope = (y2 - y1) / (x2 - x1);
+	double y = slope * (base - x1) + y1;
+	return pow(y, exponent);
+}
+
+int main() {
+	init_pow_table();
+	double base = 0.35;
+	double exponent = 3.0;
+	double result = pow_interpolate(base, exponent);
+	cout << "pow(" << base << ", " << exponent << ") = " << result << endl;
+	return 0;
+}
+
+#endif // 0

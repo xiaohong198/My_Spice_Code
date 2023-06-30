@@ -1,4 +1,5 @@
 #include "Jsource_AC.h"
+REGISTER(Jsource_AC);
 Jsource_AC::Jsource_AC() {
 	PeakAmplitude = 10;
 	Frequency = 50;

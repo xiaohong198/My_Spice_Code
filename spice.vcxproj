@@ -178,7 +178,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\boost;$(SolutionDir)\lib\tinyxml;$(SolutionDir)\lib\adolc</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:libc.lib /NODEFAULTLIB:libcmt.lib /NODEFAULTLIB:libcd.lib /NODEFAULTLIB:libcmtd.lib /NODEFAULTLIB:msvcrtd.lib %(AdditionalOptions)</AdditionalOptions>
       <ShowProgress>LinkVerbose</ShowProgress>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
