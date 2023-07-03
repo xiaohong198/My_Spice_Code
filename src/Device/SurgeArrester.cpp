@@ -1,6 +1,5 @@
 #include "SurgeArrester.h"
-#include <iostream>
-using namespace std;
+REGISTER(SurgeArrester);
 
 SurgeArrester::SurgeArrester() {
 	IVCount = 17;

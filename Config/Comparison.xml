@@ -11,11 +11,11 @@
         <ClassName>Diode</ClassName>
         <Parameter>
             <ParameterName>Ron</ParameterName>
-            <ParameterValue>0.001</ParameterValue>
+            <ParameterValue>0.3</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>Vf</ParameterName>
-            <ParameterValue>0.8</ParameterValue>
+            <ParameterValue>0.6</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>Goff</ParameterName>
@@ -82,6 +82,57 @@
         </Parameter>
     </Class>
     <Class>
+        <ClassName>SurgeArrester</ClassName>
+        <Parameter>
+            <ParameterName>tCount</ParameterName>
+            <ParameterValue>5</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>IVCount</ParameterName>
+            <ParameterValue>17</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>IList</ParameterName>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>0</ParameterValue>            
+            <ParameterValue>2.517</ParameterValue>
+            <ParameterValue>12</ParameterValue>
+            <ParameterValue>33.7</ParameterValue>
+            <ParameterValue>102.7</ParameterValue>
+            <ParameterValue>219.5</ParameterValue>        
+            <ParameterValue>623.7</ParameterValue>
+            <ParameterValue>1520</ParameterValue>
+            <ParameterValue>2470</ParameterValue>
+            <ParameterValue>3941</ParameterValue>
+            <ParameterValue>4893</ParameterValue>
+            <ParameterValue>5833</ParameterValue>   
+        </Parameter>
+        <Parameter>
+            <ParameterName>VList</ParameterName>
+            <ParameterValue>0</ParameterValue>
+            <ParameterValue>1</ParameterValue>
+            <ParameterValue>2</ParameterValue>
+            <ParameterValue>3</ParameterValue>
+            <ParameterValue>3.5</ParameterValue>
+            <ParameterValue>4</ParameterValue>
+            <ParameterValue>4.171</ParameterValue>
+            <ParameterValue>4.345</ParameterValue>
+            <ParameterValue>4.448</ParameterValue>
+            <ParameterValue>4.564</ParameterValue>
+            <ParameterValue>4.701</ParameterValue>
+            <ParameterValue>4.906</ParameterValue>
+            <ParameterValue>5.084</ParameterValue>
+            <ParameterValue>5.227</ParameterValue>
+            <ParameterValue>5.373</ParameterValue>
+            <ParameterValue>5.443</ParameterValue>
+            <ParameterValue>5.499</ParameterValue>
+        </Parameter>
+    </Class>
+    <Class>
         <ClassName>Resistor</ClassName>
         <Parameter>
             <ParameterName>resistance</ParameterName>
@@ -91,12 +142,28 @@
     <Class>
         <ClassName>SpiceDiode</ClassName>
         <Parameter>
+            <ParameterName>q</ParameterName>
+            <ParameterValue>1.6021766208e-19</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>k</ParameterName>
+            <ParameterValue>1.380649e-23</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>ni</ParameterName>
+            <ParameterValue>1.45e10</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>epsilon0</ParameterName>
+            <ParameterValue>8.854214871e-12</ParameterValue>
+        </Parameter>
+        <Parameter>
             <ParameterName>Tmeas</ParameterName>
             <ParameterValue>300.15</ParameterValue>
         </Parameter>
         <Parameter>
-            <ParameterName>T</ParameterName>
-            <ParameterValue>Tmeas</ParameterValue>
+            <ParameterName>Gmin</ParameterName>
+            <ParameterValue>1e-12</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>AREA</ParameterName>
@@ -190,12 +257,28 @@
     <Class>
         <ClassName>SpiceMosfet</ClassName>
         <Parameter>
+            <ParameterName>q</ParameterName>
+            <ParameterValue>1.6021766208e-19</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>k</ParameterName>
+            <ParameterValue>1.380649e-23</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>ni</ParameterName>
+            <ParameterValue>1.45e10</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>epsilon0</ParameterName>
+            <ParameterValue>8.854214871e-12</ParameterValue>
+        </Parameter>
+        <Parameter>
             <ParameterName>Tmeas</ParameterName>
             <ParameterValue>300.15</ParameterValue>
         </Parameter>
         <Parameter>
-            <ParameterName>T</ParameterName>
-            <ParameterValue>Tmeas</ParameterValue>
+            <ParameterName>Gmin</ParameterName>
+            <ParameterValue>1e-12</ParameterValue>
         </Parameter>
         <Parameter>
             <ParameterName>MTYPE</ParameterName>

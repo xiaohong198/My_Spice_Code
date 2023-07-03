@@ -2,197 +2,12 @@
 REGISTER(SpiceMosfet);
 SpiceMosfet::SpiceMosfet() {
 }
-
-void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
-{
-	InputData = _DataStr;
-
-	InstanceName = _DataStr.InstanceName;
-
-	MTYPE = stod(_DataStr.ParametersMap["MTYPE"][0]);
-	AREA = stod(_DataStr.ParametersMap["AREA"][0]);
-	SCALE = stod(_DataStr.ParametersMap["SCALE"][0]);
-	LENGTH = stod(_DataStr.ParametersMap["LENGTH"][0]);
-	WIDTH = stod(_DataStr.ParametersMap["WIDTH"][0]);
-	AD = stod(_DataStr.ParametersMap["AD"][0]);
-	AS = stod(_DataStr.ParametersMap["AS"][0]);
-	PD = stod(_DataStr.ParametersMap["PD"][0]);
-	PS = stod(_DataStr.ParametersMap["PS"][0]);
-	NRD = stod(_DataStr.ParametersMap["NRD"][0]);
-	NRS = stod(_DataStr.ParametersMap["NRS"][0]);
-	RD = stod(_DataStr.ParametersMap["RD"][0]);
-	RS = stod(_DataStr.ParametersMap["RS"][0]);
-	RSH = stod(_DataStr.ParametersMap["RSH"][0]);
-	VTO = stod(_DataStr.ParametersMap["VTO"][0]);
-	KP = stod(_DataStr.ParametersMap["KP"][0]);
-	GAMMA = stod(_DataStr.ParametersMap["GAMMA"][0]);
-	PHI = stod(_DataStr.ParametersMap["PHI"][0]);
-	LAMBDA = stod(_DataStr.ParametersMap["LAMBDA"][0]);
-	IS = stod(_DataStr.ParametersMap["IS"][0]);
-	N = stod(_DataStr.ParametersMap["N"][0]);
-	JS = stod(_DataStr.ParametersMap["JS"][0]);
-	IFModelGateCapacitance = stod(_DataStr.ParametersMap["IFModelGateCapacitance"][0]);
-	IFModelGateOverlapCapacitance = stod(_DataStr.ParametersMap["IFModelGateOverlapCapacitance"][0]);
-	CGSO = stod(_DataStr.ParametersMap["CGSO"][0]);
-	CGDO = stod(_DataStr.ParametersMap["CGDO"][0]);
-	CGBO = stod(_DataStr.ParametersMap["CGBO"][0]);
-	IFModelJunctionCapacitance = stod(_DataStr.ParametersMap["IFModelJunctionCapacitance"][0]);
-	CBD = stod(_DataStr.ParametersMap["CBD"][0]);
-	CBS = stod(_DataStr.ParametersMap["CBS"][0]);
-	PB = stod(_DataStr.ParametersMap["PB"][0]);
-	CJ = stod(_DataStr.ParametersMap["CJ"][0]);
-	MJ = stod(_DataStr.ParametersMap["MJ"][0]);
-	CJSW = stod(_DataStr.ParametersMap["CJSW"][0]);
-	MJSW = stod(_DataStr.ParametersMap["MJSW"][0]);
-	FC = stod(_DataStr.ParametersMap["FC"][0]);
-	IFSpecifyInitialCondition = stod(_DataStr.ParametersMap["IFSpecifyInitialCondition"][0]);
-	ICVDS = stod(_DataStr.ParametersMap["ICVDS"][0]);
-	ICVGS = stod(_DataStr.ParametersMap["ICVGS"][0]);
-	ICVBS = stod(_DataStr.ParametersMap["ICVBS"][0]);
-	TOX = stod(_DataStr.ParametersMap["TOX"][0]);
-	LD = stod(_DataStr.ParametersMap["LD"][0]);
-	U0 = stod(_DataStr.ParametersMap["U0"][0]);
-
-	if (_DataStr.ParametersMap["NUSB"][0] == "NAN")
-	{
-		NUSB = NAN;
-	}
-
-	TPG = stod(_DataStr.ParametersMap["TPG"][0]);
-	NSS = stod(_DataStr.ParametersMap["NSS"][0]);
-
-	Vtn = N * k * T / q;//Thermal Voltage
-	KPd = KP * AREA * SCALE;
-	ISd = IS * AREA * SCALE;
-	JSd = JS * AREA * SCALE;
-	CBDd = CBD * AREA * SCALE;
-	CBSd = CBS * AREA * SCALE;
-	CGSOd = CGSO * AREA * SCALE;
-	CGDOd = CGDO * AREA * SCALE;
-	CGBOd = CGBO * AREA * SCALE;
-	CJd = CJ * AREA * SCALE;
-	CJSWd = CJSW * AREA * SCALE;
-	RDd = RD / (AREA * SCALE);
-	RSd = RS / (AREA * SCALE);
-	RSHd = RSH / (AREA * SCALE);
-	//一些中间常量
-	BETA = KPd * WIDTH / (LENGTH - 2 * LD);
-	EGTmeas = 1.16 - (7.02 - 4 * pow(Tmeas, 2)) / (Tmeas + 1108);
-	EGT = 1.16 - (7.02 - 4 * pow(T, 2)) / (T + 1108);
-	VBI = VTO + MTYPE * (-GAMMA * sqrt(PHI)) + (EGTmeas - EGT) / 2;
-	CgsOverlap = CGSOd * WIDTH;
-	CgdOverlap = CGDOd * WIDTH;
-	CgbOverlap = CGBOd * (LENGTH - 2 * LD);
-	F1bottom = PB * (1 - pow(1 - FC, 1 - MJ)) / (1 - MJ);
-	F2bottom = pow(1 - FC, 1 + MJ);
-	F3bottom = 1 - FC * (1 + MJ);
-	F1sidewall = PB * (1 - pow(1 - FC, 1 - MJSW)) / (1 - MJSW);
-	F2sidewall = pow(1 - FC, 1 + MJSW);
-	F3sidewall = 1 - FC * (1 + MJSW);
-	COX = epsilonOX / TOX;
-	Coxt = WIDTH * (LENGTH - 2 * LD) * COX * AREA * SCALE;
-	VFB = VBI * MTYPE - PHI;
-	Vsatmin = 1;
-
-	//Caculation Needs
-	Vgd = 0;
-	Vgs = 0;
-	Vds = 0;
-	Vbs = 0;
-	Vbd = 0;
-	Vgb = 0;
-	Von = MTYPE * VBI;
-
-	//端口号
-	int max_port = 0;
-	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
-	{
-		max_port < iter_map->second ? max_port = iter_map->second : max_port;
-	}
-	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
-	{
-		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
-		{
-			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
-			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// 未完成
-		}
-		else
-		{
-			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
-			{
-				continue;
-			}
-			else
-			{
-				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
-				//VoltageXIndex.push_back(max_port);
-			}
-		}
-	}
-	_PortMap.insert({ "- MaxPortIndex -",max_port });
-	_PortMap["- MaxPortIndex -"] = max_port;
-}
-
-void SpiceMosfet::setDeviceInfo(map<string, int>& _PortMap)
-{
-	//DeviceInfo_.xIndex.push_back(1);
-	//DeviceInfo_.xIndex.push_back(2);
-	//DeviceInfo_.xIndex.push_back(3);
-	//DeviceInfo_.xIndex.push_back(4);
-	//DeviceInfo_.xIndex.push_back(5);
-	//DeviceInfo_.xIndex.push_back(6);
-	//return;
-	//端口号应用
-	int _max_port_index = _PortMap["- MaxPortIndex -"];
-	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
-	{
-		string port_name = InputData.Port[index_port];
-		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
-		{
-			VoltageXIndex.push_back(_PortMap[port_name]);
-		}
-
-		switch (index_port)
-		{
-		case 0:
-			//D
-			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[0]]);
-			//Dp
-			DeviceInfo_.xIndex.push_back(++_max_port_index);
-			VoltageXIndex.push_back(_max_port_index);
-			break;
-		case 1:
-			//G
-			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[1]]);
-			break;
-		case 2:
-			//B
-			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[3]]);
-			break;
-		case 3:
-			//S
-			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[2]]);
-			//Sp
-			DeviceInfo_.xIndex.push_back(++_max_port_index);
-			VoltageXIndex.push_back(_max_port_index);
-			break;
-		default:
-			break;
-		}
-	}
-	_PortMap["- MaxPortIndex -"] = _max_port_index;
-}
-
 SpiceMosfet::~SpiceMosfet() {
-}
-
-void SpiceMosfet::GetJunctionCapacitance() {
 }
 
 void SpiceMosfet::getSubA(Eigen::MatrixXd& subA) {
 	subA.setZero();
-	// D Dp G B S Sp ： 0 1 2 3 4 5
+	// D Dp G B S Sp ��0 1 2 3 4 5
 	subA(0, 0) += 1 / RDd;
 	subA(1, 0) += -1 / RDd;
 	subA(0, 1) += -1 / RDd;
@@ -280,7 +95,7 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	subP(1) += -Ibd;
 
 	//Level1 Drain Current Model
-	Von = MTYPE * VBI;//Threshold Voltage,和Vbs有关，用上一步牛顿迭代的结果估算Von的区间
+	Von = MTYPE * VBI;//Threshold Voltage,和Vbs有关，用上一步牛顿迭代的结果估算Von的区�?
 	double DVonDVbs = 0;
 	double Ids = 0;
 	double DIdsDVgs = 0;
@@ -310,7 +125,7 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	}
 	else {  // Vgs>Von
 		if (Vds < 0) {
-			//反向恢复特性
+			//反向恢复特�?
 		}
 		else { // Vds >=0
 			if (Vds < Vgs - Von) {
@@ -327,16 +142,16 @@ void SpiceMosfet::getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 			}
 		}
 	}
-	//Ids出现在Dp和Sp的KCL方程里
-	subPJacobian(1, 2) += DIdsDVgs;//Dp点的KCL：Ids对Vg的偏导
-	subPJacobian(1, 5) += -DIdsDVgs - DIdsDVds - DIdsDVon * DVonDVbs;//Dp点的KCL: Ids对VSp的偏导
-	subPJacobian(1, 1) += DIdsDVds;//Ids对VDp的偏导
-	subPJacobian(1, 3) += DIdsDVon * DVonDVbs;//Ids对Vb的偏导
+	//Ids出现在Dp和Sp的KCL方程�?
+	subPJacobian(1, 2) += DIdsDVgs;//Dp点的KCL：Ids对Vg的偏�?
+	subPJacobian(1, 5) += -DIdsDVgs - DIdsDVds - DIdsDVon * DVonDVbs;//Dp点的KCL: Ids对VSp的偏�?
+	subPJacobian(1, 1) += DIdsDVds;//Ids对VDp的偏�?
+	subPJacobian(1, 3) += DIdsDVon * DVonDVbs;//Ids对Vb的偏�?
 
-	subPJacobian(5, 2) += -DIdsDVgs;//Sp点的KCL：-Ids对Vg的偏导
-	subPJacobian(5, 5) += DIdsDVgs + DIdsDVds + DIdsDVon * DVonDVbs;//Sp点的KCL: -Ids对VSp的偏导
-	subPJacobian(5, 1) += -DIdsDVds;//-Ids对VDp的偏导
-	subPJacobian(5, 3) += -DIdsDVon * DVonDVbs;//-Ids对Vb的偏导
+	subPJacobian(5, 2) += -DIdsDVgs;//Sp点的KCL�?Ids对Vg的偏�?
+	subPJacobian(5, 5) += DIdsDVgs + DIdsDVds + DIdsDVon * DVonDVbs;//Sp点的KCL: -Ids对VSp的偏�?
+	subPJacobian(5, 1) += -DIdsDVds;//-Ids对VDp的偏�?
+	subPJacobian(5, 3) += -DIdsDVon * DVonDVbs;//-Ids对Vb的偏�?
 
 	subP(1) += Ids;
 	subP(5) += -Ids;
@@ -418,8 +233,8 @@ void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 	}
 
 	subQJacobian(1, 1) += (DQbdBDVbd + DQbdSDVbd);
-	subQJacobian(3, 3) += (DQbdBDVbd + DQbdSDVbd) + (DQbsBDVbs + DQbsSDVbs);//B 自电容 3个
-	subQJacobian(5, 5) += (DQbsBDVbs + DQbsSDVbs);//Sp 自电容 2个
+	subQJacobian(3, 3) += (DQbdBDVbd + DQbdSDVbd) + (DQbsBDVbs + DQbsSDVbs);//B 自电�?3�?
+	subQJacobian(5, 5) += (DQbsBDVbs + DQbsSDVbs);//Sp 自电�?2�?
 	subQJacobian(3, 1) += -(DQbdBDVbd + DQbdSDVbd);//B-Dp
 	subQJacobian(1, 3) += -(DQbdBDVbd + DQbdSDVbd);
 
@@ -432,7 +247,7 @@ void SpiceMosfet::getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::V
 }
 
 void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC) {
-	//Capacitance Model: 目前只引入了Meyer Gate Capacitance Model模型，Charge Conversation Capacitance Model待开发
+	//Capacitance Model: 目前只引入了Meyer Gate Capacitance Model模型，Charge Conversation Capacitance Model待开�?
 	double Vth = Von;
 	double CgbMeyer = 0;
 	double CgdMeyer = 0;
@@ -487,6 +302,196 @@ void SpiceMosfet::getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& sub
 
 	subC(2, 3) += -CgbMeyer;
 	subC(3, 2) += -CgbMeyer;
+}
+
+void SpiceMosfet::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+{
+	InputData = _DataStr;
+
+	InstanceName = _DataStr.InstanceName;
+	// 基类内容
+	q = stod(_DataStr.ParametersMap["q"][0]);
+	k = stod(_DataStr.ParametersMap["k"][0]);
+	ni = stod(_DataStr.ParametersMap["ni"][0]);
+	epsilon0 = stod(_DataStr.ParametersMap["epsilon0"][0]);
+	epsilonOX = 3.9 * epsilon0;//permittivity of SiO2
+	Tmeas = stod(_DataStr.ParametersMap["Tmeas"][0]);
+	T = Tmeas;
+	Gmin = stod(_DataStr.ParametersMap["Gmin"][0]);
+	// 子类内容
+	MTYPE = stod(_DataStr.ParametersMap["MTYPE"][0]);
+	AREA = stod(_DataStr.ParametersMap["AREA"][0]);
+	SCALE = stod(_DataStr.ParametersMap["SCALE"][0]);
+	LENGTH = stod(_DataStr.ParametersMap["LENGTH"][0]);
+	WIDTH = stod(_DataStr.ParametersMap["WIDTH"][0]);
+	AD = stod(_DataStr.ParametersMap["AD"][0]);
+	AS = stod(_DataStr.ParametersMap["AS"][0]);
+	PD = stod(_DataStr.ParametersMap["PD"][0]);
+	PS = stod(_DataStr.ParametersMap["PS"][0]);
+	NRD = stod(_DataStr.ParametersMap["NRD"][0]);
+	NRS = stod(_DataStr.ParametersMap["NRS"][0]);
+	RD = stod(_DataStr.ParametersMap["RD"][0]);
+	RS = stod(_DataStr.ParametersMap["RS"][0]);
+	RSH = stod(_DataStr.ParametersMap["RSH"][0]);
+	VTO = stod(_DataStr.ParametersMap["VTO"][0]);
+	KP = stod(_DataStr.ParametersMap["KP"][0]);
+	GAMMA = stod(_DataStr.ParametersMap["GAMMA"][0]);
+	PHI = stod(_DataStr.ParametersMap["PHI"][0]);
+	LAMBDA = stod(_DataStr.ParametersMap["LAMBDA"][0]);
+	IS = stod(_DataStr.ParametersMap["IS"][0]);
+	N = stod(_DataStr.ParametersMap["N"][0]);
+	JS = stod(_DataStr.ParametersMap["JS"][0]);
+	IFModelGateCapacitance = stod(_DataStr.ParametersMap["IFModelGateCapacitance"][0]);
+	IFModelGateOverlapCapacitance = stod(_DataStr.ParametersMap["IFModelGateOverlapCapacitance"][0]);
+	CGSO = stod(_DataStr.ParametersMap["CGSO"][0]);
+	CGDO = stod(_DataStr.ParametersMap["CGDO"][0]);
+	CGBO = stod(_DataStr.ParametersMap["CGBO"][0]);
+	IFModelJunctionCapacitance = stod(_DataStr.ParametersMap["IFModelJunctionCapacitance"][0]);
+	CBD = stod(_DataStr.ParametersMap["CBD"][0]);
+	CBS = stod(_DataStr.ParametersMap["CBS"][0]);
+	PB = stod(_DataStr.ParametersMap["PB"][0]);
+	CJ = stod(_DataStr.ParametersMap["CJ"][0]);
+	MJ = stod(_DataStr.ParametersMap["MJ"][0]);
+	CJSW = stod(_DataStr.ParametersMap["CJSW"][0]);
+	MJSW = stod(_DataStr.ParametersMap["MJSW"][0]);
+	FC = stod(_DataStr.ParametersMap["FC"][0]);
+	IFSpecifyInitialCondition = stod(_DataStr.ParametersMap["IFSpecifyInitialCondition"][0]);
+	ICVDS = stod(_DataStr.ParametersMap["ICVDS"][0]);
+	ICVGS = stod(_DataStr.ParametersMap["ICVGS"][0]);
+	ICVBS = stod(_DataStr.ParametersMap["ICVBS"][0]);
+	TOX = stod(_DataStr.ParametersMap["TOX"][0]);
+	LD = stod(_DataStr.ParametersMap["LD"][0]);
+	U0 = stod(_DataStr.ParametersMap["U0"][0]);
+
+	if (_DataStr.ParametersMap["NUSB"][0] == "NAN")
+	{
+		NUSB = NAN;
+	}
+
+	TPG = stod(_DataStr.ParametersMap["TPG"][0]);
+	NSS = stod(_DataStr.ParametersMap["NSS"][0]);
+
+	Vtn = N * k * T / q;//Thermal Voltage
+	KPd = KP * AREA * SCALE;
+	ISd = IS * AREA * SCALE;
+	JSd = JS * AREA * SCALE;
+	CBDd = CBD * AREA * SCALE;
+	CBSd = CBS * AREA * SCALE;
+	CGSOd = CGSO * AREA * SCALE;
+	CGDOd = CGDO * AREA * SCALE;
+	CGBOd = CGBO * AREA * SCALE;
+	CJd = CJ * AREA * SCALE;
+	CJSWd = CJSW * AREA * SCALE;
+	RDd = RD / (AREA * SCALE);
+	RSd = RS / (AREA * SCALE);
+	RSHd = RSH / (AREA * SCALE);
+	//一些中间常�?
+	BETA = KPd * WIDTH / (LENGTH - 2 * LD);
+	EGTmeas = 1.16 - (7.02 - 4 * pow(Tmeas, 2)) / (Tmeas + 1108);
+	EGT = 1.16 - (7.02 - 4 * pow(T, 2)) / (T + 1108);
+	VBI = VTO + MTYPE * (-GAMMA * sqrt(PHI)) + (EGTmeas - EGT) / 2;
+	CgsOverlap = CGSOd * WIDTH;
+	CgdOverlap = CGDOd * WIDTH;
+	CgbOverlap = CGBOd * (LENGTH - 2 * LD);
+	F1bottom = PB * (1 - pow(1 - FC, 1 - MJ)) / (1 - MJ);
+	F2bottom = pow(1 - FC, 1 + MJ);
+	F3bottom = 1 - FC * (1 + MJ);
+	F1sidewall = PB * (1 - pow(1 - FC, 1 - MJSW)) / (1 - MJSW);
+	F2sidewall = pow(1 - FC, 1 + MJSW);
+	F3sidewall = 1 - FC * (1 + MJSW);
+	COX = epsilonOX / TOX;
+	Coxt = WIDTH * (LENGTH - 2 * LD) * COX * AREA * SCALE;
+	VFB = VBI * MTYPE - PHI;
+	Vsatmin = 1;
+
+	//Caculation Needs
+	Vgd = 0;
+	Vgs = 0;
+	Vds = 0;
+	Vbs = 0;
+	Vbd = 0;
+	Vgb = 0;
+	Von = MTYPE * VBI;
+
+	//端口�?
+	int max_port = 0;
+	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
+	{
+		max_port < iter_map->second ? max_port = iter_map->second : max_port;
+	}
+	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
+	{
+		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
+		{
+			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
+			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
+			// 未完�?
+		}
+		else
+		{
+			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
+			{
+				continue;
+			}
+			else
+			{
+				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
+				//VoltageXIndex.push_back(max_port);
+			}
+		}
+	}
+	_PortMap.insert({ "- MaxPortIndex -",max_port });
+	_PortMap["- MaxPortIndex -"] = max_port;
+}
+
+void SpiceMosfet::setDeviceInfo(map<string, int>& _PortMap)
+{
+	//DeviceInfo_.xIndex.push_back(1);
+	//DeviceInfo_.xIndex.push_back(2);
+	//DeviceInfo_.xIndex.push_back(3);
+	//DeviceInfo_.xIndex.push_back(4);
+	//DeviceInfo_.xIndex.push_back(5);
+	//DeviceInfo_.xIndex.push_back(6);
+	//return;
+	//端口号应�?
+	int _max_port_index = _PortMap["- MaxPortIndex -"];
+	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
+	{
+		string port_name = InputData.Port[index_port];
+		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
+		{
+			VoltageXIndex.push_back(_PortMap[port_name]);
+		}
+
+		switch (index_port)
+		{
+		case 0:
+			//D
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[0]]);
+			//Dp
+			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			VoltageXIndex.push_back(_max_port_index);
+			break;
+		case 1:
+			//G
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[1]]);
+			break;
+		case 2:
+			//B
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[3]]);
+			break;
+		case 3:
+			//S
+			DeviceInfo_.xIndex.push_back(_PortMap[InputData.Port[2]]);
+			//Sp
+			DeviceInfo_.xIndex.push_back(++_max_port_index);
+			VoltageXIndex.push_back(_max_port_index);
+			break;
+		default:
+			break;
+		}
+	}
+	_PortMap["- MaxPortIndex -"] = _max_port_index;
 }
 
 int SpiceMosfet::getReturnPrime()

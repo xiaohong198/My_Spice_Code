@@ -1,15 +1,10 @@
 #pragma once
-#include "Solver/Solver.h"
-#include "Device/Device.h"
-#include <regex>
+#include "Device.h"
 class Inductor :public Device
 {
 private:
 	double Inductance;
-public:
-	DeviceInfoStr DeviceInfo_;
-	string InstanceName;
-	InputStr InputData;
+
 public:
 	Inductor();
 	~Inductor();

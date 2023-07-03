@@ -1,6 +1,4 @@
-#include <iostream>
 #include "Device.h"
-using namespace std;
 
 Device::Device() {
 }

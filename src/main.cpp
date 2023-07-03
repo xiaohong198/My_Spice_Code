@@ -6,7 +6,7 @@
 using namespace std;
 #include "FastPow.h"
 
-#if 0
+#if 1
 int main()
 {
 	/*-------------PWL 电源的测试-----------*/
@@ -591,5 +591,96 @@ int main() {
 	cout << "pow(" << base << ", " << exponent << ") = " << result << endl;
 	return 0;
 }
+
+#endif // 0
+
+#if 0
+string UTF8ToGB(const char* str)
+{
+	string result;
+	WCHAR* strSrc;
+	LPSTR szRes;
+
+	//获得临时变量的大小
+	int i = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+	strSrc = new WCHAR[i + 1];
+	MultiByteToWideChar(CP_UTF8, 0, str, -1, strSrc, i);
+
+	//获得临时变量的大小
+	i = WideCharToMultiByte(CP_ACP, 0, strSrc, -1, NULL, 0, NULL, NULL);
+	szRes = new CHAR[i + 1];
+	WideCharToMultiByte(CP_ACP, 0, strSrc, -1, szRes, i, NULL, NULL);
+
+	result = szRes;
+	delete[]strSrc;
+	delete[]szRes;
+
+	return result;
+}
+
+//int main()
+//{
+//	double x = 10.25, result;
+//	result = sqrt(x);
+//	cout << UTF8ToGB("10.25的平方根是 ") << result << endl;
+//	system("pause");
+//	return 0;
+//}
+
+#include <iostream>
+#include <cmath>
+#include <chrono>    // 用于获取函数运行时间
+
+using namespace std;
+
+int main()
+{
+	volatile double a, x;
+	volatile double y1, y2, y3, y4;
+	a = 3.21;
+	x = 3.472;
+	// 记录运行的时间
+	chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+	for (int i = 0; i < 100000; i++)
+	{
+		y1 = sqrt(x);
+	}
+	chrono::steady_clock::time_point end1 = chrono::steady_clock::now();
+	for (int i = 0; i < 100000; i++)
+	{
+		y2 = exp(x);
+	}
+	chrono::steady_clock::time_point end2 = chrono::steady_clock::now();
+	for (int i = 0; i < 100000; i++)
+	{
+		y3 = log(x);
+	}
+	chrono::steady_clock::time_point end3 = chrono::steady_clock::now();
+	for (int i = 0; i < 100000; i++)
+	{
+		y4 = pow(a, x);
+	}
+	chrono::steady_clock::time_point end4 = chrono::steady_clock::now();
+	//cout << "ln(e)" << log(2.718281828) << endl;
+	//cout << "log(e)" << log10(2.718281828) << endl << endl;
+	// 时间的单位为微秒
+	cout << "sqrt(x)=" << y1 << UTF8ToGB("，其用时：") << chrono::duration_cast<chrono::microseconds>(end1 - begin).count() << " us" << endl;
+	cout << "exp(x)=" << y2 << UTF8ToGB("，其用时：") << chrono::duration_cast<chrono::microseconds>(end2 - end1).count() << " us" << endl;
+	cout << "ln(x)=" << y3 << UTF8ToGB("，其用时：") << chrono::duration_cast<chrono::microseconds>(end3 - end2).count() << " us" << endl;
+	cout << "a^x=" << y4 << UTF8ToGB("，其用时：") << chrono::duration_cast<chrono::microseconds>(end4 - end3).count() << " us" << endl;
+	system("pause");
+	return 0;
+}
+//sqrt()根号
+//exp()e的x次方
+//ln()以e为底的对数
+//log()以10为底的对数
+//pow()a的x次方
+
+//\
+在关闭编译器优化的Debug-x64模式下，测得a = 3.21，x = 3.472时\
+sqrt(x）、exp(x)、ln(x)、pow(a,x) 在运行一万次和十万次的运行时间\
+测试时已经通过volatile方法避免了编译器对for循环中单一语句的优化\
+测试结果是exp最快，pow最慢，exp和ln相差不大，但exp略快于ln\
 
 #endif // 0

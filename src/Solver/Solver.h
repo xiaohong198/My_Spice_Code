@@ -16,7 +16,6 @@
 #include "Input/Configuration.h"
 #include "Newton/Newton.h"
 #include "Output/Output.h"
-#include "FastPow.h"
 using namespace std;
 class Newton;
 class Solver
@@ -30,17 +29,20 @@ protected:
 	Eigen::MatrixXd Q_Jacobian;
 
 	Eigen::VectorXd P;
-	Eigen::VectorXd P_last;
+	Eigen::VectorXd P_s1;
 
 	Eigen::VectorXd Q;
-	Eigen::VectorXd Q_last;
+	Eigen::VectorXd Q_s1;
+	Eigen::VectorXd Q_s2;
 
 	//Eigen::VectorXd E;
 	Eigen::VectorXd E_Integral;
 	Eigen::MatrixXd C;
-	Eigen::MatrixXd C_last;
+	Eigen::MatrixXd C_s1;
+	Eigen::MatrixXd C_s2;
 
-	Eigen::VectorXd x;
+	Eigen::VectorXd x;//即x_s1
+	Eigen::VectorXd x_s2;
 
 	double dt_;
 	double t_end_;
@@ -60,7 +62,6 @@ public:
 	Eigen::MatrixXd Jacobian;
 	Eigen::VectorXd F_x0;
 	Eigen::VectorXd x_Newton;
-	Eigen::VectorXd x_Newton_pr;
 
 	Solver(Configuration*, Circuit*);
 	~Solver();

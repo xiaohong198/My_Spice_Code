@@ -1,15 +1,10 @@
 #pragma once
 #include "Device.h"
-#include <regex>
 
 class Resistor :public Device
 {
 private:
 	double resistance;
-private:
-	DeviceInfoStr DeviceInfo_;
-	string InstanceName;
-	InputStr InputData;
 
 public:
 	Resistor();

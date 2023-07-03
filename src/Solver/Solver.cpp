@@ -6,7 +6,7 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	size = MyCircuit_->matrixDimension;
 	VoltageXIndex = MyCircuit_->VoltageXIndex;
 	CurrentXIndex = MyCircuit_->CurrentXIndex;
-	/*---------------------矩阵初始化---------------------*/
+	/*---------------------矩阵初始�?--------------------*/
 	A = Eigen::MatrixXd::Zero(size, size);
 
 	B = Eigen::MatrixXd::Zero(size, size);
@@ -20,18 +20,18 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 
 	P = Eigen::VectorXd::Zero(size);
 
-	P_last = Eigen::VectorXd::Zero(size);
+	P_s1 = Eigen::VectorXd::Zero(size);
 
 	Q = Eigen::VectorXd::Zero(size);
-
-	Q_last = Eigen::VectorXd::Zero(size);
+	Q_s1 = Eigen::VectorXd::Zero(size);
+	Q_s2 = Eigen::VectorXd::Zero(size);
 
 	C = Eigen::MatrixXd::Zero(size, size);
-
-	C_last = Eigen::MatrixXd::Zero(size, size);
-	//F = Eigen::VectorXd::Zero(size);
+	C_s1 = Eigen::MatrixXd::Zero(size, size);
+	C_s2 = Eigen::MatrixXd::Zero(size, size);
 
 	x = Eigen::VectorXd::Zero(size);
+	x_s2 = Eigen::VectorXd::Zero(size);
 	x_Newton = Eigen::VectorXd::Zero(size);
 	F_x0 = Eigen::VectorXd::Zero(size);
 	Jacobian = Eigen::MatrixXd::Zero(size, size);
@@ -40,30 +40,82 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	t_end_ = MyConfig_->Get_t_end();
 
 	/*--------------------------------------------------*/
-	/*-----x的初值-----*/
-	//x(0) = 0;
-	//x(1) = 20;//19.4736
-	//x(2) = 0;
-	//x(3) = 0;//-1.94736
+	/*-----mos1 paper-----*/
+	//for (int i = 0; i < size; i++) {
+	//	x(i) = 0;
+	//}
+	//x(1) = 52;
+	//x(2) = 50;
+	//x(3) = 48;
+	//x(4) = 48;
+	//x(5) = 50;
+	//x(6) = 48;
+	//x(7) = 50;
+	//x(12) = x(4);
+	//x(13) = x(5);
+
+	/*-----mos1 debug2-----*/
+	//for (int i = 0; i < size; i++) {
+	//	x(i) = 0;
+	//}
+	//x(1) = 52;//n1
+	//x(6) = 50;//n2
+	//x(4) = 50;//n3
+	//x(3) = 50;//n4
+	//x(2) = 50;//n5
+	//x(7) = 50;//n6
+	//x(8) = 50;//n7
+	//
+	//x(11) = x(3);//n12_Dp = D
+	//x(12) = x(2);//n13_Sp = S
+	//x(5) = 50;//n14
+
+	/*----mos1 debug3---*/
+	//for (int i = 0; i < size; i++) {
+	//	x(i) = 0;
+	//}
+	//x(1) = 52;
+	//x(2) = 50;
+	//x(3) = 50;
+	//x(4) = 50;
+	//x(5) = 50;
+	//x(6) = 50;
+	//x(7) = 50;
+	//x(12) = x(4);
+	//x(13) = x(5);
+	//x(14) = 50;
+	//x(15) = x(5);
+	//x(16) = x(4);
+
+
+	/*-----mos1 debug2-----*/
 	for (int i = 0; i < size; i++) {
 		x(i) = 0;
 	}
-	x(1) = 20;
-	x(2) = 20;
-	x(3) = 20;
-	x(4) = 20;
-	x(5) = 20 + 2.0472e-15;
-	x(6) = x(5);
-	x(8) = x(5);
+	x(5) = 52;//n1=52
+	x(7) = 50;//n2=50
+	x(3) = 50;//n3=50
+	x(2) = 50;//n4=50
+	x(4) = 50;//n5=50
+	x(1) = 50;//n6=50
+	x(8) = 50;//n7=50
+	x(13) = 0;//n8_ipwl
+	x(14) = 0;//n9_idc
+	x(10) = 0;//n10_iLs
+	x(9) = 0;//n11_iLd
+	x(11) = x(3);//n12_Dp = D
+	x(12) = x(2);//n13_Sp = S
+	x(6) = 50;//n14=50
+	x_s2 = x;
 	x_Newton = x;
 	Solver::x_result_vec_.push_back(Solver::x);
 
-	processA();//A、B只填一次就不动了
+	processA();//A、B只填一次就不动�?
 
-	processB();//A、B只填一次就不动了
+	processB();//A、B只填一次就不动�?
 }
 
-void Solver::processA() {//扫描所有器件
+void Solver::processA() {//扫描所有器�?
 	for (auto iter : MyCircuit_->vecDeviceForMatrixA) {
 		DeviceInfoStr current_info = iter->getDeviceInfo();
 		vector<int> index = current_info.xIndex;
@@ -184,28 +236,31 @@ void Solver::processC() {
 	}
 }
 
-void Solver::processGroundedNodeEqu() {//好像还可以精简？把A B E摘出去？
+void Solver::processGroundedNodeEqu() {//���񻹿��Ծ��򣿰�A B Eժ��ȥ��
 	A.row(0).setZero();
 	A(0, 0) = 1;
 	B.row(0).setZero();
 	P_Jacobian.row(0).setZero();
 	Q_Jacobian.row(0).setZero();
 	C.row(0).setZero();
-	//C_last.row(0).setZero();
+	//C_s1.row(0).setZero();
 	E_Integral.row(0).setZero();
 	P.row(0).setZero();
+	//P_s1.row(0).setZero();
+	//if (P_s1.size() != 0) {
+	//    P_s1.row(0).setZero();
+	//}
 	Q.row(0).setZero();
-
-	//Q_last.row(0).setZero();
+	//Q_s1.row(0).setZero();
 }
 
 void Solver::processSetZero() {
 	P_Jacobian.setZero();
 	Q_Jacobian.setZero();
 	P.setZero();
-	//P_last.setZero();
+	//P_s1.setZero();
 	Q.setZero();
-	//Q_last.setZero();
+	//Q_s1.setZero();
 	C.setZero();
 }
 
@@ -215,13 +270,16 @@ void Solver::solve()
 	for (int i = 0; i < num_t; i++) {
 		double tList[2] = { i * dt_,(i + 1) * dt_ };
 		E_Integral.setZero();
-		processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循环
+		processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循�?
 
 		MyNewton_->Perform_Newton();
+		x_s2 = x;
 		x = x_Newton;
-		P_last = P;
-		Q_last = Q;
-		C_last = C;
+		P_s1 = P;
+		Q_s2 = Q_s1;
+		Q_s1 = Q;
+		C_s2 = C_s1;
+		C_s1 = C;
 		x_result_vec_.push_back(x);
 	}
 }

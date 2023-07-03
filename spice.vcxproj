@@ -189,9 +189,7 @@
     <ClCompile Include="src\Device\Capacitor.cpp" />
     <ClCompile Include="src\Device\Device.cpp" />
     <ClCompile Include="src\Device\Diode.cpp" />
-    <ClCompile Include="src\Device\ExcitationDevice.cpp" />
     <ClCompile Include="src\Device\Inductor.cpp" />
-    <ClCompile Include="src\Device\Jsource.cpp" />
     <ClCompile Include="src\Device\Jsource_AC.cpp" />
     <ClCompile Include="src\Device\Jsource_DC.cpp" />
     <ClCompile Include="src\Device\PWLVoltageSource.cpp" />
@@ -215,6 +213,7 @@
     <ClCompile Include="src\Output\Output.cpp" />
     <ClCompile Include="src\Solver\Simulator.cpp" />
     <ClCompile Include="src\Solver\Solver.cpp" />
+    <ClCompile Include="src\Solver\Solver_BDF2.cpp" />
     <ClCompile Include="src\Solver\Solver_EulerBackward.cpp" />
     <ClCompile Include="src\Solver\Solver_SDC.cpp" />
     <ClCompile Include="src\Solver\Solver_TR.cpp" />
@@ -223,9 +222,7 @@
     <ClInclude Include="src\Device\Capacitor.h" />
     <ClInclude Include="src\Device\Device.h" />
     <ClInclude Include="src\Device\Diode.h" />
-    <ClInclude Include="src\Device\ExcitationDevice.h" />
     <ClInclude Include="src\Device\Inductor.h" />
-    <ClInclude Include="src\Device\Jsource.h" />
     <ClInclude Include="src\Device\Jsource_AC.h" />
     <ClInclude Include="src\Device\Jsource_DC.h" />
     <ClInclude Include="src\Device\PWLVoltageSource.h" />
@@ -248,6 +245,7 @@
     <ClInclude Include="src\Output\Output.h" />
     <ClInclude Include="src\Solver\Simulator.h" />
     <ClInclude Include="src\Solver\Solver.h" />
+    <ClInclude Include="src\Solver\Solver_BDF2.h" />
     <ClInclude Include="src\Solver\Solver_EulerBackward.h" />
     <ClInclude Include="src\Solver\Solver_SDC.h" />
     <ClInclude Include="src\Solver\Solver_TR.h" />

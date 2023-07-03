@@ -1,7 +1,6 @@
 #pragma once
 #include "SpiceDevice.h"
-#include <Eigen/Dense>
-#include <cmath>
+
 class SpiceDiode : public SpiceDevice
 {
 protected:
@@ -51,9 +50,21 @@ protected:
 	double F2;
 	double F3;
 
+	//Calculation needs
+	double Ifwd;
+	double DIfwdDVd;
+	double Vd;
+
 public:
 	SpiceDiode();
 	~SpiceDiode();
 
-	void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
+	void getSubA(Eigen::MatrixXd& subA);
+	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
+	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
+	int getReturnPrime();
+	void setDeviceInfo(map<string, int>& _PortMap);
+	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
+	DeviceInfoStr getDeviceInfo();
+	string getInstanceName();
 };

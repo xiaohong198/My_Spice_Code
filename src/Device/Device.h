@@ -1,15 +1,22 @@
 #pragma once
-//#include "Solver.h"
-#include <Eigen/Dense>
 #include "Struct.h"
 #include "Input/Factory.h"
-
+#include <Eigen/Dense>
+#include <regex>
+#include <cmath>
+#include <Eigen/LU>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+using namespace std;
 const double PI = 3.14159265358979323846;
 class Device
 {
-private:
+protected:
 	DeviceInfoStr DeviceInfo_;
 	string InstanceName;
+	InputStr InputData;
 public:
 	vector <int> VoltageXIndex;
 	vector <int> CurrentXIndex;

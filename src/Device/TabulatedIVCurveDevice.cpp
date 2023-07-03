@@ -1,9 +1,5 @@
 #include "TabulatedIVCurveDevice.h"
-#include <Eigen/Dense>
-#include <Eigen/LU>
-#include <cmath>
-#include <iostream>
-using namespace std;
+
 TabulatedIVCurveDevice::TabulatedIVCurveDevice() {
 }
 TabulatedIVCurveDevice::~TabulatedIVCurveDevice() {

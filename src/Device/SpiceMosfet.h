@@ -1,6 +1,5 @@
 #pragma once
 #include "SpiceDevice.h"
-#include <regex>
 
 class SpiceMosfet : public SpiceDevice
 {
@@ -113,10 +112,6 @@ protected:
 	double Vbd;
 	double Vgb;
 	double Von;
-private:
-	DeviceInfoStr DeviceInfo_;
-	string InstanceName;
-	InputStr InputData;
 
 public:
 	SpiceMosfet();

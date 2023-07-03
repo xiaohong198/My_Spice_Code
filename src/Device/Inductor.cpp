@@ -1,7 +1,20 @@
 #include "Inductor.h"
-
 REGISTER(Inductor);
 Inductor::Inductor() {
+}
+Inductor::~Inductor() {
+}
+
+void Inductor::getSubA(Eigen::MatrixXd& subA) {
+	subA(0, 2) = 1;
+	subA(1, 2) = -1;
+	subA(2, 0) = -1;
+	subA(2, 1) = 1;
+}
+
+void Inductor::getSubB(Eigen::MatrixXd& subB) {
+	subB.setZero();
+	subB(2, 2) = Inductance;
 }
 
 void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
@@ -62,21 +75,6 @@ void Inductor::setDeviceInfo(map<string, int>& _PortMap)
 	DeviceInfo_.xIndex.push_back(++_max_port_index);
 	_PortMap["- MaxPortIndex -"] = _max_port_index;
 	CurrentXIndex.push_back(_max_port_index);
-}
-
-Inductor::~Inductor() {
-}
-
-void Inductor::getSubA(Eigen::MatrixXd& subA) {
-	subA(0, 2) = 1;
-	subA(1, 2) = -1;
-	subA(2, 0) = -1;
-	subA(2, 1) = 1;
-}
-
-void Inductor::getSubB(Eigen::MatrixXd& subB) {
-	subB.setZero();
-	subB(2, 2) = Inductance;
 }
 
 int Inductor::getReturnPrime()

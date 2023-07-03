@@ -1,15 +1,9 @@
 #pragma once
 #include "Device.h"
-#include <regex>
-
 class Vsource_DC :public Device
 {
 private:
 	double V_DC;
-private:
-	DeviceInfoStr DeviceInfo_;
-	string InstanceName;
-	InputStr InputData;
 
 public:
 	Vsource_DC();

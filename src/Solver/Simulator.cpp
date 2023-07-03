@@ -14,11 +14,13 @@ Simulator::Simulator() {
 	case Trapezoidal:
 		MySolver = new Solver_TR(MyConfig, MyCircuit);
 		break;
+	case BDF_2:
+		MySolver = new Solver_BDF2(MyConfig, MyCircuit);
 	default:
 		break;
 	}
-	//MyNewton = new BasicNewton(MySolver);
-	MyNewton = new BankRoseDampingNewton(MySolver);
+	MyNewton = new BasicNewton(MySolver);
+	//MyNewton = new BankRoseDampingNewton(MySolver);
 	MySolver->MyNewton_ = MyNewton;
 }
 
