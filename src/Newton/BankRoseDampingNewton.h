@@ -4,12 +4,12 @@
 class BankRoseDampingNewton :public Newton
 {
 private:
-	double epsino;
-	double omega;
+	double epsino_;
+	double omega_;
 public:
 	BankRoseDampingNewton(Solver*);
 	~BankRoseDampingNewton();
 
-	void Perform_Newton();
+	void PerformNewton();
 	void NewtonSave();
 };

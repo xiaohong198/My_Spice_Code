@@ -5,66 +5,66 @@ class SpiceDiode : public SpiceDevice
 {
 protected:
 	//Main
-	double AREA;
-	double SCALE;
-	double IS;
-	double IKF;
-	double ISR;
-	double N;
-	double NR;
-	double M;
-	double VJ;
-	double RS;
+	double AREA_;
+	double SCALE_;
+	double IS_;
+	double IKF_;
+	double ISR_;
+	double N_;
+	double NR_;
+	double M_;
+	double VJ_;
+	double RS_;
 
 	//Junction Capitance
-	bool IFModelJunctionCapacitance;
-	double CJO;
-	double FC;
-	double TT;
+	bool if_model_junction_capacitance_;
+	double CJO_;
+	double FC_;
+	double TT_;
 
-	bool IFSpecifyInitialCondition;
-	double V0;
+	bool if_specify_initial_condition_;
+	double V0_;
 
 	//Reverse Breakdown
-	bool IFModelReverseBreakdown;
-	double BV;
-	double IBV;
-	double IBVL;
-	double NBV;
-	double NBVL;
+	bool if_model_reverse_breakdown_;
+	double BV_;
+	double IBV_;
+	double IBVL_;
+	double NBV_;
+	double NBVL_;
 
 	//Temperature
-	double EG;//Activation energy;
+	double EG_;//Activation energy;
 
 	//geometry-adjusted variables and the defining equations
-	double CJOd;
-	double IBVd;
-	double ISd;
-	double RSd;
+	double CJOd_;
+	double IBVd_;
+	double ISd_;
+	double RSd_;
 
 	//Thermal Voltage
-	double Vt;
+	double Vt_;
 
 	//中间常量
-	double F1;
-	double F2;
-	double F3;
+	double F1_;
+	double F2_;
+	double F3_;
 
 	//Calculation needs
-	double Ifwd;
-	double DIfwdDVd;
-	double Vd;
+	double Ifwd_;
+	double DIfwdDVd_;
+	double Vd_;
 
 public:
 	SpiceDiode();
 	~SpiceDiode();
 
-	void getSubA(Eigen::MatrixXd& subA);
-	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
-	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-	int getReturnPrime();
-	void setDeviceInfo(map<string, int>& _PortMap);
-	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
-	DeviceInfoStr getDeviceInfo();
-	string getInstanceName();
+	void GetSubA(Eigen::MatrixXd&);
+	void GetSubPandPJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	void GetSubQandQJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	int GetReturnPrime();
+	void SetDeviceInfo(map<string, int>&);
+	void SetInputData(InputStr, map<string, int>&);
+	DeviceInfoStr GetDeviceInfo();
+	string GetInstanceName();
 };

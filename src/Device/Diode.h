@@ -4,23 +4,23 @@
 class Diode :public Device
 {
 private:
-	double Is;
-	double Vt;
-	double Ron;
-	double Vf;
-	double Goff;
+	double is_;
+	double vt_;
+	double ron_;
+	double vf_;
+	double goff_;
 
 public:
 	Diode();
 	~Diode();
 
-	double f(double);
+	double F(double);
 	double G(double);
 
-	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
-	int getReturnPrime();
-	void setDeviceInfo(map<string, int>& _PortMap);
-	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
-	DeviceInfoStr getDeviceInfo();
-	string getInstanceName();
+	void GetSubPandPJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	int GetReturnPrime();
+	void SetDeviceInfo(map<string, int>&);
+	void SetInputData(InputStr, map<string, int>&);
+	DeviceInfoStr GetDeviceInfo();
+	string GetInstanceName();
 };

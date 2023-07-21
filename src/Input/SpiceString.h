@@ -12,13 +12,13 @@ public:
 	SpiceString();
 	~SpiceString();
 	// 字符串分割但是是通过大小写来改原来的(str 字符串 delimiter 分割字符 str_trans 大小写转换后的 is_remove 是否保留空格)
-	std::vector<std::string> getSplitVec(string str, string delimiter, string str_trans = "", bool is_remove = false);
+	std::vector<std::string> GetSplitVec(string, string, string str_trans = "", bool is_remove = false);
 	// 字符串大写
-	string TransformUp(string _str);
+	string TransformUp(string);
 	// 字符串小写
-	string TransformLow(string _str);
+	string TransformLow(string);
 	// 获取字符之间的内容
-	string getContent(string _str, string begin_symbol, string end_symbol);
+	string GetContent(string, string, string);
 	// 删除字符串中字符
-	string RemoveChars(string _str, string _chars);
+	string RemoveChars(string, string);
 };

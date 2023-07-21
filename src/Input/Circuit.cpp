@@ -1,16 +1,17 @@
 #include "Circuit.h"
 
 Circuit::Circuit()
-	: Input_(nullptr)
-	, Device_(nullptr)
+	: input_(nullptr)
+	, device_(nullptr)
 {
-	const int primes[] = { PrimeA, PrimeB, PrimeP, PrimeQ, PrimeC, PrimeE };
-	vector<Device*>* matrixes[] = { &vecDeviceForMatrixA, &vecDeviceForMatrixB, &vecDeviceForMatrixP, &vecDeviceForMatrixQ, &vecDeviceForMatrixC, &vecDeviceForVectorE };
+	const int primes[] = { kPrimeA, kPrimeB, kPrimeP, kPrimeQ, kPrimeC, kPrimeE };
+	vector<Device*>* matrixes[] = { &device_matrix_a_, &device_matrix_b_, &device_matrix_p_, &device_matrix_q_, &device_matrix_c_, &device_matrix_e_ };
 	vector <Device*> vecDevice;
-	Input_ = new Input();
-	UserParameter_ = Input_->GetParameter();
-	PortCompareMap = Input_->GetPortCompare();
-	HintCompareMap = Input_->GetHintCompare();
+	input_ = new Input();
+	user_compare_ = input_->GetParameter();
+	port_compare_ = input_->GetPortCompare();
+	hint_compare_ = input_->GetHintCompare();
+	plot_compare_ = input_->GetPlotCompare();
 
 #if 0
 	/*-------Mos Level1 BS短路 测试-----*/
@@ -311,24 +312,28 @@ Circuit::Circuit()
 
 #endif // 0
 
-	for (auto user_iter = UserParameter_.begin(); user_iter != UserParameter_.end(); user_iter++)
+	for (auto user_iter = user_compare_.begin(); user_iter != user_compare_.end(); user_iter++)
 	{
 		InputStr user_str = user_iter->second;
 		// 初始化器件类
-		Device_ = (Device*)ClassFactory::getInstance().getClassByName(user_str.ClassName);
-		Device_->setInputData(user_str, PortCompareMap);
-		vecDevice.push_back(Device_);
+		device_ = (Device*)ClassFactory::GetInstance().GetClassByName(user_str.class_name);
+		device_->SetInputData(user_str, port_compare_);
+		vecDevice.push_back(device_);
+		//填充实例名和端口号顺序的映射表
+		device_port_compare_.insert({ user_str.instance_name,user_str.port });
 	}
 
 	for (auto iter_device : vecDevice)
 	{
-		iter_device->VoltageXIndex = VoltageXIndex;
-		iter_device->CurrentXIndex = CurrentXIndex;
-		iter_device->setDeviceInfo(PortCompareMap);
-		VoltageXIndex = iter_device->VoltageXIndex;
-		CurrentXIndex = iter_device->CurrentXIndex;
-
-		int re_prime = iter_device->getReturnPrime();
+		iter_device->voltage_x_index_ = voltage_x_index_;
+		iter_device->current_x_index_ = current_x_index_;
+		iter_device->SetDeviceInfo(port_compare_);
+		voltage_x_index_ = iter_device->voltage_x_index_;
+		current_x_index_ = iter_device->current_x_index_;
+		//填充实例名和新增IV的映射表
+		device_additional_compare_.insert({ iter_device->GetInstanceName(), iter_device->GetDeviceInfo().additional_index });
+		//判断ABCPQE
+		int re_prime = iter_device->GetReturnPrime();
 		for (int i = 0; i < sizeof(primes) / sizeof(int); i++)
 		{
 			if ((re_prime & primes[i]) == primes[i])
@@ -337,7 +342,7 @@ Circuit::Circuit()
 			}
 		}
 	}
-	matrixDimension = VoltageXIndex.size() + CurrentXIndex.size();
+	matrix_dimension_ = voltage_x_index_.size() + current_x_index_.size();
 }
 
 Circuit::~Circuit() {

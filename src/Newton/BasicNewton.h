@@ -8,7 +8,6 @@ public:
 	BasicNewton(Solver*);
 	~BasicNewton();
 
-	void Perform_Newton();
+	void PerformNewton();
 	void NewtonSave();
-
 };

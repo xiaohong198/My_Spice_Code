@@ -1,22 +1,22 @@
 #include "BasicNewton.h"
 
-BasicNewton::BasicNewton(Solver* MySolver): Newton(MySolver) {
+BasicNewton::BasicNewton(Solver* _my_solver) : Newton(_my_solver) {
 }
 
-void BasicNewton::Perform_Newton()
+void BasicNewton::PerformNewton()
 {
-	int Iteration_times = 0;
-	for (; Iteration_times < Max_Iteration_times; Iteration_times++)
+	int iteration_times = 0;
+	for (; iteration_times < max_iteration_times_; iteration_times++)
 	{
-		xk = MySolver_->x_Newton;
-		MySolver_->processJacobianAndF();
-		MySolver_->x_Newton = MySolver_->x_Newton - MySolver_->Jacobian.inverse() * MySolver_->F_x0;
-		xkp1 = MySolver_->x_Newton;
+		xk_ = my_solver_->x_newton_;
+		my_solver_->ProcessJacobianAndF();
+		my_solver_->x_newton_ = my_solver_->x_newton_ - my_solver_->Jacobian_.inverse() * my_solver_->F_x0_;
+		xkp1_ = my_solver_->x_newton_;
 		if (CheckConvergence()) {
 			break;
 		}
 	}
-	cout << "Iteration_times =" << Iteration_times << endl;
+	//cout << "Iteration_times =" << Iteration_times << endl;
 	//_out_put_vec.push_back(Iteration_times);
 }
 
@@ -24,11 +24,11 @@ void BasicNewton::NewtonSave()
 {
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
-	string output_dir_Path = path + "/CircuitVarsData";
-	string outputPath = output_dir_Path + "/BasicNewton.txt";
+	string output_dir_path = path + "/CircuitVarsData";
+	string output_path = output_dir_path + "/BasicNewton.txt";
 
-	Output_ = new Output();
-	Output_->SaveTxt(outputPath, _out_put_vec);
+	output_ = new Output();
+	output_->SaveTxt(output_path, out_put_vec_);
 }
 
 BasicNewton::~BasicNewton() {

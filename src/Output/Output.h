@@ -23,9 +23,7 @@ using var_t = std::variant<std::string, int, double, Eigen::VectorXd>;
 class Output
 {
 public:
-	int _VectorXd_size;
-public:
 	Output();
 	~Output();
-	void SaveTxt(string _path, std::vector<var_t> _data);
+	void SaveTxt(string, std::vector<var_t>, int _size = 1);
 };

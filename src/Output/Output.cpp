@@ -7,21 +7,21 @@ Output::Output()
 Output::~Output() {
 }
 
-void Output::SaveTxt(string _path, std::vector<var_t> _data)
+void Output::SaveTxt(string _path, std::vector<var_t> _data, int _size)
 {
 	// 获取当前路径
-	string output_dir_Path = _path + "/../";
+	string output_dir_path = _path + "/../";
 
-	int re = _access(output_dir_Path.c_str(), 0);
+	int re = _access(output_dir_path.c_str(), 0);
 	switch (re)
 	{
 	case -1:
-		_mkdir(output_dir_Path.c_str());				//创建目录
+		_mkdir(output_dir_path.c_str());				//创建目录
 		break;
 	default:
 		remove(_path.c_str());//删除文件
 		//_rmdir(output_dir_Path.c_str());//删除目录
-		_mkdir(output_dir_Path.c_str());				//创建目录
+		_mkdir(output_dir_path.c_str());				//创建目录
 		break;
 	}
 
@@ -43,14 +43,14 @@ void Output::SaveTxt(string _path, std::vector<var_t> _data)
 		}
 		else if (std::holds_alternative<Eigen::VectorXd>(iter))
 		{
-			for (int i = 0; i < _VectorXd_size; i++)
+			for (int i = 0; i < _size; i++)
 			{
 				ss << std::setprecision(8) << std::get<Eigen::VectorXd>(iter)(i) << ',';
 			}
 			ss << '\n';
 		}
 	}
-	ofstream OpenF3(_path, ios::trunc | ios::out);
-	OpenF3 << ss.str();
-	OpenF3.close();
+	ofstream open_f3(_path, ios::trunc | ios::out);
+	open_f3 << ss.str();
+	open_f3.close();
 }

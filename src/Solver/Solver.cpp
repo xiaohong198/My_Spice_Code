@@ -1,43 +1,43 @@
 #include "Solver.h"
-Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
-	MyConfig_ = MyConfig;
-	MyCircuit_ = MyCircuit;
-	Output_ = new Output();
-	size = MyCircuit_->matrixDimension;
-	VoltageXIndex = MyCircuit_->VoltageXIndex;
-	CurrentXIndex = MyCircuit_->CurrentXIndex;
+Solver::Solver(Configuration* _my_config, Circuit* _my_circuit) {
+	my_config_ = _my_config;
+	my_circuit_ = _my_circuit;
+	output_ = new Output();
+	size_ = my_circuit_->matrix_dimension_;
+	voltage_x_index_ = my_circuit_->voltage_x_index_;
+	current_x_index_ = my_circuit_->current_x_index_;
 	/*---------------------矩阵初始�?--------------------*/
-	A = Eigen::MatrixXd::Zero(size, size);
+	A_ = Eigen::MatrixXd::Zero(size_, size_);
 
-	B = Eigen::MatrixXd::Zero(size, size);
+	B_ = Eigen::MatrixXd::Zero(size_, size_);
 
-	P_Jacobian = Eigen::MatrixXd::Zero(size, size);
+	P_Jacobian_ = Eigen::MatrixXd::Zero(size_, size_);
 
-	Q_Jacobian = Eigen::MatrixXd::Zero(size, size);
+	Q_Jacobian_ = Eigen::MatrixXd::Zero(size_, size_);
 
 	//E = Eigen::VectorXd::Zero(size);
-	E_Integral = Eigen::VectorXd::Zero(size);
+	E_Integral_ = Eigen::VectorXd::Zero(size_);
 
-	P = Eigen::VectorXd::Zero(size);
+	P_ = Eigen::VectorXd::Zero(size_);
 
-	P_s1 = Eigen::VectorXd::Zero(size);
+	P_s1_ = Eigen::VectorXd::Zero(size_);
 
-	Q = Eigen::VectorXd::Zero(size);
-	Q_s1 = Eigen::VectorXd::Zero(size);
-	Q_s2 = Eigen::VectorXd::Zero(size);
+	Q_ = Eigen::VectorXd::Zero(size_);
+	Q_s1_ = Eigen::VectorXd::Zero(size_);
+	Q_s2_ = Eigen::VectorXd::Zero(size_);
 
-	C = Eigen::MatrixXd::Zero(size, size);
-	C_s1 = Eigen::MatrixXd::Zero(size, size);
-	C_s2 = Eigen::MatrixXd::Zero(size, size);
+	C_ = Eigen::MatrixXd::Zero(size_, size_);
+	C_s1_ = Eigen::MatrixXd::Zero(size_, size_);
+	C_s2_ = Eigen::MatrixXd::Zero(size_, size_);
 
-	x = Eigen::VectorXd::Zero(size);
-	x_s2 = Eigen::VectorXd::Zero(size);
-	x_Newton = Eigen::VectorXd::Zero(size);
-	F_x0 = Eigen::VectorXd::Zero(size);
-	Jacobian = Eigen::MatrixXd::Zero(size, size);
+	x_ = Eigen::VectorXd::Zero(size_);
+	x_s2_ = Eigen::VectorXd::Zero(size_);
+	x_newton_ = Eigen::VectorXd::Zero(size_);
+	F_x0_ = Eigen::VectorXd::Zero(size_);
+	Jacobian_ = Eigen::MatrixXd::Zero(size_, size_);
 
-	dt_ = MyConfig_->Get_dt();
-	t_end_ = MyConfig_->Get_t_end();
+	dt_ = my_config_->Getdt();
+	t_end_ = my_config_->GettEnd();
 
 	/*--------------------------------------------------*/
 	/*-----mos1 paper-----*/
@@ -87,223 +87,327 @@ Solver::Solver(Configuration* MyConfig, Circuit* MyCircuit) {
 	//x(15) = x(5);
 	//x(16) = x(4);
 
-
 	/*-----mos1 debug2-----*/
-	for (int i = 0; i < size; i++) {
-		x(i) = 0;
+	for (int i = 0; i < size_; i++) {
+		x_(i) = 0;
 	}
-	x(5) = 52;//n1=52
-	x(7) = 50;//n2=50
-	x(3) = 50;//n3=50
-	x(2) = 50;//n4=50
-	x(4) = 50;//n5=50
-	x(1) = 50;//n6=50
-	x(8) = 50;//n7=50
-	x(13) = 0;//n8_ipwl
-	x(14) = 0;//n9_idc
-	x(10) = 0;//n10_iLs
-	x(9) = 0;//n11_iLd
-	x(11) = x(3);//n12_Dp = D
-	x(12) = x(2);//n13_Sp = S
-	x(6) = 50;//n14=50
-	x_s2 = x;
-	x_Newton = x;
-	Solver::x_result_vec_.push_back(Solver::x);
+	map<string, int> hint_map = my_circuit_->hint_compare_;
+	for (auto hint_index = hint_map.begin(); hint_index != hint_map.end(); hint_index++)
+	{
+		string port = hint_index->first;
+		int port_value = hint_index->second;
 
-	processA();//A、B只填一次就不动�?
+		x_(my_circuit_->port_compare_[port]) = port_value;
+		//判断SpiceDevice
+		for (auto additional_index = my_circuit_->device_additional_compare_.begin(); additional_index != my_circuit_->device_additional_compare_.end(); additional_index++)
+		{
+			string instance_name = additional_index->first;
+			vector<int> additional_vec = additional_index->second;
+			//是特殊器件
+			if (additional_vec.size() == 2)
+			{
+				//特殊器件端口号列表n0 n1 n2
+				vector<string> port_vec = my_circuit_->device_port_compare_[instance_name];
+				//特殊器件第一个和第三个端口号的值分别赋值给这个特殊器件自增的第一个和第二个值
+				x_(additional_vec[0]) = x_(my_circuit_->port_compare_[port_vec[0]]);
+				x_(additional_vec[1]) = x_(my_circuit_->port_compare_[port_vec[2]]);
+			}
+		}
+	}
+	//x(5) = 52;//n1=52
+	//x(7) = 50;//n2=50
+	//x(3) = 50;//n3=50
+	//x(2) = 50;//n4=50
+	//x(4) = 50;//n5=50
+	//x(1) = 50;//n6=50
+	//x(8) = 50;//n7=50
+	//x(13) = 0;//n8_ipwl
+	//x(14) = 0;//n9_idc
+	//x(10) = 0;//n10_iLs
+	//x(9) = 0;//n11_iLd
+	//x(11) = x(3);//n12_Dp = D
+	//x(12) = x(2);//n13_Sp = S
+	//x(6) = 50;//n14=50
+	x_s2_ = x_;
+	x_newton_ = x_;
 
-	processB();//A、B只填一次就不动�?
+	Solver::x_result_vec_.push_back(Solver::x_);
+	Solver::time_result_vec_.push_back(0);
+
+	ProcessA();//A、B只填一次就不动�?
+
+	ProcessB();//A、B只填一次就不动�?
 }
 
-void Solver::processA() {//扫描所有器�?
-	for (auto iter : MyCircuit_->vecDeviceForMatrixA) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-		iter->getSubA(subA);
-		for (int i = 0; i < xCountTemp; i++) {
-			for (int j = 0; j < xCountTemp; j++) {
+void Solver::ProcessA() {//扫描所有器�?
+	for (auto iter : my_circuit_->device_matrix_a_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::MatrixXd subA = Eigen::MatrixXd::Zero(x_count_temp, x_count_temp);
+		iter->GetSubA(subA);
+		for (int i = 0; i < x_count_temp; i++) {
+			for (int j = 0; j < x_count_temp; j++) {
 				int row_num = index[i];
 				int col_num = index[j];
-				A(row_num, col_num) += subA(i, j);
+				A_(row_num, col_num) += subA(i, j);
 			}
 		}
 	}
 }
 
-void Solver::processB() {
-	for (auto iter : MyCircuit_->vecDeviceForMatrixB) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-		iter->getSubB(subB);
-		for (int i = 0; i < xCountTemp; i++) {
-			for (int j = 0; j < xCountTemp; j++) {
+void Solver::ProcessB() {
+	for (auto iter : my_circuit_->device_matrix_b_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::MatrixXd subB = Eigen::MatrixXd::Zero(x_count_temp, x_count_temp);
+		iter->GetSubB(subB);
+		for (int i = 0; i < x_count_temp; i++) {
+			for (int j = 0; j < x_count_temp; j++) {
 				int row_num = index[i];
 				int col_num = index[j];
-				B(row_num, col_num) += subB(i, j);
+				B_(row_num, col_num) += subB(i, j);
 			}
 		}
 	}
 }
 
-void Solver::processEIntegral(double* tList) {
-	for (auto iter : MyCircuit_->vecDeviceForVectorE) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::VectorXd subEIntegral = Eigen::VectorXd::Zero(xCountTemp);
-		iter->getSubEIntegral(subEIntegral, tList);
-		for (int i = 0; i < xCountTemp; i++) {
+void Solver::ProcessEIntegral(double* tList) {
+	for (auto iter : my_circuit_->device_matrix_e_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::VectorXd subEIntegral = Eigen::VectorXd::Zero(x_count_temp);
+		iter->GetSubEIntegral(subEIntegral, tList);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
-			E_Integral(row_num) += subEIntegral(i);
+			E_Integral_(row_num) += subEIntegral(i);
 		}
 	}
 }
 
-void Solver::processP() {
-	for (auto iter : MyCircuit_->vecDeviceForMatrixP) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-		Eigen::VectorXd subP = Eigen::VectorXd::Zero(xCountTemp);
-		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
-		for (int i = 0; i < xCountTemp; i++) {
+void Solver::ProcessP() {
+	for (auto iter : my_circuit_->device_matrix_p_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::MatrixXd subPJacobian = Eigen::MatrixXd::Zero(x_count_temp, x_count_temp);
+		Eigen::VectorXd subP = Eigen::VectorXd::Zero(x_count_temp);
+		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(x_count_temp);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
 
-			nodeValue(i) = x_Newton(row_num);
+			nodeValue(i) = x_newton_(row_num);
 		}
-		iter->getSubPandPJacobian(nodeValue, subP, subPJacobian);
-		for (int i = 0; i < xCountTemp; i++) {
+		iter->GetSubPandPJacobian(nodeValue, subP, subPJacobian);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
-			P(row_num) += subP(i);
-			for (int j = 0; j < xCountTemp; j++) {
+			P_(row_num) += subP(i);
+			for (int j = 0; j < x_count_temp; j++) {
 				int col_num = index[j];
-				P_Jacobian(row_num, col_num) += subPJacobian(i, j);
+				P_Jacobian_(row_num, col_num) += subPJacobian(i, j);
 			}
 		}
 	}
 }
 
-void Solver::processQ() {
-	for (auto iter : MyCircuit_->vecDeviceForMatrixQ) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-		Eigen::VectorXd subQ = Eigen::VectorXd::Zero(xCountTemp);
-		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
-		for (int i = 0; i < xCountTemp; i++) {
+void Solver::ProcessQ() {
+	for (auto iter : my_circuit_->device_matrix_q_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::MatrixXd subQJacobian = Eigen::MatrixXd::Zero(x_count_temp, x_count_temp);
+		Eigen::VectorXd subQ = Eigen::VectorXd::Zero(x_count_temp);
+		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(x_count_temp);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
 
-			nodeValue(i) = x_Newton(row_num);
+			nodeValue(i) = x_newton_(row_num);
 		}
-		iter->getSubQandQJacobian(nodeValue, subQ, subQJacobian);
-		for (int i = 0; i < xCountTemp; i++) {
+		iter->GetSubQandQJacobian(nodeValue, subQ, subQJacobian);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
-			Q(row_num) += subQ(i);
-			for (int j = 0; j < xCountTemp; j++) {
+			Q_(row_num) += subQ(i);
+			for (int j = 0; j < x_count_temp; j++) {
 				int col_num = index[j];
-				Q_Jacobian(row_num, col_num) += subQJacobian(i, j);
+				Q_Jacobian_(row_num, col_num) += subQJacobian(i, j);
 			}
 		}
 	}
 }
 
-void Solver::processC() {
-	for (auto iter : MyCircuit_->vecDeviceForMatrixQ) {
-		DeviceInfoStr current_info = iter->getDeviceInfo();
-		vector<int> index = current_info.xIndex;
-		int xCountTemp = index.size();
-		Eigen::MatrixXd subC = Eigen::MatrixXd::Zero(xCountTemp, xCountTemp);
-		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(xCountTemp);
-		for (int i = 0; i < xCountTemp; i++) {
+void Solver::ProcessC() {
+	for (auto iter : my_circuit_->device_matrix_c_) {
+		DeviceInfoStr current_info = iter->GetDeviceInfo();
+		vector<int> index = current_info.x_index;
+		int x_count_temp = index.size();
+		Eigen::MatrixXd subC = Eigen::MatrixXd::Zero(x_count_temp, x_count_temp);
+		Eigen::VectorXd nodeValue = Eigen::VectorXd::Zero(x_count_temp);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
 
-			nodeValue(i) = x_Newton(row_num);
+			nodeValue(i) = x_newton_(row_num);
 		}
-		iter->getSubC(nodeValue, subC);
-		for (int i = 0; i < xCountTemp; i++) {
+		iter->GetSubC(nodeValue, subC);
+		for (int i = 0; i < x_count_temp; i++) {
 			int row_num = index[i];
-			for (int j = 0; j < xCountTemp; j++) {
+			for (int j = 0; j < x_count_temp; j++) {
 				int col_num = index[j];
-				C(row_num, col_num) += subC(i, j);
+				C_(row_num, col_num) += subC(i, j);
 			}
 		}
 	}
 }
 
-void Solver::processGroundedNodeEqu() {//���񻹿��Ծ��򣿰�A B Eժ��ȥ��
-	A.row(0).setZero();
-	A(0, 0) = 1;
-	B.row(0).setZero();
-	P_Jacobian.row(0).setZero();
-	Q_Jacobian.row(0).setZero();
-	C.row(0).setZero();
+void Solver::ProcessGroundedNodeEqu() {//���񻹿��Ծ��򣿰�A B Eժ��ȥ��
+	A_.row(0).setZero();
+	A_(0, 0) = 1;
+	B_.row(0).setZero();
+	P_Jacobian_.row(0).setZero();
+	Q_Jacobian_.row(0).setZero();
+	C_.row(0).setZero();
 	//C_s1.row(0).setZero();
-	E_Integral.row(0).setZero();
-	P.row(0).setZero();
+	E_Integral_.row(0).setZero();
+	P_.row(0).setZero();
 	//P_s1.row(0).setZero();
 	//if (P_s1.size() != 0) {
 	//    P_s1.row(0).setZero();
 	//}
-	Q.row(0).setZero();
+	Q_.row(0).setZero();
 	//Q_s1.row(0).setZero();
 }
 
-void Solver::processSetZero() {
-	P_Jacobian.setZero();
-	Q_Jacobian.setZero();
-	P.setZero();
+void Solver::ProcessSetZero() {
+	P_Jacobian_.setZero();
+	Q_Jacobian_.setZero();
+	P_.setZero();
 	//P_s1.setZero();
-	Q.setZero();
+	Q_.setZero();
 	//Q_s1.setZero();
-	C.setZero();
+	C_.setZero();
 }
 
-void Solver::solve()
+void Solver::Solve()
 {
 	int num_t = t_end_ / dt_;
 	for (int i = 0; i < num_t; i++) {
 		double tList[2] = { i * dt_,(i + 1) * dt_ };
-		E_Integral.setZero();
-		processEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循�?
+		time_result_vec_.push_back((i + 1) * dt_);
+		E_Integral_.setZero();
+		ProcessEIntegral(tList);//填E_Integral，每个时间循环填一次，不参与Newton的循�?
 
-		MyNewton_->Perform_Newton();
-		x_s2 = x;
-		x = x_Newton;
-		P_s1 = P;
-		Q_s2 = Q_s1;
-		Q_s1 = Q;
-		C_s2 = C_s1;
-		C_s1 = C;
-		x_result_vec_.push_back(x);
+		my_newton_->PerformNewton();
+		x_s2_ = x_;
+		x_ = x_newton_;
+		P_s1_ = P_;
+		Q_s2_ = Q_s1_;
+		Q_s1_ = Q_;
+		C_s2_ = C_s1_;
+		C_s1_ = C_;
+		x_result_vec_.push_back(x_);
 	}
 }
 
-void Solver::SaveCircuitVars()
+void Solver::SaveResultData()
 {
 	// 获取当前路径
 	string path = _getcwd(NULL, 0);
-	string output_dir_Path = path + "/CircuitVarsData";
-	string outputPath = output_dir_Path + "/CircuitVars.txt";
-	Output_->_VectorXd_size = size;
-	Output_->SaveTxt(outputPath, x_result_vec_);
+	//CircuitVarsData
+	string output_dir_path = path + "/CircuitVarsData";
+	string output_path = output_dir_path + "/CircuitVars.txt";
+	output_->SaveTxt(output_path, x_result_vec_, size_);
+
+	//Plot
+	//遍历cmd中plot内容
+	map<string, PlotStr> plot_map = my_circuit_->plot_compare_;
+	for (auto plot_index = plot_map.begin(); plot_index != plot_map.end(); plot_index++)
+	{
+		//PlotData
+		//获取当前plot的生成文件名称
+		string plot_dir_path = path + "/PlotData";
+		string plot_path = plot_dir_path + "/" + plot_index->first;
+		PlotStr current_plot = plot_index->second;
+		vector<PlotVIStr> plot_vi_vec = current_plot.plot_vi_vec;
+		//获取当前plot的生成列数
+		int size_plot = plot_vi_vec.size();
+
+		//按照时间步数，也就是结果文件的行数遍历（行）
+		for (int row_index = 0; row_index < x_result_vec_.size(); row_index++)
+		{
+			// x这一行的值
+			Eigen::VectorXd x_result = std::get<Eigen::VectorXd>(x_result_vec_[row_index]);
+			// plot一行的值初始化
+			Eigen::VectorXd plot_result = Eigen::VectorXd::Zero(size_plot);
+
+			//获取当前plot的生成要求（列）
+			for (int plot_vi_index = 0; plot_vi_index < plot_vi_vec.size(); plot_vi_index++)
+			{
+				PlotVIStr plot_vi_iter = plot_vi_vec[plot_vi_index];
+				//类型 time() v() i()
+				int plot_type = plot_vi_iter.plot_type;
+				//内容
+				vector<string> plot_value_vec = plot_vi_iter.plot_value_vec;
+
+				//time()
+				if (plot_type == 0)
+				{
+					plot_result(plot_vi_index) = time_result_vec_[row_index];
+				}
+				//v()
+				else if (plot_type == 1)
+				{
+					//对比找到列
+					if (plot_value_vec.size() == 1)
+					{
+						//端口号代表的列
+						int x_column_index = my_circuit_->port_compare_[plot_value_vec[0]];
+
+						plot_result(plot_vi_index) = x_result(x_column_index);
+					}
+					//对比找到列然后相减
+					else if (plot_vi_iter.plot_value_vec.size() == 2)
+					{
+						int x_column_index = my_circuit_->port_compare_[plot_value_vec[0]];
+						int x_column_index_next = my_circuit_->port_compare_[plot_value_vec[1]];
+
+						plot_result(plot_vi_index) = x_result(x_column_index) - x_result(x_column_index_next);
+					}
+				}
+				//i()
+				else if (plot_type == 2)
+				{
+					//对比找到器件端口号顺序
+					vector<string> port_vec = my_circuit_->device_port_compare_[plot_value_vec[0]];
+					//获取额外电流项的值
+					vector<int> additional_vec = my_circuit_->device_additional_compare_[plot_value_vec[0]];
+					if (additional_vec.size() == 1)
+					{
+						//判断正方向
+						if (plot_value_vec[1] == port_vec[0])
+						{
+							// 正方向
+							plot_result(plot_vi_index) = x_result(additional_vec[0]);
+						}
+						else if (plot_value_vec[1] == port_vec[1])
+						{
+							// 反方向 需要乘以-1
+							plot_result(plot_vi_index) = -1 * x_result(additional_vec[0]);
+						}
+					}
+				}
+			}
+			// 一行一行的存
+			plot_result_vec_.push_back(plot_result);
+		}
+		output_->SaveTxt(plot_path, plot_result_vec_, size_plot);
+		plot_result_vec_.clear();
+	}
 }
 
-int Solver::getSize() {
-	return size;
+int Solver::GetSize() {
+	return size_;
 }
 
 Solver::~Solver() {
 }
-
-/*
-BasicNewton EulerBackward 233
-BasicNewton TrapezoidalIntegration 96530
-BankRoseDampingNewton EulerBackward 27723
-BankRoseDampingNewton TrapezoidalIntegration 31399
-*/

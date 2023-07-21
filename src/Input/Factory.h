@@ -4,12 +4,12 @@
 #include <string>
 
 // 类注册实例化类宏定义
-#define REGISTER(className) 											\
-	className* objectCreator##className(){     							\
-        return new className;                                         	\
+#define REGISTER(ClassName) 											\
+	ClassName* ObjectCreator##ClassName(){     							\
+        return new ClassName;                                         	\
     }                                                                  	\
-    RegisterAction g_creatorRegister##className(                        \
-		#className,(CreateObject)objectCreator##className)
+    RegisterAction G_CreatorRegister##ClassName(                        \
+		#ClassName,(CreateObject)ObjectCreator##ClassName)
 
 using namespace std;
 
@@ -22,20 +22,20 @@ private:
 	~ClassFactory();
 
 	// 类注册表
-	map<string, CreateObject> m_classMap;
+	map<string, CreateObject> m_class_compare_;
 
 public:
 	// 通过类名获取类指针
-	void* getClassByName(string className);
+	void* GetClassByName(string);
 	// 注册进map
-	void registClass(string name, CreateObject method);
+	void RegistClass(string, CreateObject);
 	// 通过工厂类实例
-	static ClassFactory& getInstance();
+	static ClassFactory& GetInstance();
 };
 
 // 类注册实例化类
 class RegisterAction {
 public:
-	RegisterAction(string className, CreateObject ptrCreateFn);
+	RegisterAction(string, CreateObject);
 	~RegisterAction();
 };

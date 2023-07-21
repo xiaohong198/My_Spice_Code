@@ -4,114 +4,114 @@
 class SpiceMosfet : public SpiceDevice
 {
 protected:
-	double MTYPE;
+	double MTYPE_;
 	//Dimensions
-	double AREA;//Device area
-	double SCALE;//并联的器件数
-	double LENGTH;//channel length
-	double WIDTH;//channel width
-	double AD;//Drain area
-	double AS;//Source area
-	double PD;//Drain perimeter
-	double PS;//Source perimeter
-	double NRD;//Number of drain diffusion resistance squares
-	double NRS;//Number of transistor source diffusion squares of resistance
-	double RD;//Series resistance
-	double RS;//Series resistance
-	double RSH;//Per square resistance
+	double AREA_;//Device area
+	double SCALE_;//并联的器件数
+	double LENGTH_;//channel length
+	double WIDTH_;//channel width
+	double AD_;//Drain area
+	double AS_;//Source area
+	double PD_;//Drain perimeter
+	double PS_;//Source perimeter
+	double NRD_;//Number of drain diffusion resistance squares
+	double NRS_;//Number of transistor source diffusion squares of resistance
+	double RD_;//Series resistance
+	double RS_;//Series resistance
+	double RSH_;//Per square resistance
 
 	//DC Currents
-	double VTO;//Threshold voltage
-	double KP;//Transconductance
-	double GAMMA;// Bulk threshold
-	double PHI;// Surface potential
-	double LAMBDA; //Channel-length modulation
-	double IS;//Bulk saturation current magnitude
-	double N;//Emission coefficient
-	double Vtn;//Thermal Voltage
-	double JS;//Bulk junction saturation current density
-	double DELTA;//Width factor
-	double VMAX;//Maximum drift velocity
-	double NFS;//Fast surface state density
-	double ETA;//Drain-source voltage threshold
-	double THETA;//Mobility dependence coefficient
-	double KAPPA;//Mobility modulation coefficient
+	double VTO_;//Threshold voltage
+	double KP_;//Transconductance
+	double GAMMA_;// Bulk threshold
+	double PHI_;// Surface potential
+	double LAMBDA_; //Channel-length modulation
+	double IS_;//Bulk saturation current magnitude
+	double N_;//Emission coefficient
+	double Vtn_;//Thermal Voltage
+	double JS_;//Bulk junction saturation current density
+	double DELTA_;//Width factor
+	double VMAX_;//Maximum drift velocity
+	double NFS_;//Fast surface state density
+	double ETA_;//Drain-source voltage threshold
+	double THETA_;//Mobility dependence coefficient
+	double KAPPA_;//Mobility modulation coefficient
 
 	//C-V
-	int IFModelGateCapacitance;// 0 for No intrinsic capacitance; 1 for Meyer; 2 for Charge Conversation
+	bool if_model_gate_overlap_capacitance_;//No — Do not include gate overlap capacitance in the model. Yes — Specify the gate-source, gate-drain, and gate-bulk capacitances.
+	bool if_model_junction_capacitance_;//No — Do not include junction capacitance in the model.  Yes — Specify zero-bias junction capacitance, junction potential, grading coefficient, forward-bias depletion and capacitance coefficient.
+	bool if_specify_initial_condition_;
+	int if_model_gate_capacitance_;// 0 for No intrinsic capacitance; 1 for Meyer; 2 for Charge Conversation
 
-	bool IFModelGateOverlapCapacitance;//No — Do not include gate overlap capacitance in the model. Yes — Specify the gate-source, gate-drain, and gate-bulk capacitances.
-	double CGSO;//Gate-source overlap capacitance
-	double CGDO;//Gate-drain overlap capacitance
-	double CGBO;//Gate-bulk overlap capacitance
+	double CGSO_;//Gate-source overlap capacitance
+	double CGDO_;//Gate-drain overlap capacitance
+	double CGBO_;//Gate-bulk overlap capacitance
 
-	bool IFModelJunctionCapacitance;//No — Do not include junction capacitance in the model.  Yes — Specify zero-bias junction capacitance, junction potential, grading coefficient, forward-bias depletion and capacitance coefficient.
-	double CBD;//Zero-bias BD capacitance
-	double CBS;//Zero-bias BS capacitance
+	double CBD_;//Zero-bias BD capacitance
+	double CBS_;//Zero-bias BS capacitance
 
-	double PB;//Bulk junction potential
-	double CJ;//Zero-bias bulk junction bottom capacitance per junction area
-	double MJ;//Bottom grading coefficient
-	double CJSW;//Zero-bias bulk junction sidewall capacitance per junction perimeter
-	double MJSW;//Sidewall grading coefficient
-	double FC;//Capacitance coefficient
+	double PB_;//Bulk junction potential
+	double CJ_;//Zero-bias bulk junction bottom capacitance per junction area
+	double MJ_;//Bottom grading coefficient
+	double CJSW_;//Zero-bias bulk junction sidewall capacitance per junction perimeter
+	double MJSW_;//Sidewall grading coefficient
+	double FC_;//Capacitance coefficient
 
-	bool IFSpecifyInitialCondition;
-	double ICVDS;//Initial Voltage for Vds
-	double ICVGS;//Initial Voltage for Vgs
-	double ICVBS;//Initial Voltage for Vbs
+	double ICVDS_;//Initial Voltage for Vds
+	double ICVGS_;//Initial Voltage for Vgs
+	double ICVBS_;//Initial Voltage for Vbs
 
 	//Process
-	double TOX;//Gate oxide thickness
-	double LD;//Length of lateral diffusion
-	double U0;//Zero-bias surface mobility coefficient
-	double NUSB;//Substrate doping
-	double TPG;//Gate type: Opposite of substrate (1) (default) | Same as substrate (-1) | Aluminum (0)
-	double NSS;//Surface state density
-	double XJ;//Junction depth
+	double TOX_;//Gate oxide thickness
+	double LD_;//Length of lateral diffusion
+	double U0_;//Zero-bias surface mobility coefficient
+	double NUSB_;//Substrate doping
+	double TPG_;//Gate type: Opposite of substrate (1) (default) | Same as substrate (-1) | Aluminum (0)
+	double NSS_;//Surface state density
+	double XJ_;//Junction depth
 
 	//Geometry-Adjusted Variables
-	double KPd;
-	double ISd;
-	double JSd;
-	double CBDd;
-	double CBSd;
-	double CGSOd;
-	double CGDOd;
-	double CGBOd;
-	double CJd;
-	double CJSWd;
-	double RDd;
-	double RSd;
-	double RSHd;
+	double KPd_;
+	double ISd_;
+	double JSd_;
+	double CBDd_;
+	double CBSd_;
+	double CGSOd_;
+	double CGDOd_;
+	double CGBOd_;
+	double CJd_;
+	double CJSWd_;
+	double RDd_;
+	double RSd_;
+	double RSHd_;
 
 	//中间常量
-	double BETA;
-	double EGTmeas;
-	double EGT;
-	double VBI;
-	double CgsOverlap;
-	double CgdOverlap;
-	double CgbOverlap;
-	double F1bottom;
-	double F2bottom;
-	double F3bottom;
-	double F1sidewall;
-	double F2sidewall;
-	double F3sidewall;
-	double COX;
-	double Coxt;
-	double VFB;
-	double Vsatmin;
+	double BETA_;
+	double EGTmeas_;
+	double EGT_;
+	double VBI_;
+	double Cgs_Overlap_;
+	double Cgd_Overlap_;
+	double Cgb_Overlap_;
+	double F1_bottom_;
+	double F2_bottom_;
+	double F3_bottom_;
+	double F1_sidewall_;
+	double F2_sidewall_;
+	double F3_sidewall_;
+	double COX_;
+	double Coxt_;
+	double VFB_;
+	double Vsatmin_;
 
 	//Calculation Needs
-	double Vgd;
-	double Vgs;
-	double Vds;
-	double Vbs;
-	double Vbd;
-	double Vgb;
-	double Von;
+	double Vgd_;
+	double Vgs_;
+	double Vds_;
+	double Vbs_;
+	double Vbd_;
+	double Vgb_;
+	double Von_;
 
 public:
 	SpiceMosfet();
@@ -121,16 +121,14 @@ public:
 	void GetGateCapacitance();
 	void GetJunctionCapacitance();
 	void SpecifyInitialCondition();//和Solver里的初值关联上
-
-	//void getTimeVariantSubMatrix(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subA, Eigen::MatrixXd& subB, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-	void getSubA(Eigen::MatrixXd& subA);
-	void getSubB(Eigen::MatrixXd& SubB);
-	void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
-	void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-	void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);
-	int getReturnPrime();
-	void setDeviceInfo(map<string, int>& _PortMap);
-	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
-	DeviceInfoStr getDeviceInfo();
-	string getInstanceName();
+	void GetSubA(Eigen::MatrixXd&);
+	void GetSubB(Eigen::MatrixXd&);
+	void GetSubPandPJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	void GetSubQandQJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	void GetSubC(const Eigen::VectorXd&, Eigen::MatrixXd&);
+	int GetReturnPrime();
+	void SetDeviceInfo(map<string, int>&);
+	void SetInputData(InputStr, map<string, int>&);
+	DeviceInfoStr GetDeviceInfo();
+	string GetInstanceName();
 };

@@ -3,16 +3,16 @@
 class Capacitor :public Device
 {
 private:
-	double capacitance;
+	double capacitance_;
 
 public:
 	Capacitor();
 	~Capacitor();
 
-	void getSubB(Eigen::MatrixXd& SubB);
-	int getReturnPrime();
-	void setDeviceInfo(map<string, int>& _PortMap);
-	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
-	DeviceInfoStr getDeviceInfo();
-	string getInstanceName();
+	void GetSubB(Eigen::MatrixXd&);
+	int GetReturnPrime();
+	void SetDeviceInfo(map<string, int>&);
+	void SetInputData(InputStr, map<string, int>&);
+	DeviceInfoStr GetDeviceInfo();
+	string GetInstanceName();
 };

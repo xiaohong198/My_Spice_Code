@@ -3,19 +3,17 @@
 class Inductor :public Device
 {
 private:
-	double Inductance;
+	double inductance_;
 
 public:
 	Inductor();
 	~Inductor();
 
-	//void setConstValue(double);
-//	void getTimeInvariantSubMatrix(Eigen::MatrixXd& subA, Eigen::MatrixXd& subB);
-	void getSubA(Eigen::MatrixXd& subA);
-	void getSubB(Eigen::MatrixXd& subB);
-	int getReturnPrime();
-	void setDeviceInfo(map<string, int>& _PortMap);
-	void setInputData(InputStr _DataStr, map<string, int>& _PortMap);
-	DeviceInfoStr getDeviceInfo();
-	string getInstanceName();
+	void GetSubA(Eigen::MatrixXd&);
+	void GetSubB(Eigen::MatrixXd&);
+	int GetReturnPrime();
+	void SetDeviceInfo(map<string, int>&);
+	void SetInputData(InputStr, map<string, int>&);
+	DeviceInfoStr GetDeviceInfo();
+	string GetInstanceName();
 };

@@ -1,24 +1,23 @@
 #include "PWLVoltageSource.h"
-
 REGISTER(PWLVoltageSource);
 PWLVoltageSource::PWLVoltageSource() {
 }
 PWLVoltageSource::~PWLVoltageSource() {
-	delete[] tList;
-	delete[] vList;
+	delete[] t_list_;
+	delete[] v_list_;
 }
 
-double PWLVoltageSource::eFunction(double t) {
-	if (t < tList[0]) {
-		return vList[0];
+double PWLVoltageSource::EFunction(double _t) {
+	if (_t < t_list_[0]) {
+		return v_list_[0];
 	}
-	else if (t >= tList[tCount - 1]) {
-		return vList[tCount - 1];
+	else if (_t >= t_list_[t_count_ - 1]) {
+		return v_list_[t_count_ - 1];
 	}
 	else {
-		for (int i = 1; i < tCount; i++) {
-			if (t < tList[i]) {
-				return ((vList[i] - vList[i - 1]) / (tList[i] - tList[i - 1]) * (t - tList[i - 1]) + vList[i - 1]);
+		for (int i = 1; i < t_count_; i++) {
+			if (_t < t_list_[i]) {
+				return ((v_list_[i] - v_list_[i - 1]) / (t_list_[i] - t_list_[i - 1]) * (_t - t_list_[i - 1]) + v_list_[i - 1]);
 				break;
 			}
 		}
@@ -26,152 +25,107 @@ double PWLVoltageSource::eFunction(double t) {
 	return 0;
 }
 
-double PWLVoltageSource::setIntegration(double* tList) {
-	double t1 = tList[0];
-	double t2 = tList[1];
-	double PSLIntegral = 0;
-	double vt1 = eFunction(t1);
-	double vt2 = eFunction(t2);
+double PWLVoltageSource::SetIntegration(double* _t_list) {
+	double t1 = _t_list[0];
+	double t2 = _t_list[1];
+	double psl_integral = 0;
+	double vt1 = EFunction(t1);
+	double vt2 = EFunction(t2);
 	//默认t1<t2;
-	int Locationt1 = tCount;
-	int Locationt2 = tCount;
-	for (int i = 0; i < tCount; i++) {//定位t1
-		if (t1 < tList[i]) {
-			Locationt1 = i;
+	int locationt1 = t_count_;
+	int locationt2 = t_count_;
+	for (int i = 0; i < t_count_; i++) {//定位t1
+		if (t1 < _t_list[i]) {
+			locationt1 = i;
 			break;
 		}
 	}
-	for (int i = 0; i < tCount; i++) {//定位t2
-		if (t2 < tList[i]) {
-			Locationt2 = i;
+	for (int i = 0; i < t_count_; i++) {//定位t2
+		if (t2 < _t_list[i]) {
+			locationt2 = i;
 			break;
 		}
 	}
-	if (Locationt1 == Locationt2) {
-		PSLIntegral = (vt1 + vt2) * (t2 - t1) / 2;
+	if (locationt1 == locationt2) {
+		psl_integral = (vt1 + vt2) * (t2 - t1) / 2;
 	}
 	else {
-		PSLIntegral += (vt1 + vList[Locationt1]) * (tList[Locationt1] - t1) * 0.5;
-		PSLIntegral += (vt2 + vList[Locationt2 - 1]) * (t2 - tList[Locationt2 - 1]) * 0.5;
-		for (int i = Locationt1; i < Locationt2 - 1; i++) {//如果t1和t2在相邻区间，这个循环不会运行
-			PSLIntegral += (vList[i] + vList[i + 1]) * (tList[i + 1] - tList[i]) * 0.5;
+		psl_integral += (vt1 + v_list_[locationt1]) * (_t_list[locationt1] - t1) * 0.5;
+		psl_integral += (vt2 + v_list_[locationt2 - 1]) * (t2 - _t_list[locationt2 - 1]) * 0.5;
+		for (int i = locationt1; i < locationt2 - 1; i++) {//如果t1和t2在相邻区间，这个循环不会运行
+			psl_integral += (v_list_[i] + v_list_[i + 1]) * (_t_list[i + 1] - _t_list[i]) * 0.5;
 		}
 	}
-	return PSLIntegral;
+	return psl_integral;
 }
 
-void PWLVoltageSource::getSubA(Eigen::MatrixXd& subA) {
-	subA.setZero();
-	subA(0, 2) = 1;
-	subA(1, 2) = -1;
-	subA(2, 0) = 1;
-	subA(2, 1) = -1;
+void PWLVoltageSource::GetSubA(Eigen::MatrixXd& _sub_a) {
+	_sub_a.setZero();
+	_sub_a(0, 2) = 1;
+	_sub_a(1, 2) = -1;
+	_sub_a(2, 0) = 1;
+	_sub_a(2, 1) = -1;
 }
 
-void PWLVoltageSource::getSubEIntegral(Eigen::VectorXd& subEIntegral, double* tList) {
-	subEIntegral.setZero();
-	subEIntegral(2) = (eFunction(tList[0]) + eFunction(tList[1])) / 2 * (tList[1] - tList[0]);
+void PWLVoltageSource::GetSubEIntegral(Eigen::VectorXd& _sub_eIntegral, double* _t_list) {
+	_sub_eIntegral.setZero();
+	_sub_eIntegral(2) = (EFunction(_t_list[0]) + EFunction(_t_list[1])) / 2 * (_t_list[1] - _t_list[0]);
 }
 
-void PWLVoltageSource::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+void PWLVoltageSource::SetInputData(InputStr _data_str, map<string, int>& _port_map)
 {
-	InputData = _DataStr;
-	InstanceName = _DataStr.InstanceName;
-	if (_DataStr.ParametersMap.find("pwl") != _DataStr.ParametersMap.end())
+	input_data_ = _data_str;
+	instance_name_ = _data_str.instance_name;
+	if (_data_str.parameters_map.find("pwl") != _data_str.parameters_map.end())
 	{
-		vector<string> pwl_vec = _DataStr.ParametersMap["pwl"];
-		tCount = pwl_vec.size() / 2;
-		tList = new double[tCount];
-		vList = new double[tCount];
+		vector<string> pwl_vec = _data_str.parameters_map["pwl"];
+		t_count_ = pwl_vec.size() / 2;
+		t_list_ = new double[t_count_];
+		v_list_ = new double[t_count_];
 
-		for (int i = 0; i < tCount; i++)
+		for (int i = 0; i < t_count_; i++)
 		{
-			tList[i] = stod(pwl_vec[i * 2]);
-			vList[i] = stod(pwl_vec[(i * 2) + 1]);
+			t_list_[i] = stod(pwl_vec[i * 2]);
+			v_list_[i] = stod(pwl_vec[(i * 2) + 1]);
 		}
 	}
 	else
 	{
-		tCount = stod(_DataStr.ParametersMap["tCount"][0]);
-		vector<string> tList_vec = _DataStr.ParametersMap["tList"];
-		vector<string> vList_vec = _DataStr.ParametersMap["vList"];
-		tList = new double[tCount];
-		vList = new double[tCount];
+		t_count_ = stod(_data_str.parameters_map["tCount"][0]);
+		vector<string> tList_vec = _data_str.parameters_map["tList"];
+		vector<string> vList_vec = _data_str.parameters_map["vList"];
+		t_list_ = new double[t_count_];
+		v_list_ = new double[t_count_];
 
-		for (int i = 0; i < tCount; i++)
+		for (int i = 0; i < t_count_; i++)
 		{
-			tList[i] = stod(tList_vec[i]);
+			t_list_[i] = stod(tList_vec[i]);
 		}
-		for (int i = 0; i < tCount; i++)
+		for (int i = 0; i < t_count_; i++)
 		{
-			vList[i] = stod(vList_vec[i]);
-		}
-	}
-
-	//�˿ں�
-	int max_port = 0;
-	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
-	{
-		max_port < iter_map->second ? max_port = iter_map->second : max_port;
-	}
-	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
-	{
-		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
-		{
-			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
-			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// δ���
-		}
-		else
-		{
-			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
-			{
-				continue;
-			}
-			else
-			{
-				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
-				//VoltageXIndex.push_back(max_port);
-			}
+			v_list_[i] = stod(vList_vec[i]);
 		}
 	}
-	_PortMap.insert({ "- MaxPortIndex -",max_port });
-	_PortMap["- MaxPortIndex -"] = max_port;
+
+	SetPortMap(_data_str, _port_map);
 }
 
-void PWLVoltageSource::setDeviceInfo(map<string, int>& _PortMap)
+void PWLVoltageSource::SetDeviceInfo(map<string, int>& _port_map)
 {
-	//DeviceInfo_.xIndex.push_back(8);
-	//DeviceInfo_.xIndex.push_back(5);
-	//DeviceInfo_.xIndex.push_back(10);
-	//return;
-	//�˿ں�Ӧ��
-	int _max_port_index = _PortMap["- MaxPortIndex -"];
-	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
-	{
-		string port_name = InputData.Port[index_port];
-		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
-		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
-		{
-			VoltageXIndex.push_back(_PortMap[port_name]);
-		}
-	}
-	DeviceInfo_.xIndex.push_back(++_max_port_index);
-	_PortMap["- MaxPortIndex -"] = _max_port_index;
-	CurrentXIndex.push_back(_max_port_index);
+	device_info_ = SetDeviceInfoType(_port_map, true);
 }
 
-int PWLVoltageSource::getReturnPrime()
+int PWLVoltageSource::GetReturnPrime()
 {
-	return PrimeA + PrimeE;
+	return kPrimeA + kPrimeE;
 }
 
-DeviceInfoStr PWLVoltageSource::getDeviceInfo()
+DeviceInfoStr PWLVoltageSource::GetDeviceInfo()
 {
-	return DeviceInfo_;
+	return device_info_;
 }
 
-string PWLVoltageSource::getInstanceName()
+string PWLVoltageSource::GetInstanceName()
 {
-	return InstanceName;
+	return instance_name_;
 }

@@ -30,7 +30,7 @@
         </Parameter>
     </Class>
     <Class>
-        <ClassName>Jsource_AC</ClassName>
+        <ClassName>JsourceAC</ClassName>
         <Parameter>
             <ParameterName>PeakAmplitude</ParameterName>
             <ParameterValue>10</ParameterValue>
@@ -45,7 +45,7 @@
         </Parameter>
     </Class>
     <Class>
-        <ClassName>Jsource_DC</ClassName>
+        <ClassName>JsourceDC</ClassName>
         <Parameter>
             <ParameterName>J_DC</ParameterName>
             <ParameterValue>1</ParameterValue>
@@ -137,6 +137,33 @@
         <Parameter>
             <ParameterName>resistance</ParameterName>
             <ParameterValue>1</ParameterValue>
+        </Parameter>
+    </Class>
+    <Class>
+        <ClassName>SpiceDevice</ClassName>
+        <Parameter>
+            <ParameterName>q</ParameterName>
+            <ParameterValue>1.6021766208e-19</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>k</ParameterName>
+            <ParameterValue>1.380649e-23</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>ni</ParameterName>
+            <ParameterValue>1.45e10</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>epsilon0</ParameterName>
+            <ParameterValue>8.854214871e-12</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>Tmeas</ParameterName>
+            <ParameterValue>300.15</ParameterValue>
+        </Parameter>
+        <Parameter>
+            <ParameterName>Gmin</ParameterName>
+            <ParameterValue>1e-12</ParameterValue>
         </Parameter>
     </Class>
     <Class>
@@ -466,14 +493,7 @@
         </Parameter>
     </Class>
     <Class>
-        <ClassName>SurgeArrester</ClassName>
-        <Parameter>
-            <ParameterName></ParameterName>
-            <ParameterValue></ParameterValue>
-        </Parameter>
-    </Class>
-    <Class>
-        <ClassName>Vsource_AC</ClassName>
+        <ClassName>VsourceAC</ClassName>
         <Parameter>
             <ParameterName>PeakAmplitude</ParameterName>
             <ParameterValue>10</ParameterValue>
@@ -488,7 +508,7 @@
         </Parameter>
     </Class>
     <Class>
-        <ClassName>Vsource_DC</ClassName>
+        <ClassName>VsourceDC</ClassName>
         <Parameter>
             <ParameterName>V_DC</ParameterName>
             <ParameterValue>20</ParameterValue>

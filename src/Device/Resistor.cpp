@@ -6,90 +6,40 @@ Resistor::Resistor() {
 Resistor::~Resistor() {
 }
 
-void Resistor::getSubA(Eigen::MatrixXd& subA) {
-	subA(0, 0) = 1 / resistance;
-	subA(0, 1) = -1 / resistance;
-	subA(1, 0) = -1 / resistance;
-	subA(1, 1) = 1 / resistance;
+void Resistor::GetSubA(Eigen::MatrixXd& _subA) {
+	_subA(0, 0) = 1 / resistance_;
+	_subA(0, 1) = -1 / resistance_;
+	_subA(1, 0) = -1 / resistance_;
+	_subA(1, 1) = 1 / resistance_;
 }
 
-void Resistor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+void Resistor::SetInputData(InputStr _data_str, map<string, int>& _port_map)
 {
-	InputData = _DataStr;
+	input_data_ = _data_str;
 
-	InstanceName = _DataStr.InstanceName;
+	instance_name_ = _data_str.instance_name;
 
-	resistance = stod(_DataStr.ParametersMap["resistance"][0]);
+	resistance_ = stod(_data_str.parameters_map["resistance"][0]);
 
-	//端口号
-	int max_port = 0;
-	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
-	{
-		max_port < iter_map->second ? max_port = iter_map->second : max_port;
-	}
-	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
-	{
-		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
-		{
-			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
-			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// 未完成
-		}
-		else
-		{
-			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
-			{
-				continue;
-			}
-			else
-			{
-				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
-				//VoltageXIndex.push_back(max_port);
-			}
-		}
-	}
-	_PortMap.insert({ "- MaxPortIndex -",max_port });
-	_PortMap["- MaxPortIndex -"] = max_port;
+	SetPortMap(_data_str, _port_map);
 }
 
-void Resistor::setDeviceInfo(map<string, int>& _PortMap)
+void Resistor::SetDeviceInfo(map<string, int>& _port_map)
 {
-	//if (resistance == 223.8e-2)
-	//{
-	//	DeviceInfo_.xIndex.push_back(3);
-	//	DeviceInfo_.xIndex.push_back(8);
-	//	return;
-	//}
-	//else if(resistance == 1.5e-3)
-	//{
-	//	DeviceInfo_.xIndex.push_back(7);
-	//	DeviceInfo_.xIndex.push_back(0);
-	//	return;
-	//}
-
-	//端口号应用
-	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
-	{
-		string port_name = InputData.Port[index_port];
-		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
-		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
-		{
-			VoltageXIndex.push_back(_PortMap[port_name]);
-		}
-	}
+	device_info_ = SetDeviceInfoType(_port_map, false);
 }
 
-int Resistor::getReturnPrime()
+int Resistor::GetReturnPrime()
 {
-	return PrimeA;
+	return kPrimeA;
 }
 
-DeviceInfoStr Resistor::getDeviceInfo()
+DeviceInfoStr Resistor::GetDeviceInfo()
 {
-	return DeviceInfo_;
+	return device_info_;
 }
 
-string Resistor::getInstanceName()
+string Resistor::GetInstanceName()
 {
-	return InstanceName;
+	return instance_name_;
 }

@@ -1,15 +1,17 @@
 #pragma once
 #include "Device.h"
-
-class Resistor :public Device
+class JsourceDC :public Device
 {
 private:
-	double resistance_;
+	double j_dc_;
 
 public:
-	Resistor();
-	~Resistor();
-	void GetSubA(Eigen::MatrixXd&);
+	JsourceDC();
+	~JsourceDC();
+
+	double EFunction(double);
+	double SetIntegration(double*);
+	void GetSubEIntegral(Eigen::VectorXd&, double*);
 	int GetReturnPrime();
 	void SetDeviceInfo(map<string, int>&);
 	void SetInputData(InputStr, map<string, int>&);

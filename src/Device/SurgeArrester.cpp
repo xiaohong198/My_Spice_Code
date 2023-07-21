@@ -2,61 +2,129 @@
 REGISTER(SurgeArrester);
 
 SurgeArrester::SurgeArrester() {
-	IVCount = 17;
-	IList = new double[IVCount];
-	VList = new double[IVCount];
-	IDifference = new double[IVCount - 1];
-	VDifference = new double[IVCount - 1];
-	Coeff0 = new double[IVCount - 1];
-	Coeff1 = new double[IVCount - 1];
-	Coeff2 = new double[IVCount - 1];
-	Coeff3 = new double[IVCount - 1];
-
-	IList[0] = 0;
-	IList[1] = 0;
-	IList[2] = 0;
-	IList[3] = 0;
-	IList[4] = 0;
-	IList[5] = 0;
-	IList[6] = 2.517;
-	IList[7] = 12;
-	IList[8] = 33.7;
-	IList[9] = 102.7;
-	IList[10] = 219.5;
-	IList[11] = 623.7;
-	IList[12] = 1520;
-	IList[13] = 2470;
-	IList[14] = 3941;
-	IList[15] = 4893;
-	IList[16] = 5833;
-
-	VList[0] = 0;
-	VList[1] = 1;
-	VList[2] = 2;
-	VList[3] = 3;
-	VList[4] = 3.5;
-	VList[5] = 4;
-	VList[6] = 4.171;
-	VList[7] = 4.345;
-	VList[8] = 4.448;
-	VList[9] = 4.564;
-	VList[10] = 4.701;
-	VList[11] = 4.906;
-	VList[12] = 5.084;
-	VList[13] = 5.227;
-	VList[14] = 5.373;
-	VList[15] = 5.443;
-	VList[16] = 5.499;
-
-	fitting(IVCount, IList, VList, IDifference, VDifference, Coeff0, Coeff1, Coeff2, Coeff3);
 }
+
 SurgeArrester::~SurgeArrester() {
-	delete[]IList;
-	delete[]VList;
-	delete[]IDifference;
-	delete[]VDifference;
-	delete[]Coeff0;
-	delete[]Coeff1;
-	delete[]Coeff2;
-	delete[]Coeff3;
+	delete[]i_list_;
+	delete[]v_list_;
+	delete[]i_difference_;
+	delete[]v_difference_;
+	delete[]coeff_0_;
+	delete[]coeff_1_;
+	delete[]coeff_2_;
+	delete[]coeff_3_;
+}
+
+double SurgeArrester::F(double _v) {
+	if (_v < this->v_list_[0]) {
+		return this->coeff_0_[0] + this->coeff_1_[0] * (_v - this->v_list_[0]) + this->coeff_2_[0] * pow(_v - this->v_list_[0], 2) + this->coeff_3_[0] * pow(_v - this->v_list_[0], 3);
+	}
+	else if (_v >= this->v_list_[iv_count_ - 1]) {
+		return this->coeff_0_[iv_count_ - 2] + this->coeff_1_[iv_count_ - 2] * (_v - this->v_list_[iv_count_ - 2]) + this->coeff_2_[iv_count_ - 2] * pow(_v - this->v_list_[iv_count_ - 2], 2) + this->coeff_3_[iv_count_ - 2] * pow(_v - this->v_list_[iv_count_ - 2], 3);
+	}
+	else {
+		for (int i = 0; i < iv_count_ - 1; i++) {
+			if (this->v_list_[i] <= _v && _v < this->v_list_[i + 1]) {
+				return this->coeff_0_[i] + this->coeff_1_[i] * (_v - this->v_list_[i]) + this->coeff_2_[i] * pow(_v - this->v_list_[i], 2) + this->coeff_3_[i] * pow(_v - this->v_list_[i], 3);
+			}
+		}
+		//cout << "TabulatedIVCurveDevide goes wrong!" << endl;
+		//exit(0);
+		return 1;
+	}
+}
+double SurgeArrester::G(double _v) {
+	if (_v < this->v_list_[0]) {
+		return this->coeff_1_[0] + 2 * this->coeff_2_[0] * (_v - this->v_list_[0]) + 3 * this->coeff_3_[0] * pow(_v - this->v_list_[0], 2);
+	}
+	else if (_v >= this->v_list_[iv_count_ - 1]) {
+		return this->coeff_1_[iv_count_ - 2] + 2 * this->coeff_2_[iv_count_ - 2] * (_v - this->v_list_[iv_count_ - 2]) + 3 * this->coeff_3_[iv_count_ - 2] * pow(_v - this->v_list_[iv_count_ - 2], 2);
+	}
+	else {
+		for (int i = 0; i < iv_count_ - 1; i++) {
+			if (this->v_list_[i] <= _v && _v < this->v_list_[i + 1]) {
+				return this->coeff_1_[i] + 2 * this->coeff_2_[i] * (_v - this->v_list_[i]) + 3 * this->coeff_3_[i] * pow(_v - this->v_list_[i], 2);
+			}
+		}
+		//cout << "TabulatedIVCurveDevide goes wrong!" << endl;
+		//exit(0);
+		return 1;
+	}
+}
+
+void SurgeArrester::GetSubPandPJacobian(const Eigen::VectorXd& _node_value, Eigen::VectorXd& _sub_p, Eigen::MatrixXd& _sub_p_jacobian) {
+	double V = _node_value(0) - _node_value(1);
+	_sub_p(0) = F(V);
+	_sub_p(1) = -F(V);
+	_sub_p_jacobian(0, 0) = G(V);
+	_sub_p_jacobian(0, 1) = -G(V);
+	_sub_p_jacobian(1, 0) = -G(V);
+	_sub_p_jacobian(1, 1) = G(V);
+}
+
+void SurgeArrester::SetInputData(InputStr _data_str, map<string, int>& _port_map)
+{
+	input_data_ = _data_str;
+	instance_name_ = _data_str.instance_name;
+	if (_data_str.parameters_map.find("ivList") != _data_str.parameters_map.end())
+	{
+		vector<string> ivList_vec = _data_str.parameters_map["ivList"];
+		iv_count_ = ivList_vec.size() / 2;
+		i_list_ = new double[iv_count_];
+		v_list_ = new double[iv_count_];
+
+		for (int i = 0; i < iv_count_; i++)
+		{
+			i_list_[i] = stod(ivList_vec[i * 2]);
+			v_list_[i] = stod(ivList_vec[(i * 2) + 1]);
+		}
+	}
+	else
+	{
+		iv_count_ = stod(_data_str.parameters_map["IVCount"][0]);
+		vector<string> IList_vec = _data_str.parameters_map["IList"];
+		vector<string> VList_vec = _data_str.parameters_map["VList"];
+		i_list_ = new double[iv_count_];
+		v_list_ = new double[iv_count_];
+
+		for (int i = 0; i < iv_count_; i++)
+		{
+			i_list_[i] = stod(IList_vec[i]);
+		}
+		for (int i = 0; i < iv_count_; i++)
+		{
+			v_list_[i] = stod(VList_vec[i]);
+		}
+	}
+
+	i_difference_ = new double[iv_count_ - 1];
+	v_difference_ = new double[iv_count_ - 1];
+	coeff_0_ = new double[iv_count_ - 1];
+	coeff_1_ = new double[iv_count_ - 1];
+	coeff_2_ = new double[iv_count_ - 1];
+	coeff_3_ = new double[iv_count_ - 1];
+
+	Fitting(iv_count_, i_list_, v_list_);
+
+	SetPortMap(_data_str, _port_map);
+}
+
+void SurgeArrester::SetDeviceInfo(map<string, int>& _port_map)
+{
+	device_info_ = SetDeviceInfoType(_port_map, true);
+}
+
+int SurgeArrester::GetReturnPrime()
+{
+	return kPrimeP;
+}
+
+DeviceInfoStr SurgeArrester::GetDeviceInfo()
+{
+	return device_info_;
+}
+
+string SurgeArrester::GetInstanceName()
+{
+	return instance_name_;
 }

@@ -59,10 +59,10 @@
     <ClCompile Include="src\Device\Inductor.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\Jsource_AC.cpp">
+    <ClCompile Include="src\Device\JsourceAC.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\Jsource_DC.cpp">
+    <ClCompile Include="src\Device\JsourceDC.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
     <ClCompile Include="src\Device\PWLVoltageSource.cpp">
@@ -86,10 +86,10 @@
     <ClCompile Include="src\Device\TabulatedIVCurveDevice.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\Vsource_AC.cpp">
+    <ClCompile Include="src\Device\VsourceAC.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
-    <ClCompile Include="src\Device\Vsource_DC.cpp">
+    <ClCompile Include="src\Device\VsourceDC.cpp">
       <Filter>Source Files\Device</Filter>
     </ClCompile>
     <ClCompile Include="src\Input\Circuit.cpp">
@@ -116,13 +116,13 @@
     <ClCompile Include="src\Solver\Solver.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver\Solver_EulerBackward.cpp">
+    <ClCompile Include="src\Solver\SolverEulerBackward.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver\Solver_SDC.cpp">
+    <ClCompile Include="src\Solver\SolverSDC.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver\Solver_TR.cpp">
+    <ClCompile Include="src\Solver\SolverTR.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
     <ClCompile Include="src\Newton\BankRoseDampingNewton.cpp">
@@ -134,7 +134,7 @@
     <ClCompile Include="src\Output\Output.cpp">
       <Filter>Source Files\Output</Filter>
     </ClCompile>
-    <ClCompile Include="src\Solver\Solver_BDF2.cpp">
+    <ClCompile Include="src\Solver\SolverBDF2.cpp">
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
   </ItemGroup>
@@ -151,10 +151,10 @@
     <ClInclude Include="src\Device\Inductor.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Device\Jsource_AC.h">
+    <ClInclude Include="src\Device\JsourceAC.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Device\Jsource_DC.h">
+    <ClInclude Include="src\Device\JsourceDC.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Device\PWLVoltageSource.h">
@@ -178,10 +178,10 @@
     <ClInclude Include="src\Device\TabulatedIVCurveDevice.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Device\Vsource_AC.h">
+    <ClInclude Include="src\Device\VsourceAC.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
-    <ClInclude Include="src\Device\Vsource_DC.h">
+    <ClInclude Include="src\Device\VsourceDC.h">
       <Filter>Header Files\Device</Filter>
     </ClInclude>
     <ClInclude Include="src\Input\Circuit.h">
@@ -208,13 +208,13 @@
     <ClInclude Include="src\Solver\Solver.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver\Solver_EulerBackward.h">
+    <ClInclude Include="src\Solver\SolverEulerBackward.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver\Solver_SDC.h">
+    <ClInclude Include="src\Solver\SolverSDC.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver\Solver_TR.h">
+    <ClInclude Include="src\Solver\SolverTR.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
     <ClInclude Include="src\Newton\BankRoseDampingNewton.h">
@@ -226,7 +226,7 @@
     <ClInclude Include="src\Output\Output.h">
       <Filter>Header Files\Output</Filter>
     </ClInclude>
-    <ClInclude Include="src\Solver\Solver_BDF2.h">
+    <ClInclude Include="src\Solver\SolverBDF2.h">
       <Filter>Header Files\Solver</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,89 +5,45 @@ Inductor::Inductor() {
 Inductor::~Inductor() {
 }
 
-void Inductor::getSubA(Eigen::MatrixXd& subA) {
-	subA(0, 2) = 1;
-	subA(1, 2) = -1;
-	subA(2, 0) = -1;
-	subA(2, 1) = 1;
+void Inductor::GetSubA(Eigen::MatrixXd& _sub_a) {
+	_sub_a(0, 2) = 1;
+	_sub_a(1, 2) = -1;
+	_sub_a(2, 0) = -1;
+	_sub_a(2, 1) = 1;
 }
 
-void Inductor::getSubB(Eigen::MatrixXd& subB) {
-	subB.setZero();
-	subB(2, 2) = Inductance;
+void Inductor::GetSubB(Eigen::MatrixXd& _sub_b) {
+	_sub_b.setZero();
+	_sub_b(2, 2) = inductance_;
 }
 
-void Inductor::setInputData(InputStr _DataStr, map<string, int>& _PortMap)
+void Inductor::SetInputData(InputStr _data_str, map<string, int>& _port_map)
 {
-	InputData = _DataStr;
+	input_data_ = _data_str;
 	//器件实例名称
-	InstanceName = _DataStr.InstanceName;
+	instance_name_ = _data_str.instance_name;
 	//参数
-	Inductance = stod(_DataStr.ParametersMap["Inductance"][0]);
-	//端口号
-	int max_port = 0;
-	for (auto iter_map = _PortMap.begin(); iter_map != _PortMap.end(); iter_map++)
-	{
-		max_port < iter_map->second ? max_port = iter_map->second : max_port;
-	}
-	for (auto index_port = 0; index_port < _DataStr.Port.size(); index_port++)
-	{
-		if (std::regex_match(_DataStr.Port[index_port], std::regex("-?\\d+(\\.\\d*)?")))
-		{
-			max_port < stoi(_DataStr.Port[index_port]) ? max_port = stoi(_DataStr.Port[index_port]) : max_port;
-			_PortMap.insert({ _DataStr.Port[index_port] , stoi(_DataStr.Port[index_port]) });
-			// 未完成
-		}
-		else
-		{
-			if (_PortMap.find(_DataStr.Port[index_port]) != _PortMap.end())
-			{
-				continue;
-			}
-			else
-			{
-				_PortMap.insert({ _DataStr.Port[index_port] , ++max_port });
-				//VoltageXIndex.push_back(max_port);
-			}
-		}
-	}
-	_PortMap.insert({ "- MaxPortIndex -",max_port });
-	_PortMap["- MaxPortIndex -"] = max_port;
+	inductance_ = stod(_data_str.parameters_map["Inductance"][0]);
+
+	SetPortMap(_data_str, _port_map);
 }
 
-void Inductor::setDeviceInfo(map<string, int>& _PortMap)
+void Inductor::SetDeviceInfo(map<string, int>& _port_map)
 {
-	//DeviceInfo_.xIndex.push_back(5);
-	//DeviceInfo_.xIndex.push_back(7);
-	//DeviceInfo_.xIndex.push_back(11);
-	//return;
-	//端口号应用
-	int _max_port_index = _PortMap["- MaxPortIndex -"];
-	for (auto index_port = 0; index_port < InputData.Port.size(); index_port++)
-	{
-		string port_name = InputData.Port[index_port];
-		DeviceInfo_.xIndex.push_back(_PortMap[port_name]);
-		if (std::find(VoltageXIndex.begin(), VoltageXIndex.end(), _PortMap[port_name]) == VoltageXIndex.end())
-		{
-			VoltageXIndex.push_back(_PortMap[port_name]);
-		}
-	}
-	DeviceInfo_.xIndex.push_back(++_max_port_index);
-	_PortMap["- MaxPortIndex -"] = _max_port_index;
-	CurrentXIndex.push_back(_max_port_index);
+	device_info_ = SetDeviceInfoType(_port_map, true);
 }
 
-int Inductor::getReturnPrime()
+int Inductor::GetReturnPrime()
 {
-	return PrimeA + PrimeB;
+	return kPrimeA + kPrimeB;
 }
 
-DeviceInfoStr Inductor::getDeviceInfo()
+DeviceInfoStr Inductor::GetDeviceInfo()
 {
-	return DeviceInfo_;
+	return device_info_;
 }
 
-string Inductor::getInstanceName()
+string Inductor::GetInstanceName()
 {
-	return InstanceName;
+	return instance_name_;
 }

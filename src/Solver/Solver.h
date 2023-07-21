@@ -16,70 +16,75 @@
 #include "Input/Configuration.h"
 #include "Newton/Newton.h"
 #include "Output/Output.h"
+#include "Eigen/src/Core/Matrix.h"
 using namespace std;
 class Newton;
 class Solver
 {
 protected:
 
-	Eigen::MatrixXd A;
-	Eigen::MatrixXd B;
+	Eigen::MatrixXd A_;
+	Eigen::MatrixXd B_;
 
-	Eigen::MatrixXd P_Jacobian;//时变电容电感
-	Eigen::MatrixXd Q_Jacobian;
+	Eigen::MatrixXd P_Jacobian_;//时变电容电感
+	Eigen::MatrixXd Q_Jacobian_;
 
-	Eigen::VectorXd P;
-	Eigen::VectorXd P_s1;
+	Eigen::VectorXd P_;
+	Eigen::VectorXd P_s1_;
 
-	Eigen::VectorXd Q;
-	Eigen::VectorXd Q_s1;
-	Eigen::VectorXd Q_s2;
+	Eigen::VectorXd Q_;
+	Eigen::VectorXd Q_s1_;
+	Eigen::VectorXd Q_s2_;
 
 	//Eigen::VectorXd E;
-	Eigen::VectorXd E_Integral;
-	Eigen::MatrixXd C;
-	Eigen::MatrixXd C_s1;
-	Eigen::MatrixXd C_s2;
+	Eigen::VectorXd E_Integral_;
+	Eigen::MatrixXd C_;
+	Eigen::MatrixXd C_s1_;
+	Eigen::MatrixXd C_s2_;
 
-	Eigen::VectorXd x;//即x_s1
-	Eigen::VectorXd x_s2;
+	Eigen::VectorXd x_;//即x_s1
+	Eigen::VectorXd x_s2_;
 
 	double dt_;
 	double t_end_;
-	Configuration* MyConfig_;
-	Circuit* MyCircuit_;
+	Configuration* my_config_;
+	Circuit* my_circuit_;
 
 public:
-	int size;//矩阵维度
-	vector <int> VoltageXIndex;
-	vector <int> CurrentXIndex;
 
-	Newton* MyNewton_;
-	Output* Output_;
+	int size_;//矩阵维度
+	vector <int> voltage_x_index_;
+	vector <int> current_x_index_;
 
-	vector<var_t> x_result_vec_;
+	Newton* my_newton_;
+	Output* output_;
 
-	Eigen::MatrixXd Jacobian;
-	Eigen::VectorXd F_x0;
-	Eigen::VectorXd x_Newton;
+	vector<var_t> x_result_vec_;//x结果数据
+	vector<var_t> plot_result_vec_;//plot结果数据
+	vector<double> time_result_vec_;//time结果数据
+
+	Eigen::MatrixXd Jacobian_;
+	Eigen::VectorXd F_x0_;
+	Eigen::VectorXd x_newton_;
 
 	Solver(Configuration*, Circuit*);
 	~Solver();
-	virtual void processA();
-	virtual void processB();
-	virtual void processP();
-	virtual void processQ();
-	virtual void processC();
-	virtual void processEIntegral(double*);
+	void SetHint();// 对X设置初始时间步取值
+	virtual void ProcessA();
+	virtual void ProcessB();
+	virtual void ProcessP();
+	virtual void ProcessQ();
+	virtual void ProcessC();
+	virtual void ProcessEIntegral(double*);
 
-	virtual void processGroundedNodeEqu();
-	virtual void processSetZero();
+	virtual void ProcessGroundedNodeEqu();
+	virtual void ProcessSetZero();
 
-	virtual void processJacobianAndF() = 0;
+	virtual void ProcessJacobianAndF() = 0;
 
-	virtual void solve();
+	virtual void Solve();
 
-	virtual void SaveCircuitVars();
+	virtual void SaveResultData();
 
-	virtual int getSize();
+	virtual int GetSize();
 };

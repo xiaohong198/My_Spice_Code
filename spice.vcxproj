@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E3AD3DA5-AAB6-4E8D-BDB0-EBAD864FA4F4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -151,6 +151,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -190,8 +191,8 @@
     <ClCompile Include="src\Device\Device.cpp" />
     <ClCompile Include="src\Device\Diode.cpp" />
     <ClCompile Include="src\Device\Inductor.cpp" />
-    <ClCompile Include="src\Device\Jsource_AC.cpp" />
-    <ClCompile Include="src\Device\Jsource_DC.cpp" />
+    <ClCompile Include="src\Device\JsourceAC.cpp" />
+    <ClCompile Include="src\Device\JsourceDC.cpp" />
     <ClCompile Include="src\Device\PWLVoltageSource.cpp" />
     <ClCompile Include="src\Device\Resistor.cpp" />
     <ClCompile Include="src\Device\SpiceDevice.cpp" />
@@ -199,8 +200,8 @@
     <ClCompile Include="src\Device\SpiceMosfet.cpp" />
     <ClCompile Include="src\Device\SurgeArrester.cpp" />
     <ClCompile Include="src\Device\TabulatedIVCurveDevice.cpp" />
-    <ClCompile Include="src\Device\Vsource_AC.cpp" />
-    <ClCompile Include="src\Device\Vsource_DC.cpp" />
+    <ClCompile Include="src\Device\VsourceAC.cpp" />
+    <ClCompile Include="src\Device\VsourceDC.cpp" />
     <ClCompile Include="src\Input\Circuit.cpp" />
     <ClCompile Include="src\Input\Configuration.cpp" />
     <ClCompile Include="src\Input\Factory.cpp" />
@@ -213,18 +214,18 @@
     <ClCompile Include="src\Output\Output.cpp" />
     <ClCompile Include="src\Solver\Simulator.cpp" />
     <ClCompile Include="src\Solver\Solver.cpp" />
-    <ClCompile Include="src\Solver\Solver_BDF2.cpp" />
-    <ClCompile Include="src\Solver\Solver_EulerBackward.cpp" />
-    <ClCompile Include="src\Solver\Solver_SDC.cpp" />
-    <ClCompile Include="src\Solver\Solver_TR.cpp" />
+    <ClCompile Include="src\Solver\SolverBDF2.cpp" />
+    <ClCompile Include="src\Solver\SolverEulerBackward.cpp" />
+    <ClCompile Include="src\Solver\SolverSDC.cpp" />
+    <ClCompile Include="src\Solver\SolverTR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Device\Capacitor.h" />
     <ClInclude Include="src\Device\Device.h" />
     <ClInclude Include="src\Device\Diode.h" />
     <ClInclude Include="src\Device\Inductor.h" />
-    <ClInclude Include="src\Device\Jsource_AC.h" />
-    <ClInclude Include="src\Device\Jsource_DC.h" />
+    <ClInclude Include="src\Device\JsourceAC.h" />
+    <ClInclude Include="src\Device\JsourceDC.h" />
     <ClInclude Include="src\Device\PWLVoltageSource.h" />
     <ClInclude Include="src\Device\Resistor.h" />
     <ClInclude Include="src\Device\SpiceDevice.h" />
@@ -232,8 +233,8 @@
     <ClInclude Include="src\Device\SpiceMosfet.h" />
     <ClInclude Include="src\Device\SurgeArrester.h" />
     <ClInclude Include="src\Device\TabulatedIVCurveDevice.h" />
-    <ClInclude Include="src\Device\Vsource_AC.h" />
-    <ClInclude Include="src\Device\Vsource_DC.h" />
+    <ClInclude Include="src\Device\VsourceAC.h" />
+    <ClInclude Include="src\Device\VsourceDC.h" />
     <ClInclude Include="src\Input\Circuit.h" />
     <ClInclude Include="src\Input\Configuration.h" />
     <ClInclude Include="src\Input\Factory.h" />
@@ -245,10 +246,10 @@
     <ClInclude Include="src\Output\Output.h" />
     <ClInclude Include="src\Solver\Simulator.h" />
     <ClInclude Include="src\Solver\Solver.h" />
-    <ClInclude Include="src\Solver\Solver_BDF2.h" />
-    <ClInclude Include="src\Solver\Solver_EulerBackward.h" />
-    <ClInclude Include="src\Solver\Solver_SDC.h" />
-    <ClInclude Include="src\Solver\Solver_TR.h" />
+    <ClInclude Include="src\Solver\SolverBDF2.h" />
+    <ClInclude Include="src\Solver\SolverEulerBackward.h" />
+    <ClInclude Include="src\Solver\SolverSDC.h" />
+    <ClInclude Include="src\Solver\SolverTR.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

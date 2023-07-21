@@ -10,32 +10,34 @@
 #include <vector>
 #include <map>
 using namespace std;
-const double PI = 3.14159265358979323846;
+const double kPI = 3.14159265358979323846;
 class Device
 {
 protected:
-	DeviceInfoStr DeviceInfo_;
-	string InstanceName;
-	InputStr InputData;
+	DeviceInfoStr device_info_;
+	string instance_name_;
+	InputStr input_data_;
 public:
-	vector <int> VoltageXIndex;
-	vector <int> CurrentXIndex;
-	int matrixDimension;
+	vector <int> voltage_x_index_;
+	vector <int> current_x_index_;
+	int matrix_dimension_;
 
 public:
 	Device();
 	~Device();
 
 	//virtual void setConstValue(double);
-	virtual void getSubA(Eigen::MatrixXd& subA);
-	virtual void getSubB(Eigen::MatrixXd& SubB);
-	virtual void getSubEIntegral(Eigen::VectorXd& subEIntegral, double*);//传入[t1]或者[t1,t2]
-	virtual void getSubPandPJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subP, Eigen::MatrixXd& subPJacobian);
-	virtual void getSubQandQJacobian(const Eigen::VectorXd& nodeValue, Eigen::VectorXd& subQ, Eigen::MatrixXd& subQJacobian);
-	virtual void getSubC(const Eigen::VectorXd& nodeValue, Eigen::MatrixXd& subC);//Meyer电容
-	virtual int getReturnPrime();//获取子类类型
-	virtual void setDeviceInfo(map<string, int>& _PortMap);
-	virtual void setInputData(InputStr _DataStr, map<string, int>& _PortData);
-	virtual DeviceInfoStr getDeviceInfo();
-	virtual string getInstanceName();
+	virtual void GetSubA(Eigen::MatrixXd&);
+	virtual void GetSubB(Eigen::MatrixXd&);
+	virtual void GetSubEIntegral(Eigen::VectorXd&, double*);//传入[t1]或者[t1,t2]
+	virtual void GetSubPandPJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	virtual void GetSubQandQJacobian(const Eigen::VectorXd&, Eigen::VectorXd&, Eigen::MatrixXd&);
+	virtual void GetSubC(const Eigen::VectorXd&, Eigen::MatrixXd&);//Meyer电
+	virtual int GetReturnPrime();//获取子类类型
+	virtual void SetDeviceInfo(map<string, int>&);
+	virtual void SetInputData(InputStr, map<string, int>&);
+	virtual DeviceInfoStr GetDeviceInfo();
+	virtual string GetInstanceName();
+	virtual void SetPortMap(InputStr, map<string, int>&);
+	virtual DeviceInfoStr SetDeviceInfoType(map<string, int>&, bool);
 };

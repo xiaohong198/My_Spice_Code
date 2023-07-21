@@ -2,13 +2,12 @@
 #include "Configuration.h"
 using namespace std;
 Configuration::Configuration() {
-
 }
-void Configuration::Set_Configuration() {
+void Configuration::SetConfiguration() {
 	cout << "Input dt = " << endl;
-	cin >> dt;
+	cin >> dt_;
 	cout << "Input T_end = " << endl;
-	cin >> t_end;
+	cin >> t_end_;
 	cout << "Choose time discretization method: " << endl;
 	cout << "'1' for EulerBackward" << endl;
 	cout << "'2' for TrapezoidalIntegration" << endl;
@@ -19,32 +18,32 @@ void Configuration::Set_Configuration() {
 	switch (Mychoice)
 	{
 	case 1:
-		dt_method = EulerBackward;
+		dt_method_ = EulerBackward;
 		break;
 	case 2:
-		dt_method = Trapezoidal;
+		dt_method_ = Trapezoidal;
 		break;
 	case 3:
-		dt_method = BDF_2;
+		dt_method_ = BDF_2;
 		break;
 	case 4:
-		dt_method = SDC;
+		dt_method_ = SDC;
 		break;
 	default:
 		break;
 	}
 }
 
-double Configuration::Get_dt() {
-	return dt;
+double Configuration::Getdt() {
+	return dt_;
 }
 
-double Configuration::Get_t_end() {
-	return t_end;
+double Configuration::GettEnd() {
+	return t_end_;
 }
 
-TimeDiscretization Configuration::Get_TimeDiscretization() {
-	return dt_method;
+TimeDiscretization Configuration::GetTimeDiscretization() {
+	return dt_method_;
 }
 
 Configuration::~Configuration() {

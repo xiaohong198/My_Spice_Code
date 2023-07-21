@@ -1,7 +1,7 @@
 #pragma once
-#include "Solver_EulerBackward.h"
-#include "Solver_TR.h"
-#include "Solver_BDF2.h"
+#include "SolverEulerBackward.h"
+#include "SolverTR.h"
+#include "SolverBDF2.h"
 #include "Newton/BasicNewton.h"
 #include "Newton/BankRoseDampingNewton.h"
 
@@ -11,11 +11,11 @@
 class Simulator
 {
 private:
-	Configuration* MyConfig;
-	Circuit* MyCircuit;
-	Solver* BaseSolver;
-	Solver* MySolver;
-	Newton* MyNewton;
+	Configuration* my_config_;
+	Circuit* my_circuit_;
+	Solver* base_solver_;
+	Solver* my_solver_;
+	Newton* my_newton_;
 public:
 	Simulator();
 	~Simulator();

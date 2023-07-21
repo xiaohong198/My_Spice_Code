@@ -5,18 +5,18 @@ class Configuration
 {
 	friend class Simulator;
 private:
-	double dt;
-	double t_end;
-	TimeDiscretization dt_method;
+	double dt_;
+	double t_end_;
+	TimeDiscretization dt_method_;
 
 public:
 	Configuration();
 	~Configuration();
 
-	double Get_dt();
-	double Get_t_end();
-	TimeDiscretization Get_TimeDiscretization();
+	double Getdt();
+	double GettEnd();
+	TimeDiscretization GetTimeDiscretization();
 
 private:
-	void Set_Configuration();
+	void SetConfiguration();
 };
